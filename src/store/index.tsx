@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { devtools } from 'zustand/middleware'
 
 export type StoreType = {
   bears: number;
@@ -44,10 +45,10 @@ export type OilType = {
   CompanyName: string
 }
 
-const useStore = create((set) => ({
-  bears: 0,
-  increasePopulation: () => set((state ) => ({ bears: state.bears + 1 })),
+const useStore = create<StoreType>()(devtools((set, get) => ({
+  bears: 1,
+  increasePopulation: () => set({ bears: get().bears + 1 }, false, 'inc'),
   removeAllBears: () => set({ bears: 0 }),
-}))
+}), {enabled: true, name: 'MyStore'}))
 
 export default useStore

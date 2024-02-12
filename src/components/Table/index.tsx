@@ -3,11 +3,8 @@ import { agGridAdapter } from '@consta/ag-grid-adapter/agGridAdapter'
 import { AgGridReact } from 'ag-grid-react'
 import moment from 'moment'
 import data from '../../store/02.json'
-//import useStore from './store'
-//import {StoreType} from './store'
 
-// const bears = useStore((state : StoreType) => state.bears)
-// const increasePopulation = useStore((state : StoreType) => state.increasePopulation)
+
 
 const defaultColDef = {
   flex: 1,
