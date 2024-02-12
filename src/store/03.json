@@ -1,0 +1,6440 @@
+
+{
+  "InputOilRatePlan": 10199.687803559904,
+  "InputOilRateFact": 10199.687803559904,
+  "InputIdleFundOldPlan": 196.5060000000294,
+  "InputIdleFundOldFact": 78.50618226472099,
+  "Partitions": [
+    {
+      "Id": 1,
+      "Name": "ВНС<br><small>(т/сут)</small>",
+      "OptId": 100000000100001,
+      "Color": "LightBlue",
+      "PlanItems": [],
+      "FactItems": [
+        {
+          "PlanId": null,
+          "ForecastId": 600000000060111,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-17T00:00:00",
+          "ShortName": "3099",
+          "Name": "Еты-Пуровское 3099",
+          "OilRate": 30,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        }
+      ],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          1,
+          30
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "PartitionSum": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          30
+        ],
+        [
+          0,
+          450
+        ]
+      ]
+    },
+    {
+      "Id": 2,
+      "Name": "ЗБС<br><small>(т/сут)</small>",
+      "OptId": 100000000100003,
+      "Color": "LightBlue",
+      "PlanItems": [],
+      "FactItems": [
+        {
+          "PlanId": null,
+          "ForecastId": 600000000060969,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-04T00:00:00",
+          "ShortName": "2406",
+          "Name": "Вынгаяхинское 2406",
+          "OilRate": 19,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000055969,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-05T00:00:00",
+          "ShortName": "2143",
+          "Name": "Суторминское 2143",
+          "OilRate": 5,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000058587,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-07T00:00:00",
+          "ShortName": "2578",
+          "Name": "Сугмутское 2578",
+          "OilRate": 18,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000060410,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-08T00:00:00",
+          "ShortName": "4542",
+          "Name": "Суторминское 4542",
+          "OilRate": 20,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000059888,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-13T00:00:00",
+          "ShortName": "2496",
+          "Name": "Вынгаяхинское 2496",
+          "OilRate": 19,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000054588,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-13T00:00:00",
+          "ShortName": "2248",
+          "Name": "Вынгаяхинское 2248",
+          "OilRate": 20,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000060411,
+          "FactStopId": 600000000050551,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-27T00:00:00",
+          "ShortName": "2460",
+          "Name": "Сугмутское 2460",
+          "OilRate": 4,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000061327,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-27T00:00:00",
+          "ShortName": "2527",
+          "Name": "Вынгаяхинское 2527",
+          "OilRate": 21,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000061328,
+          "FactStopId": 600000000050594,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-28T00:00:00",
+          "ShortName": "2528",
+          "Name": "Вынгаяхинское 2528",
+          "OilRate": 21,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000059767,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-28T00:00:00",
+          "ShortName": "436",
+          "Name": "Вынгаяхинское 436",
+          "OilRate": 20,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        }
+      ],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          1,
+          19
+        ],
+        [
+          null,
+          null,
+          1,
+          5
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          1,
+          18
+        ],
+        [
+          null,
+          null,
+          1,
+          20
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          2,
+          39
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          2,
+          25
+        ],
+        [
+          null,
+          null,
+          2,
+          41
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "PartitionSum": [
+        [
+          0,
+          10
+        ],
+        [
+          0,
+          167
+        ],
+        [
+          0,
+          2627
+        ]
+      ]
+    },
+    {
+      "Id": 3,
+      "Name": "ГРП<br><small>(т/сут)</small>",
+      "OptId": 100000000100005,
+      "Color": "LightBlue",
+      "PlanItems": [],
+      "FactItems": [
+        {
+          "PlanId": null,
+          "ForecastId": 600000000061419,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-05T00:00:00",
+          "ShortName": "1011",
+          "Name": "Умсейское+Южно-Пурпейское 1011",
+          "OilRate": 12,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        }
+      ],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          1,
+          12
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "PartitionSum": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          12
+        ],
+        [
+          0,
+          324
+        ]
+      ]
+    },
+    {
+      "Id": 4,
+      "Name": "Возврат<br><small>(т/сут)</small>",
+      "OptId": 100000000100006,
+      "Color": "LightBlue",
+      "PlanItems": [],
+      "FactItems": [
+        {
+          "PlanId": null,
+          "ForecastId": 600000000060789,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-31T00:00:00",
+          "ShortName": "1438",
+          "Name": "Суторминское 1438",
+          "OilRate": 5,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        }
+      ],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          1,
+          5
+        ]
+      ],
+      "PartitionSum": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          5
+        ]
+      ]
+    },
+    {
+      "Id": 14,
+      "Name": "Итого по основным ГТМ<br><small>(т/сут)</small>",
+      "OptId": 100000000000001,
+      "Color": "LightBlue",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          1,
+          19
+        ],
+        [
+          null,
+          null,
+          2,
+          17
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          1,
+          18
+        ],
+        [
+          null,
+          null,
+          1,
+          20
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          2,
+          39
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          1,
+          30
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          2,
+          25
+        ],
+        [
+          null,
+          null,
+          2,
+          41
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          1,
+          5
+        ]
+      ],
+      "PartitionSum": [
+        [
+          0,
+          13
+        ],
+        [
+          0,
+          214
+        ],
+        [
+          0,
+          3406
+        ]
+      ]
+    },
+    {
+      "Id": 15,
+      "Name": "Накопленная по основным ГТМ<br><small>(т/сут)</small>",
+      "OptId": 100000000000001,
+      "Color": "LightGreen",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          19
+        ],
+        [
+          null,
+          null,
+          null,
+          36
+        ],
+        [
+          null,
+          null,
+          null,
+          36
+        ],
+        [
+          null,
+          null,
+          null,
+          54
+        ],
+        [
+          null,
+          null,
+          null,
+          74
+        ],
+        [
+          null,
+          null,
+          null,
+          74
+        ],
+        [
+          null,
+          null,
+          null,
+          74
+        ],
+        [
+          null,
+          null,
+          null,
+          74
+        ],
+        [
+          null,
+          null,
+          null,
+          74
+        ],
+        [
+          null,
+          null,
+          null,
+          113
+        ],
+        [
+          null,
+          null,
+          null,
+          113
+        ],
+        [
+          null,
+          null,
+          null,
+          113
+        ],
+        [
+          null,
+          null,
+          null,
+          113
+        ],
+        [
+          null,
+          null,
+          null,
+          143
+        ],
+        [
+          null,
+          null,
+          null,
+          143
+        ],
+        [
+          null,
+          null,
+          null,
+          143
+        ],
+        [
+          null,
+          null,
+          null,
+          143
+        ],
+        [
+          null,
+          null,
+          null,
+          143
+        ],
+        [
+          null,
+          null,
+          null,
+          143
+        ],
+        [
+          null,
+          null,
+          null,
+          143
+        ],
+        [
+          null,
+          null,
+          null,
+          143
+        ],
+        [
+          null,
+          null,
+          null,
+          143
+        ],
+        [
+          null,
+          null,
+          null,
+          143
+        ],
+        [
+          null,
+          null,
+          null,
+          168
+        ],
+        [
+          null,
+          null,
+          null,
+          209
+        ],
+        [
+          null,
+          null,
+          null,
+          209
+        ],
+        [
+          null,
+          null,
+          null,
+          209
+        ],
+        [
+          null,
+          null,
+          null,
+          214
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          0,
+          3406
+        ]
+      ]
+    },
+    {
+      "Id": 17,
+      "Name": "Ввод из БД (без инвест)<br><small>(т/сут)</small>",
+      "OptId": 100000000200003,
+      "Color": "LightBlue",
+      "PlanItems": [],
+      "FactItems": [
+        {
+          "PlanId": null,
+          "ForecastId": 600000000061391,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-01T00:00:00",
+          "ShortName": "1019Г",
+          "Name": "Еты-Пуровское 1019Г",
+          "OilRate": 5,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000061392,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-05T00:00:00",
+          "ShortName": "2139",
+          "Name": "Вынгаяхинское 2139",
+          "OilRate": 0,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000055909,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-05T00:00:00",
+          "ShortName": "2270",
+          "Name": "Сугмутское 2270",
+          "OilRate": 3,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000060743,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-05T00:00:00",
+          "ShortName": "500",
+          "Name": "Валынтойское 500",
+          "OilRate": 5,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000058964,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-06T00:00:00",
+          "ShortName": "501",
+          "Name": "Валынтойское 501",
+          "OilRate": 5,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000058576,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-07T00:00:00",
+          "ShortName": "5154",
+          "Name": "Суторминское 5154",
+          "OilRate": 4,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000059629,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-08T00:00:00",
+          "ShortName": "8170",
+          "Name": "Муравленковское 8170",
+          "OilRate": 5,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000058958,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-08T00:00:00",
+          "ShortName": "4278",
+          "Name": "Вынгаяхинское 4278",
+          "OilRate": 4,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000060747,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-09T00:00:00",
+          "ShortName": "3111",
+          "Name": "Еты-Пуровское 3111",
+          "OilRate": 5,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000060716,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-11T00:00:00",
+          "ShortName": "872",
+          "Name": "Вынгаяхинское 872",
+          "OilRate": 0,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000061394,
+          "FactStopId": 600000000050416,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-13T00:00:00",
+          "ShortName": "365Р",
+          "Name": "Вынгаяхинское 365Р",
+          "OilRate": 7,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000060758,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-13T00:00:00",
+          "ShortName": "1773",
+          "Name": "Сугмутское 1773",
+          "OilRate": 4,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000061083,
+          "FactStopId": 600000000050423,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-15T00:00:00",
+          "ShortName": "1006Г",
+          "Name": "Северо-Янгтинское 1006Г",
+          "OilRate": 15,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000060748,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-17T00:00:00",
+          "ShortName": "2065",
+          "Name": "Еты-Пуровское 2065",
+          "OilRate": 3,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000061114,
+          "FactStopId": 600000000050430,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-17T00:00:00",
+          "ShortName": "1901",
+          "Name": "Суторминское 1901",
+          "OilRate": 15,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": null,
+          "ForecastId": 600000000061097,
+          "FactStopId": 600000000050410,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-19T00:00:00",
+          "ShortName": "6323",
+          "Name": "Крайнее 6323",
+          "OilRate": 7,
+          "Status": 3,
+          "IsForecast": true,
+          "IsAddressless": false
+        }
+      ],
+      "DailySum": [
+        [
+          null,
+          null,
+          1,
+          5
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          3,
+          8
+        ],
+        [
+          null,
+          null,
+          1,
+          5
+        ],
+        [
+          null,
+          null,
+          1,
+          4
+        ],
+        [
+          null,
+          null,
+          2,
+          9
+        ],
+        [
+          null,
+          null,
+          1,
+          5
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          1,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          2,
+          11
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          1,
+          15
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          2,
+          18
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          1,
+          7
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "PartitionSum": [
+        [
+          0,
+          16
+        ],
+        [
+          0,
+          87
+        ],
+        [
+          0,
+          1756.4
+        ]
+      ]
+    },
+    {
+      "Id": 20,
+      "Name": "Сокращение потенциала простоя<br><small>(т/сут)</small>",
+      "OptId": 100000000200006,
+      "Color": "LightBlue",
+      "PlanItems": [
+        {
+          "PlanId": 600000000017867,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-02T00:00:00",
+          "ShortName": "2338",
+          "Name": "Суторминское 2338",
+          "OilRate": 1.8,
+          "Status": 5,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017862,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-04T00:00:00",
+          "ShortName": "8K",
+          "Name": "Суторминское 8K",
+          "OilRate": 2.1,
+          "Status": 5,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017869,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-10T00:00:00",
+          "ShortName": "1096",
+          "Name": "Романовское 1096",
+          "OilRate": 6.2,
+          "Status": 5,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017868,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-28T00:00:00",
+          "ShortName": "6818",
+          "Name": "Крайнее 6818",
+          "OilRate": 3.9,
+          "Status": 5,
+          "IsForecast": false,
+          "IsAddressless": false
+        }
+      ],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          1,
+          1.8,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          1,
+          2.1,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          1,
+          6.2,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          1,
+          3.9,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "PartitionSum": [
+        [
+          4,
+          0
+        ],
+        [
+          14,
+          0
+        ],
+        [
+          264.8,
+          0
+        ]
+      ]
+    },
+    {
+      "Id": 21,
+      "Name": "Изменение базовой добычи<br><small>(т/сут)</small>",
+      "OptId": 100000000000002,
+      "Color": "LightBlue",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          null,
+          1,
+          5
+        ],
+        [
+          1,
+          1.8,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          1,
+          2.1,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          3,
+          8
+        ],
+        [
+          null,
+          null,
+          1,
+          5
+        ],
+        [
+          null,
+          null,
+          1,
+          4
+        ],
+        [
+          null,
+          null,
+          2,
+          9
+        ],
+        [
+          null,
+          null,
+          1,
+          5
+        ],
+        [
+          1,
+          6.2,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          1,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          2,
+          11
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          1,
+          15
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          2,
+          18
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          1,
+          7
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          1,
+          3.9,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          14,
+          87
+        ],
+        [
+          264.8,
+          1756.4
+        ]
+      ]
+    },
+    {
+      "Id": 22,
+      "Name": "Накопленный эффект по базовому дебиту<br><small>(т/сут)</small>",
+      "OptId": 100000000000002,
+      "Color": "LightGreen",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          5
+        ],
+        [
+          null,
+          1.8,
+          null,
+          5
+        ],
+        [
+          null,
+          1.8,
+          null,
+          5
+        ],
+        [
+          null,
+          3.9,
+          null,
+          5
+        ],
+        [
+          null,
+          3.9,
+          null,
+          13
+        ],
+        [
+          null,
+          3.9,
+          null,
+          18
+        ],
+        [
+          null,
+          3.9,
+          null,
+          22
+        ],
+        [
+          null,
+          3.9,
+          null,
+          31
+        ],
+        [
+          null,
+          3.9,
+          null,
+          36
+        ],
+        [
+          null,
+          10.1,
+          null,
+          36
+        ],
+        [
+          null,
+          10.1,
+          null,
+          36
+        ],
+        [
+          null,
+          10.1,
+          null,
+          36
+        ],
+        [
+          null,
+          10.1,
+          null,
+          47
+        ],
+        [
+          null,
+          10.1,
+          null,
+          47
+        ],
+        [
+          null,
+          10.1,
+          null,
+          62
+        ],
+        [
+          null,
+          10.1,
+          null,
+          62
+        ],
+        [
+          null,
+          10.1,
+          null,
+          79.9
+        ],
+        [
+          null,
+          10.1,
+          null,
+          79.9
+        ],
+        [
+          null,
+          10.1,
+          null,
+          87
+        ],
+        [
+          null,
+          10.1,
+          null,
+          87
+        ],
+        [
+          null,
+          10.1,
+          null,
+          87
+        ],
+        [
+          null,
+          10.1,
+          null,
+          87
+        ],
+        [
+          null,
+          10.1,
+          null,
+          87
+        ],
+        [
+          null,
+          10.1,
+          null,
+          87
+        ],
+        [
+          null,
+          10.1,
+          null,
+          87
+        ],
+        [
+          null,
+          10.1,
+          null,
+          87
+        ],
+        [
+          null,
+          10.1,
+          null,
+          87
+        ],
+        [
+          null,
+          14,
+          null,
+          87
+        ],
+        [
+          null,
+          14,
+          null,
+          87
+        ],
+        [
+          null,
+          14,
+          null,
+          87
+        ],
+        [
+          null,
+          14,
+          null,
+          87
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          264.8,
+          1756.4
+        ]
+      ]
+    },
+    {
+      "Id": 24,
+      "Name": "Итого увеличение добычи<br><small>(т)</small>",
+      "OptId": 100000000200020,
+      "Color": "LightGreen",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          5
+        ],
+        [
+          null,
+          1.8,
+          null,
+          5
+        ],
+        [
+          null,
+          1.8,
+          null,
+          5
+        ],
+        [
+          null,
+          3.9,
+          null,
+          24
+        ],
+        [
+          null,
+          3.9,
+          null,
+          49
+        ],
+        [
+          null,
+          3.9,
+          null,
+          54
+        ],
+        [
+          null,
+          3.9,
+          null,
+          76
+        ],
+        [
+          null,
+          3.9,
+          null,
+          105
+        ],
+        [
+          null,
+          3.9,
+          null,
+          110
+        ],
+        [
+          null,
+          10.1,
+          null,
+          110
+        ],
+        [
+          null,
+          10.1,
+          null,
+          110
+        ],
+        [
+          null,
+          10.1,
+          null,
+          110
+        ],
+        [
+          null,
+          10.1,
+          null,
+          160
+        ],
+        [
+          null,
+          10.1,
+          null,
+          160
+        ],
+        [
+          null,
+          10.1,
+          null,
+          175
+        ],
+        [
+          null,
+          10.1,
+          null,
+          175
+        ],
+        [
+          null,
+          10.1,
+          null,
+          222.9
+        ],
+        [
+          null,
+          10.1,
+          null,
+          222.9
+        ],
+        [
+          null,
+          10.1,
+          null,
+          230
+        ],
+        [
+          null,
+          10.1,
+          null,
+          230
+        ],
+        [
+          null,
+          10.1,
+          null,
+          230
+        ],
+        [
+          null,
+          10.1,
+          null,
+          230
+        ],
+        [
+          null,
+          10.1,
+          null,
+          230
+        ],
+        [
+          null,
+          10.1,
+          null,
+          230
+        ],
+        [
+          null,
+          10.1,
+          null,
+          230
+        ],
+        [
+          null,
+          10.1,
+          null,
+          230
+        ],
+        [
+          null,
+          10.1,
+          null,
+          255
+        ],
+        [
+          null,
+          14,
+          null,
+          296
+        ],
+        [
+          null,
+          14,
+          null,
+          296
+        ],
+        [
+          null,
+          14,
+          null,
+          296
+        ],
+        [
+          null,
+          14,
+          null,
+          301
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          264.8,
+          5162.4
+        ]
+      ]
+    },
+    {
+      "Id": 36,
+      "Name": "Геологическое снижение<br><small>(т/сут)</small>",
+      "OptId": 100000000200008,
+      "Color": "LightGreen",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          9.6,
+          null,
+          9.6
+        ],
+        [
+          null,
+          19.1,
+          null,
+          19.1
+        ],
+        [
+          null,
+          28.7,
+          null,
+          28.7
+        ],
+        [
+          null,
+          38.2,
+          null,
+          38.2
+        ],
+        [
+          null,
+          47.8,
+          null,
+          47.8
+        ],
+        [
+          null,
+          57.4,
+          null,
+          57.4
+        ],
+        [
+          null,
+          66.9,
+          null,
+          66.9
+        ],
+        [
+          null,
+          76.5,
+          null,
+          76.5
+        ],
+        [
+          null,
+          86,
+          null,
+          86
+        ],
+        [
+          null,
+          95.6,
+          null,
+          95.6
+        ],
+        [
+          null,
+          105.2,
+          null,
+          105.2
+        ],
+        [
+          null,
+          114.7,
+          null,
+          114.7
+        ],
+        [
+          null,
+          124.3,
+          null,
+          124.3
+        ],
+        [
+          null,
+          133.8,
+          null,
+          133.8
+        ],
+        [
+          null,
+          143.4,
+          null,
+          143.4
+        ],
+        [
+          null,
+          153,
+          null,
+          153
+        ],
+        [
+          null,
+          162.5,
+          null,
+          162.5
+        ],
+        [
+          null,
+          172.1,
+          null,
+          172.1
+        ],
+        [
+          null,
+          181.6,
+          null,
+          181.6
+        ],
+        [
+          null,
+          191.2,
+          null,
+          191.2
+        ],
+        [
+          null,
+          200.8,
+          null,
+          200.8
+        ],
+        [
+          null,
+          210.3,
+          null,
+          210.3
+        ],
+        [
+          null,
+          219.9,
+          null,
+          219.9
+        ],
+        [
+          null,
+          229.4,
+          null,
+          229.4
+        ],
+        [
+          null,
+          239,
+          null,
+          239
+        ],
+        [
+          null,
+          248.6,
+          null,
+          248.6
+        ],
+        [
+          null,
+          258.1,
+          null,
+          258.1
+        ],
+        [
+          null,
+          267.7,
+          null,
+          267.7
+        ],
+        [
+          null,
+          277.2,
+          null,
+          277.2
+        ],
+        [
+          null,
+          286.8,
+          null,
+          286.8
+        ],
+        [
+          null,
+          296.4,
+          null,
+          296.4
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          4741.8,
+          4741.8
+        ]
+      ]
+    },
+    {
+      "Id": 25,
+      "Name": "Рост потенциала простоя<br><small>(т/сут)</small>",
+      "OptId": 100000000200009,
+      "Color": "LightBlue",
+      "PlanItems": [
+        {
+          "PlanId": 600000000017866,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-01T00:00:00",
+          "ShortName": "",
+          "Name": "",
+          "OilRate": 7.6,
+          "Status": 1,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017875,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-02T00:00:00",
+          "ShortName": "",
+          "Name": "",
+          "OilRate": 17.5,
+          "Status": 1,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017879,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-03T00:00:00",
+          "ShortName": "",
+          "Name": "",
+          "OilRate": 19.3,
+          "Status": 1,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017878,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-04T00:00:00",
+          "ShortName": "",
+          "Name": "",
+          "OilRate": 9.3,
+          "Status": 1,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017865,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-05T00:00:00",
+          "ShortName": "",
+          "Name": "",
+          "OilRate": 7.6,
+          "Status": 1,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017872,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-07T00:00:00",
+          "ShortName": "",
+          "Name": "",
+          "OilRate": 17.9,
+          "Status": 1,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017876,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-08T00:00:00",
+          "ShortName": "",
+          "Name": "",
+          "OilRate": 5.4,
+          "Status": 1,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017864,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-09T00:00:00",
+          "ShortName": "",
+          "Name": "",
+          "OilRate": 6.4,
+          "Status": 1,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017869,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-10T00:00:00",
+          "ShortName": "1096",
+          "Name": "Романовское 1096",
+          "OilRate": 6.2,
+          "Status": 5,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017873,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-12T00:00:00",
+          "ShortName": "",
+          "Name": "",
+          "OilRate": 4.1,
+          "Status": 1,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017870,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-13T00:00:00",
+          "ShortName": "",
+          "Name": "",
+          "OilRate": 5.4,
+          "Status": 1,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017871,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-17T00:00:00",
+          "ShortName": "",
+          "Name": "",
+          "OilRate": 5.4,
+          "Status": 1,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017874,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-19T00:00:00",
+          "ShortName": "",
+          "Name": "",
+          "OilRate": 1.2,
+          "Status": 1,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017868,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-28T00:00:00",
+          "ShortName": "6818",
+          "Name": "Крайнее 6818",
+          "OilRate": 3.9,
+          "Status": 5,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017877,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-31T00:00:00",
+          "ShortName": "",
+          "Name": "",
+          "OilRate": 1.2,
+          "Status": 1,
+          "IsForecast": false,
+          "IsAddressless": false
+        }
+      ],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          7.6,
+          null,
+          null
+        ],
+        [
+          null,
+          17.5,
+          null,
+          null
+        ],
+        [
+          null,
+          19.3,
+          null,
+          null
+        ],
+        [
+          null,
+          9.3,
+          null,
+          null
+        ],
+        [
+          null,
+          7.6,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          17.9,
+          null,
+          null
+        ],
+        [
+          null,
+          5.4,
+          null,
+          null
+        ],
+        [
+          null,
+          6.4,
+          null,
+          null
+        ],
+        [
+          1,
+          6.2,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          4.1,
+          null,
+          null
+        ],
+        [
+          null,
+          5.4,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          5.4,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          1.2,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          1,
+          3.9,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          1.2,
+          null,
+          null
+        ]
+      ],
+      "PartitionSum": [
+        [
+          2,
+          0
+        ],
+        [
+          118.3,
+          0
+        ],
+        [
+          2942.4,
+          0
+        ]
+      ]
+    },
+    {
+      "Id": 26,
+      "Name": "Остановки под ППД<br><small>(т/сут)</small>",
+      "OptId": 100000000200010,
+      "Color": "LightBlue",
+      "PlanItems": [
+        {
+          "PlanId": 600000000017869,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-10T00:00:00",
+          "ShortName": "1096",
+          "Name": "Романовское 1096",
+          "OilRate": 6.2,
+          "Status": 5,
+          "IsForecast": false,
+          "IsAddressless": false
+        },
+        {
+          "PlanId": 600000000017868,
+          "ForecastId": null,
+          "FactStopId": null,
+          "FactStartId": null,
+          "FactStartCrId": null,
+          "FactFundChangeId": null,
+          "Day": "2024-03-28T00:00:00",
+          "ShortName": "6818",
+          "Name": "Крайнее 6818",
+          "OilRate": 3.9,
+          "Status": 5,
+          "IsForecast": false,
+          "IsAddressless": false
+        }
+      ],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          1,
+          6.2,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          1,
+          3.9,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "PartitionSum": [
+        [
+          2,
+          0
+        ],
+        [
+          10.1,
+          0
+        ],
+        [
+          152,
+          0
+        ]
+      ]
+    },
+    {
+      "Id": 29,
+      "Name": "Итого остановок<br><small>(т/сут)</small>",
+      "OptId": 100000000000003,
+      "Color": "LightBlue",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          7.6,
+          null,
+          null
+        ],
+        [
+          null,
+          17.5,
+          null,
+          null
+        ],
+        [
+          null,
+          19.3,
+          null,
+          null
+        ],
+        [
+          null,
+          9.3,
+          null,
+          null
+        ],
+        [
+          null,
+          7.6,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          17.9,
+          null,
+          null
+        ],
+        [
+          null,
+          5.4,
+          null,
+          null
+        ],
+        [
+          null,
+          6.4,
+          null,
+          null
+        ],
+        [
+          2,
+          12.4,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          4.1,
+          null,
+          null
+        ],
+        [
+          null,
+          5.4,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          5.4,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          1.2,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          2,
+          7.8,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          1.2,
+          null,
+          null
+        ]
+      ],
+      "PartitionSum": [
+        [
+          4,
+          0
+        ],
+        [
+          128.4,
+          0
+        ],
+        [
+          3094.4,
+          0
+        ]
+      ]
+    },
+    {
+      "Id": 30,
+      "Name": "Накопленная по остановкам<br><small>(т/сут)</small>",
+      "OptId": 100000000000003,
+      "Color": "LightGreen",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          7.6,
+          null,
+          null
+        ],
+        [
+          null,
+          25.1,
+          null,
+          null
+        ],
+        [
+          null,
+          44.4,
+          null,
+          null
+        ],
+        [
+          null,
+          53.7,
+          null,
+          null
+        ],
+        [
+          null,
+          61.3,
+          null,
+          null
+        ],
+        [
+          null,
+          61.3,
+          null,
+          null
+        ],
+        [
+          null,
+          79.2,
+          null,
+          null
+        ],
+        [
+          null,
+          84.6,
+          null,
+          null
+        ],
+        [
+          null,
+          91,
+          null,
+          null
+        ],
+        [
+          null,
+          103.4,
+          null,
+          null
+        ],
+        [
+          null,
+          103.4,
+          null,
+          null
+        ],
+        [
+          null,
+          107.4,
+          null,
+          null
+        ],
+        [
+          null,
+          112.8,
+          null,
+          null
+        ],
+        [
+          null,
+          112.8,
+          null,
+          null
+        ],
+        [
+          null,
+          112.8,
+          null,
+          null
+        ],
+        [
+          null,
+          112.8,
+          null,
+          null
+        ],
+        [
+          null,
+          118.2,
+          null,
+          null
+        ],
+        [
+          null,
+          118.2,
+          null,
+          null
+        ],
+        [
+          null,
+          119.4,
+          null,
+          null
+        ],
+        [
+          null,
+          119.4,
+          null,
+          null
+        ],
+        [
+          null,
+          119.4,
+          null,
+          null
+        ],
+        [
+          null,
+          119.4,
+          null,
+          null
+        ],
+        [
+          null,
+          119.4,
+          null,
+          null
+        ],
+        [
+          null,
+          119.4,
+          null,
+          null
+        ],
+        [
+          null,
+          119.4,
+          null,
+          null
+        ],
+        [
+          null,
+          119.4,
+          null,
+          null
+        ],
+        [
+          null,
+          119.4,
+          null,
+          null
+        ],
+        [
+          null,
+          127.2,
+          null,
+          null
+        ],
+        [
+          null,
+          127.2,
+          null,
+          null
+        ],
+        [
+          null,
+          127.2,
+          null,
+          null
+        ],
+        [
+          null,
+          128.4,
+          null,
+          null
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          3094.4,
+          0
+        ]
+      ]
+    },
+    {
+      "Id": 33,
+      "Name": "Исследования<br><small>(т)</small>",
+      "OptId": 100000000200017,
+      "Color": "LightBlue",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          22,
+          null,
+          22
+        ],
+        [
+          null,
+          22,
+          null,
+          22
+        ],
+        [
+          null,
+          22,
+          null,
+          22
+        ],
+        [
+          null,
+          22,
+          null,
+          22
+        ],
+        [
+          null,
+          22,
+          null,
+          22
+        ],
+        [
+          null,
+          15.5,
+          null,
+          15.5
+        ],
+        [
+          null,
+          15.5,
+          null,
+          15.5
+        ],
+        [
+          null,
+          15.5,
+          null,
+          15.5
+        ],
+        [
+          null,
+          15.5,
+          null,
+          15.5
+        ],
+        [
+          null,
+          15.5,
+          null,
+          15.5
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          187.5,
+          187.5
+        ]
+      ]
+    },
+    {
+      "Id": 32,
+      "Name": "ОТМ УЭТ<br><small>(т)</small>",
+      "OptId": 100000000200015,
+      "Color": "LightBlue",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          3,
+          null,
+          3
+        ],
+        [
+          null,
+          10.2,
+          null,
+          10.2
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          3.7,
+          null,
+          3.7
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          2.2,
+          null,
+          2.2
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          2,
+          null,
+          2
+        ],
+        [
+          null,
+          3.6,
+          null,
+          3.6
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          24.6,
+          24.6
+        ]
+      ]
+    },
+    {
+      "Id": 34,
+      "Name": "Итого по ОТМ<br><small>(т)</small>",
+      "OptId": 100000000000004,
+      "Color": "LightGreen",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          3,
+          null,
+          3
+        ],
+        [
+          null,
+          10.2,
+          null,
+          10.2
+        ],
+        [
+          null,
+          22,
+          null,
+          22
+        ],
+        [
+          null,
+          22,
+          null,
+          22
+        ],
+        [
+          null,
+          22,
+          null,
+          22
+        ],
+        [
+          null,
+          22,
+          null,
+          22
+        ],
+        [
+          null,
+          25.7,
+          null,
+          25.7
+        ],
+        [
+          null,
+          15.5,
+          null,
+          15.5
+        ],
+        [
+          null,
+          17.7,
+          null,
+          17.7
+        ],
+        [
+          null,
+          15.5,
+          null,
+          15.5
+        ],
+        [
+          null,
+          15.5,
+          null,
+          15.5
+        ],
+        [
+          null,
+          15.5,
+          null,
+          15.5
+        ],
+        [
+          null,
+          2,
+          null,
+          2
+        ],
+        [
+          null,
+          3.6,
+          null,
+          3.6
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          212.1,
+          212.1
+        ]
+      ]
+    },
+    {
+      "Id": 42,
+      "Name": "Сверхнормативное снижение<br><small>(т/сут)</small>",
+      "OptId": 100000000200023,
+      "Color": "LightBlue",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "Id": 37,
+      "Name": "Итого потерь<br><small>(т)</small>",
+      "OptId": 100000000200021,
+      "Color": "LightGreen",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          17.2,
+          null,
+          9.6
+        ],
+        [
+          null,
+          44.2,
+          null,
+          19.1
+        ],
+        [
+          null,
+          73.1,
+          null,
+          28.7
+        ],
+        [
+          null,
+          92,
+          null,
+          38.2
+        ],
+        [
+          null,
+          109.1,
+          null,
+          47.8
+        ],
+        [
+          null,
+          118.7,
+          null,
+          57.4
+        ],
+        [
+          null,
+          146.2,
+          null,
+          66.9
+        ],
+        [
+          null,
+          161.1,
+          null,
+          76.5
+        ],
+        [
+          null,
+          177,
+          null,
+          86
+        ],
+        [
+          null,
+          199,
+          null,
+          95.6
+        ],
+        [
+          null,
+          208.5,
+          null,
+          105.2
+        ],
+        [
+          null,
+          222.2,
+          null,
+          114.7
+        ],
+        [
+          null,
+          240.1,
+          null,
+          127.3
+        ],
+        [
+          null,
+          256.8,
+          null,
+          144
+        ],
+        [
+          null,
+          278.2,
+          null,
+          165.4
+        ],
+        [
+          null,
+          287.8,
+          null,
+          175
+        ],
+        [
+          null,
+          302.7,
+          null,
+          184.5
+        ],
+        [
+          null,
+          312.3,
+          null,
+          194.1
+        ],
+        [
+          null,
+          326.7,
+          null,
+          207.3
+        ],
+        [
+          null,
+          326.1,
+          null,
+          206.7
+        ],
+        [
+          null,
+          337.8,
+          null,
+          218.4
+        ],
+        [
+          null,
+          345.2,
+          null,
+          225.8
+        ],
+        [
+          null,
+          354.8,
+          null,
+          235.4
+        ],
+        [
+          null,
+          364.3,
+          null,
+          244.9
+        ],
+        [
+          null,
+          360.4,
+          null,
+          241
+        ],
+        [
+          null,
+          371.5,
+          null,
+          252.2
+        ],
+        [
+          null,
+          377.5,
+          null,
+          258.1
+        ],
+        [
+          null,
+          394.9,
+          null,
+          267.7
+        ],
+        [
+          null,
+          404.4,
+          null,
+          277.2
+        ],
+        [
+          null,
+          414,
+          null,
+          286.8
+        ],
+        [
+          null,
+          424.8,
+          null,
+          296.4
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          8048.3,
+          4953.8
+        ]
+      ]
+    },
+    {
+      "Id": 43,
+      "Name": "Без объяснения<br><small>(т/сут)</small>",
+      "OptId": 100000000200024,
+      "Color": "LightGreen",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          0,
+          -3658
+        ]
+      ]
+    },
+    {
+      "Id": 45,
+      "Name": "Без объяснения (потенциальная)<br><small>(т/сут)</small>",
+      "OptId": 100000000200029,
+      "Color": "LightGreen",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ],
+        [
+          null,
+          null,
+          null,
+          -118
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          0,
+          -3658
+        ]
+      ]
+    },
+    {
+      "Id": 44,
+      "Name": "Факт (УСОИ) + прогноз<br><small>(т)</small>",
+      "OptId": 100000000200026,
+      "Color": "LightGreen",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          10182.5,
+          null,
+          10195.1
+        ],
+        [
+          null,
+          10157.3,
+          null,
+          10185.6
+        ],
+        [
+          null,
+          10128.4,
+          null,
+          10176
+        ],
+        [
+          null,
+          10111.6,
+          null,
+          10185.4
+        ],
+        [
+          null,
+          10094.5,
+          null,
+          10200.9
+        ],
+        [
+          null,
+          10084.9,
+          null,
+          10196.3
+        ],
+        [
+          null,
+          10057.4,
+          null,
+          10208.8
+        ],
+        [
+          null,
+          10042.5,
+          null,
+          10228.2
+        ],
+        [
+          null,
+          10026.6,
+          null,
+          10223.6
+        ],
+        [
+          null,
+          10010.8,
+          null,
+          10214.1
+        ],
+        [
+          null,
+          10001.3,
+          null,
+          10204.5
+        ],
+        [
+          null,
+          9987.6,
+          null,
+          10195
+        ],
+        [
+          null,
+          9969.7,
+          null,
+          10232.4
+        ],
+        [
+          null,
+          9953,
+          null,
+          10215.6
+        ],
+        [
+          null,
+          9931.6,
+          null,
+          10209.3
+        ],
+        [
+          null,
+          9922,
+          null,
+          10199.7
+        ],
+        [
+          null,
+          9907.1,
+          null,
+          10238.1
+        ],
+        [
+          null,
+          9897.5,
+          null,
+          10228.6
+        ],
+        [
+          null,
+          9883.1,
+          null,
+          10222.4
+        ],
+        [
+          null,
+          9883.7,
+          null,
+          10223
+        ],
+        [
+          null,
+          9872,
+          null,
+          10211.2
+        ],
+        [
+          null,
+          9864.6,
+          null,
+          10203.8
+        ],
+        [
+          null,
+          9855,
+          null,
+          10194.3
+        ],
+        [
+          null,
+          9845.5,
+          null,
+          10184.7
+        ],
+        [
+          null,
+          9849.4,
+          null,
+          10188.7
+        ],
+        [
+          null,
+          9838.2,
+          null,
+          10177.5
+        ],
+        [
+          null,
+          9832.3,
+          null,
+          10196.5
+        ],
+        [
+          null,
+          9818.8,
+          null,
+          10228
+        ],
+        [
+          null,
+          9809.3,
+          null,
+          10218.4
+        ],
+        [
+          null,
+          9799.7,
+          null,
+          10208.9
+        ],
+        [
+          null,
+          9788.9,
+          null,
+          10204.3
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          308406.9,
+          316398.8
+        ]
+      ]
+    },
+    {
+      "Id": 46,
+      "Name": "Факт (потенциальный) + прогноз<br><small>(т)</small>",
+      "OptId": 100000000200028,
+      "Color": "LightGreen",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          10182.5,
+          null,
+          10195.1
+        ],
+        [
+          null,
+          10157.3,
+          null,
+          10185.6
+        ],
+        [
+          null,
+          10128.4,
+          null,
+          10176
+        ],
+        [
+          null,
+          10111.6,
+          null,
+          10185.4
+        ],
+        [
+          null,
+          10094.5,
+          null,
+          10200.9
+        ],
+        [
+          null,
+          10084.9,
+          null,
+          10196.3
+        ],
+        [
+          null,
+          10057.4,
+          null,
+          10208.8
+        ],
+        [
+          null,
+          10042.5,
+          null,
+          10228.2
+        ],
+        [
+          null,
+          10026.6,
+          null,
+          10223.6
+        ],
+        [
+          null,
+          10010.8,
+          null,
+          10214.1
+        ],
+        [
+          null,
+          10001.3,
+          null,
+          10204.5
+        ],
+        [
+          null,
+          9987.6,
+          null,
+          10195
+        ],
+        [
+          null,
+          9969.7,
+          null,
+          10232.4
+        ],
+        [
+          null,
+          9953,
+          null,
+          10215.6
+        ],
+        [
+          null,
+          9931.6,
+          null,
+          10209.3
+        ],
+        [
+          null,
+          9922,
+          null,
+          10199.7
+        ],
+        [
+          null,
+          9907.1,
+          null,
+          10238.1
+        ],
+        [
+          null,
+          9897.5,
+          null,
+          10228.6
+        ],
+        [
+          null,
+          9883.1,
+          null,
+          10222.4
+        ],
+        [
+          null,
+          9883.7,
+          null,
+          10223
+        ],
+        [
+          null,
+          9872,
+          null,
+          10211.2
+        ],
+        [
+          null,
+          9864.6,
+          null,
+          10203.8
+        ],
+        [
+          null,
+          9855,
+          null,
+          10194.3
+        ],
+        [
+          null,
+          9845.5,
+          null,
+          10184.7
+        ],
+        [
+          null,
+          9849.4,
+          null,
+          10188.7
+        ],
+        [
+          null,
+          9838.2,
+          null,
+          10177.5
+        ],
+        [
+          null,
+          9832.3,
+          null,
+          10196.5
+        ],
+        [
+          null,
+          9818.8,
+          null,
+          10228
+        ],
+        [
+          null,
+          9809.3,
+          null,
+          10218.4
+        ],
+        [
+          null,
+          9799.7,
+          null,
+          10208.9
+        ],
+        [
+          null,
+          9788.9,
+          null,
+          10204.3
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          308406.9,
+          316398.8
+        ]
+      ]
+    },
+    {
+      "Id": 38,
+      "Name": "Итого добыча (расчёт)<br><small>(т)</small>",
+      "OptId": 100000000200022,
+      "Color": "LightGreen",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          10182.5,
+          null,
+          10195.1
+        ],
+        [
+          null,
+          10157.3,
+          null,
+          10185.6
+        ],
+        [
+          null,
+          10128.4,
+          null,
+          10176
+        ],
+        [
+          null,
+          10111.6,
+          null,
+          10185.4
+        ],
+        [
+          null,
+          10094.5,
+          null,
+          10200.9
+        ],
+        [
+          null,
+          10084.9,
+          null,
+          10196.3
+        ],
+        [
+          null,
+          10057.4,
+          null,
+          10208.8
+        ],
+        [
+          null,
+          10042.5,
+          null,
+          10228.2
+        ],
+        [
+          null,
+          10026.6,
+          null,
+          10223.6
+        ],
+        [
+          null,
+          10010.8,
+          null,
+          10214.1
+        ],
+        [
+          null,
+          10001.3,
+          null,
+          10204.5
+        ],
+        [
+          null,
+          9987.6,
+          null,
+          10195
+        ],
+        [
+          null,
+          9969.7,
+          null,
+          10232.4
+        ],
+        [
+          null,
+          9953,
+          null,
+          10215.6
+        ],
+        [
+          null,
+          9931.6,
+          null,
+          10209.3
+        ],
+        [
+          null,
+          9922,
+          null,
+          10199.7
+        ],
+        [
+          null,
+          9907.1,
+          null,
+          10238.1
+        ],
+        [
+          null,
+          9897.5,
+          null,
+          10228.6
+        ],
+        [
+          null,
+          9883.1,
+          null,
+          10222.4
+        ],
+        [
+          null,
+          9883.7,
+          null,
+          10223
+        ],
+        [
+          null,
+          9872,
+          null,
+          10211.2
+        ],
+        [
+          null,
+          9864.6,
+          null,
+          10203.8
+        ],
+        [
+          null,
+          9855,
+          null,
+          10194.3
+        ],
+        [
+          null,
+          9845.5,
+          null,
+          10184.7
+        ],
+        [
+          null,
+          9849.4,
+          null,
+          10188.7
+        ],
+        [
+          null,
+          9838.2,
+          null,
+          10177.5
+        ],
+        [
+          null,
+          9832.3,
+          null,
+          10196.5
+        ],
+        [
+          null,
+          9818.8,
+          null,
+          10228
+        ],
+        [
+          null,
+          9809.3,
+          null,
+          10218.4
+        ],
+        [
+          null,
+          9799.7,
+          null,
+          10208.9
+        ],
+        [
+          null,
+          9788.9,
+          null,
+          10204.3
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          308406.9,
+          316398.8
+        ]
+      ]
+    },
+    {
+      "Id": 40,
+      "Name": "Потенциал простоя<br><small>(т/сут)</small>",
+      "OptId": 100000000000005,
+      "Color": "LightGreen",
+      "PlanItems": [],
+      "FactItems": [],
+      "DailySum": [
+        [
+          null,
+          204.1,
+          null,
+          78.5
+        ],
+        [
+          null,
+          219.8,
+          null,
+          78.5
+        ],
+        [
+          null,
+          239.1,
+          null,
+          78.5
+        ],
+        [
+          null,
+          246.3,
+          null,
+          78.5
+        ],
+        [
+          null,
+          253.9,
+          null,
+          78.5
+        ],
+        [
+          null,
+          253.9,
+          null,
+          78.5
+        ],
+        [
+          null,
+          271.8,
+          null,
+          78.5
+        ],
+        [
+          null,
+          277.2,
+          null,
+          78.5
+        ],
+        [
+          null,
+          283.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          283.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          283.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          287.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          293,
+          null,
+          78.5
+        ],
+        [
+          null,
+          293,
+          null,
+          78.5
+        ],
+        [
+          null,
+          293,
+          null,
+          78.5
+        ],
+        [
+          null,
+          293,
+          null,
+          78.5
+        ],
+        [
+          null,
+          298.4,
+          null,
+          78.5
+        ],
+        [
+          null,
+          298.4,
+          null,
+          78.5
+        ],
+        [
+          null,
+          299.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          299.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          299.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          299.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          299.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          299.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          299.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          299.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          299.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          299.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          299.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          299.6,
+          null,
+          78.5
+        ],
+        [
+          null,
+          300.8,
+          null,
+          78.5
+        ]
+      ],
+      "PartitionSum": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          8769.2,
+          2433.7
+        ]
+      ]
+    }
+  ],
+  "Month": "2024-03-01T00:00:00",
+  "CompanyId": 6,
+  "CompanyName": "АО «ГПН-Ноябрьскнефтегаз» регион Запад"
+}
