@@ -1,9 +1,7 @@
 import React  from 'react'
 import { MobileMenu } from '@consta/header/MobileMenu'
 import { DatePicker } from '@consta/uikit/DatePicker'
-import { useState } from 'react'
-import useStore from '../../store'
-import {StoreType} from '../../store'
+import useStore, {StoreType} from '../../store'
 
 const items_mobile = [
   {
@@ -16,11 +14,8 @@ const items_mobile = [
 ]
 
 const Header: React.FC = () => {
-  const [value, setValue] = useState<Date | null>(null)
-
-  
-  const bears = useStore((state : StoreType) => state.bears)
-  const increasePopulation = useStore((state : StoreType) => state.increasePopulation)
+  const month = useStore((state : StoreType) => state.month)
+  const setMonth = useStore((state : StoreType) => state.setMonth)
   
   return (<>
     <MobileMenu items={items_mobile} style={{marginRight: 10}}/>
@@ -28,10 +23,9 @@ const Header: React.FC = () => {
     <DatePicker
       style={{  width: 100, marginLeft: 10 }} 
       type="month"
-      value={value}
-      onChange={setValue}
+      value={month}
+      onChange={setMonth}
     />
-    <h1>{bears} around here...</h1><button onClick={increasePopulation}>one up</button>
   </>)
 }
 

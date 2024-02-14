@@ -2,9 +2,8 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 export type StoreType = {
-  bears: number;
-  increasePopulation: () => void;
-  removeAllBears: () => void;
+  month: Date;
+  setMonth: (Date) => void;
 }
 
 export type Items = {
@@ -24,7 +23,7 @@ export type Items = {
 }
 
 export type PartitionType = {
-  Id: 2,
+  Id: number,
   Name: string,
   OptId: number,
   Color: string,
@@ -45,10 +44,9 @@ export type OilType = {
   CompanyName: string
 }
 
-const useStore = create<StoreType>()(devtools((set, get) => ({
-  bears: 1,
-  increasePopulation: () => set({ bears: get().bears + 1 }, false, 'inc'),
-  removeAllBears: () => set({ bears: 0 }),
+const useStore = create<StoreType>()(devtools((set) => ({
+  month: new Date(),
+  setMonth: (newMonth) => set(() => ({ month: newMonth })),
 }), {enabled: true, name: 'MyStore'}))
 
 export default useStore

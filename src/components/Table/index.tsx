@@ -3,33 +3,15 @@ import { agGridAdapter } from '@consta/ag-grid-adapter/agGridAdapter'
 import { AgGridReact } from 'ag-grid-react'
 import moment from 'moment'
 import data from '../../store/02.json'
-
-
+import useStore, {StoreType} from '../../store'
 
 const defaultColDef = {
   flex: 1,
   minWidth: 50,
-  //enableValue: true,
-  //  /enableRowGroup: true,
-  // enablePivot: true,
-  //sortable: true,
+  // sortable: true,
   // filter: true,
   resizable: true,
 }
-
-/*const rowData: Array<object>  = [
-  { user: 'Крокодил Гена', role: 'администратор', priority: '1' },
-  { user: 'Чебурашка', role: 'читатель', priority: '2' },
-  { user: 'Шапокляк', role: 'вредитель', priority: '777' },
-]
-
-const columnDefs: Array<object> = [
-  { field: 'user', headerName: 'Пользователь' },
-  { field: 'role', headerName: 'Роль' },
-  { field: 'priority', headerName: 'Приоритет' },
-]*/
-
-const days = moment().daysInMonth()
 
 const columnDefs1 = data.Partitions.map((item) => ({field: item.Id.toString(), headerName: item.Name, suppressStickyLabel: true,
   openByDefault: true, children: [
@@ -43,8 +25,14 @@ const columnDefs1 = data.Partitions.map((item) => ({field: item.Id.toString(), h
 const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', width: 20}, ...columnDefs1]
 
 const Table: React.FC = () => {
-  const rowData = [...Array(days)].map((_, i) => {return { day: i+1, user: 'Чебурашка', role: 'читатель', priority: i }})
   const gridRef = useRef()
+  
+  const days = moment(useStore((state : StoreType) => state.month)).daysInMonth()
+  const rowData = [...Array(days)].map((_, i) => {return { day: i+1 }})
+
+  // const columnDefs1 = data.Partitions.
+
+  
   const styleOptions = agGridAdapter({
     size: 'm',
     borderBetweenColumns: true,
