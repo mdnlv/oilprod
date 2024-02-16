@@ -8,18 +8,30 @@ import useStore, {StoreType} from '../../store'
 const defaultColDef = {
   flex: 1,
   minWidth: 50,
-  // sortable: true,
-  // filter: true,
+  sortable: true,
+  filter: true,
   resizable: true,
 }
 
 const columnDefs1 = data.Partitions.map((item) => ({field: item.Id.toString(), headerName: item.Name, suppressStickyLabel: true,
-  openByDefault: true, children: [
-    item.PlanItems && {field: 'plan0', headerName: 'график без НГПД', children: [{field: 'plan0-0', headerName: '', editable: true}, {field: 'plan0-0', headerName: '', editable: true}]}, 
-    item.PlanItems && {field: 'plan1', headerName: 'график без НГПД', children: [{field: 'plan0-0', headerName: '', editable: true}, {field: 'plan0-0', headerName: '', editable: true}]}, 
-    item.FactItems && {field: 'fact0', headerName: 'факт без НГПД', children: [{field: 'plan0-0', headerName: '', editable: true}, {field: 'plan0-0', headerName: '', editable: true}]},
-    item.FactItems && {field: 'fact1', headerName: 'факт без НГПД', children: [{field: 'plan0-0', headerName: '', editable: true}, {field: 'plan0-0', headerName: '', editable: true}]},
-    {field: 'sumPlan', headerName: 'итого гр.'}, {field: 'sumFact', headerName: 'итого фк.'},
+  openByDefault: true,   flex: 1,
+  minWidth: 50,
+  sortable: true,
+  filter: true,
+  resizable: true, children: [
+    item.PlanItems && {field: 'plan0', headerName: 'график без НГПД', sortable: true, filter: true, children: [{field: `plan0-${item.Id}-0`, filter: true, sortable: true, headerName: '', editable: true}, {field: `plan0-${item.Id}-1`, filter: true, sortable: true, headerName: '', editable: true}]}, 
+    item.PlanItems && {field: 'plan1', headerName: 'график без НГПД', sortable: true, filter: true, children: [{field: `plan1-${item.Id}-0`, filter: true, sortable: true, headerName: '', editable: true}, {field: `plan1-${item.Id}-1`, filter: true, sortable: true, headerName: '', editable: true}]}, 
+    item.FactItems && {field: 'fact0', headerName: 'факт без НГПД', sortable: true, filter: true, children: [{field: `fact0-${item.Id}-0`, filter: true, sortable: true, headerName: '', editable: true}, {field: `fact0-${item.Id}-1`, filter: true, sortable: true, headerName: '', editable: true}]},
+    item.FactItems && {field: 'fact1', headerName: 'факт без НГПД', sortable: true, filter: true, children: [{field: `fact1-${item.Id}-0`, filter: true, sortable: true,  headerName: '', editable: true}, {field: `fact1-${item.Id}-1`, filter: true, sortable: true, headerName: '', editable: true}]},
+    {field: `sumPlan-${item.Id}`,   flex: 1,
+      minWidth: 50,
+      sortable: true,
+      filter: true,
+      resizable: true, editable: true, headerName: 'итого гр.'}, {field: `sumFact-${item.Id}`,   flex: 1,
+      minWidth: 50,
+      sortable: true,
+      filter: true,
+      resizable: true, headerName: 'итого фк.', editable: true},
   ]}))
 
 const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', width: 20}, ...columnDefs1]
