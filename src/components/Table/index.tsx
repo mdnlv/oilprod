@@ -1,11 +1,10 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import { agGridAdapter } from '@consta/ag-grid-adapter/agGridAdapter'
 import { AgGridReact } from 'ag-grid-react'
 import moment from 'moment'
 import data from '../../store/02.json'
 import useStore, {StoreType} from '../../store'
 import { Button } from '@consta/uikit/Button'
-import { GetRowIdFunc, GetRowIdParams } from '@ag-grid-community/core'
 
 const defaultColDef = {
   flex: 1,
@@ -69,25 +68,9 @@ const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left'
       {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#dbe4ea', borderRight: '2px solid #ccd9e0' }}
     ]},
   ]}))]
-  
-
-function generateNewFordData() {
-  const newPrice = Math.floor(Math.random() * 100000)
-  const newModel = 'T-' + Math.floor(Math.random() * 1000)
-  return {
-    id: 'bb',
-    make: 'Ford',
-    model: newModel,
-    price: newPrice,
-  }
-}
-  
-
-
-
 
 const Table: React.FC = () => {
-  const gridRef = useRef()
+  const gridRef = useRef(null)
   const days = moment(useStore((state : StoreType) => state.month)).daysInMonth()
   const [rowData, setRowData] = useState([])
 
@@ -109,32 +92,24 @@ const Table: React.FC = () => {
       })
       return obj
     })
-    temp.push({day: 'ИТОГО:\nмер-тий'},{day: 'Сум. прир.\nдеб. тн/сут.'},{day: 'Накоп.\nдобыча, тн.'})
+    temp.push({id: temp.length, day: 'ИТОГО:\nмер-тий'},{id: temp.length+1, day: 'Сум. прир.\nдеб. тн/сут.'},{id: temp.length+2, day: 'Накоп.\nдобыча, тн.'})
     setRowData(temp)
   },[])
 
-  const rowClassRules = {
-    'border-top': function(params) { return params.data?.day === 'ИТОГО:\nмер-тий' },
-  }
-
-
-  const getRowId = useMemo<GetRowIdFunc>(() => {
-    return (params: GetRowIdParams) => {
-      return params.data.id
-    }
-  }, [])
-  
-  const setDataOnFord = useCallback(() => {
-    const rowNode = gridRef.current!.api.getRowNode('bb')!
-    const newData = generateNewFordData()
-    rowNode.setData(newData)
-  }, [])
-  
-  const updateDataOnFord = useCallback(() => {
-    const rowNode = gridRef.current!.api.getRowNode('bb')!
-    const newData = generateNewFordData()
-    rowNode.updateData(newData)
-  }, [])
+  useEffect(()=>{
+    setTimeout(() => {
+      data.Partitions.map((itemCol) => {
+        itemCol.PlanItems.map((itemRow) => {
+          const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
+          rowNode.setDataValue(`plan0-${itemCol.Id}-0`, '*')
+        })
+        itemCol.FactItems.map((itemRow) => {
+          const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
+          rowNode.setDataValue(`fact0-${itemCol.Id}-0`, '*')
+        })
+      })
+    }, 500)
+  })
 
   return (
     <div className="ag-theme-quartz" style={{ height: '100%', width: '100%' }}>
@@ -145,8 +120,9 @@ const Table: React.FC = () => {
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
         headerHeight={1}
-        rowClassRules={rowClassRules}
-        getRowId={getRowId}
+        rowClassRules={{
+          'border-top': (params) => params.data?.day === 'ИТОГО:\nмер-тий',
+        }}
         enableCellChangeFlash={true}
       />
     </div>
