@@ -86,9 +86,9 @@ const Table: React.FC = () => {
       const obj: {day: string} = { day: (day+1).toString() } 
       data.Partitions.map((field) => {
         if(field.DailySum[day][0] || field.DailySum[day][1]) 
-          obj[`sumPlanChild-${field.Id}-0`] = field.DailySum[day][0] + ' / ' + field.DailySum[day][1]
+          obj[`sumPlanChild-${field.Id}-0`] = (field.DailySum[day][0] ?? '') + '\n' + (field.DailySum[day][1] ?? '')
         if(field.DailySum[day][2] || field.DailySum[day][3]) 
-          obj[`sumFactChild-${field.Id}-0`] = field.DailySum[day][2] + ' / ' + field.DailySum[day][3]
+          obj[`sumFactChild-${field.Id}-0`] = (field.DailySum[day][2] ?? '' )+ '\n' + (field.DailySum[day][3] ?? '')
       })
       return obj
     })
