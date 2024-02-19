@@ -63,3 +63,12 @@
 .ag-pinned-left-header {
   background: #ecf1f4;
 }
+
+.ag-text-field-input-wrapper > input  {
+  margin: -10px !important;
+  margin-top: -2px !important;
+}
+
+.border-top {
+  border-top: 2px solid #ccd9e0 !important;
+}

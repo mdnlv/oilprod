@@ -18,9 +18,10 @@ const defaultColDef = {
     view: 'brand',
     align: 'right',
   },
+  cellStyle: { whiteSpace: 'pre' }
 }
 
-const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 10,
+const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 80,
   editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '2px solid #ccd9e0'  } }, 
 ...data.Partitions.map((item) => ({field: item.Id.toString(), headerName: item.Name, minWidth: 80,
   children: [
@@ -47,10 +48,10 @@ const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left'
         {field: `fact1-${item.Id}-1`, headerName: ''}
       ]},
     {field: `sumPlan-${item.Id}`, minWidth: 90, headerName: 'итого план', children: [
-      {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#ecf1f4' }}
+      {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#dbe4ea' }}
     ]}, 
     {field: `sumFact-${item.Id}`, minWidth: 90, headerName: 'итого факт', children: [
-      {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#ecf1f4', borderRight: '2px solid #ccd9e0' }}
+      {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#dbe4ea', borderRight: '2px solid #ccd9e0' }}
     ]},
   ]}))]
 
@@ -68,9 +69,7 @@ const Table: React.FC = () => {
 
   useEffect(()=>{
     const temp = [...Array(days)].map((_, day) => {
-      const obj = { day: day+1 }
-      
-      
+      const obj: {day: string} = { day: (day+1).toString() } 
       data.Partitions.map((field) => {
         if(field.DailySum[day][0] || field.DailySum[day][1]) 
           obj[`sumPlanChild-${field.Id}-0`] = field.DailySum[day][0] + ' / ' + field.DailySum[day][1]
@@ -79,8 +78,15 @@ const Table: React.FC = () => {
       })
       return obj
     })
+    temp.push({day: 'ИТОГО:\nмер-тий'},{day: 'Сум. прир.\nдеб. тн/сут.'},{day: 'Накоп.\nдобыча, тн.'})
     setRowData(temp)
+
+    console.log(data.Partitions.map(item => ({id: item.Id, name: item.Name})))
   },[])
+
+  const rowClassRules = {
+    'border-top': function(params) { return params.data?.day === 'ИТОГО:\nмер-тий' },
+  }
 
   return (
     <div className="ag-theme-quartz" style={{ height: '100%', width: '100%' }}>
@@ -91,6 +97,7 @@ const Table: React.FC = () => {
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
         headerHeight={1}
+        rowClassRules={rowClassRules}
       />
     </div>
   )
