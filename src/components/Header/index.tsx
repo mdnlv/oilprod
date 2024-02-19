@@ -7,7 +7,7 @@ const Header: React.FC = () => {
   const month = useStore((state : StoreType) => state.month)
   const setMonth = useStore((state : StoreType) => state.setMonth)
   
-  return (<div style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', paddingLeft: 52}}>
+  return (<div style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', paddingLeft: 92 }}>
     <div>
       <span>Данные графика и прогноза добычи за</span>
       <DatePicker
