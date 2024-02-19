@@ -36,3 +36,30 @@
     transform: rotate(360deg);
   }
 }
+
+.oneh { background-color: '#457' }
+
+.ag-header-group-cell[aria-colspan="10"] {
+  border-right: 2px solid #ccd9e0;
+
+}
+
+.ag-header-group-cell[aria-colindex$="1"] {
+  border-right: 2px solid #ccd9e0;
+}
+
+.ag-header-group-cell[aria-colindex$="1"] .ag-header-cell-resize  {
+  opacity: 0.01;
+}
+
+.ag-header-group-cell[aria-colspan="10"] .ag-header-cell-resize {
+  opacity: 0.01;
+}
+
+.ag-header-cell-resize  {
+  z-index: 0 !important;
+}
+
+.ag-pinned-left-header {
+  background: #ecf1f4;
+}

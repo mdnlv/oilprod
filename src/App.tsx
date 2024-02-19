@@ -10,7 +10,7 @@ import Header from './components/Header'
 function App() {
   return (
     <Theme preset={presetGpnDefault} style={{height: '100%'}}>
-      <Layout flex={1} style={{background: '#ecf1f4', height: '5%', width: '100%', flex: 1, alignItems: 'center', paddingLeft: 10, }}>
+      <Layout flex={1} style={{background: '#ecf1f4', height: '5%', width: '100%', flex: 1, alignItems: 'center' }}>
         <Header />
       </Layout>
       <Layout flex={1} style={{  height: '95%', width: '100%' }}>

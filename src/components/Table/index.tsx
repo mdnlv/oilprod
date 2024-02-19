@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import { agGridAdapter } from '@consta/ag-grid-adapter/agGridAdapter'
 import { AgGridReact } from 'ag-grid-react'
 import moment from 'moment'
@@ -7,52 +7,81 @@ import useStore, {StoreType} from '../../store'
 
 const defaultColDef = {
   flex: 1,
-  minWidth: 50,
-  sortable: true,
-  filter: true,
+  minWidth: 40,
   resizable: true,
+  suppressMovable: true,
+  fontSize: 8,
+  editable: true,
+  tooltipShowDelay: 10,
+  headerComponentParams: {
+    transform: 'uppercase',
+    view: 'brand',
+    align: 'right',
+  },
 }
 
-const columnDefs1 = data.Partitions.map((item) => ({field: item.Id.toString(), headerName: item.Name, suppressStickyLabel: true,
-  openByDefault: true,   flex: 1,
-  minWidth: 50,
-  sortable: true,
-  filter: true,
-  resizable: true, children: [
-    item.PlanItems && {field: 'plan0', headerName: 'график без НГПД', sortable: true, filter: true, children: [{field: `plan0-${item.Id}-0`, filter: true, sortable: true, headerName: '', editable: true}, {field: `plan0-${item.Id}-1`, filter: true, sortable: true, headerName: '', editable: true}]}, 
-    item.PlanItems && {field: 'plan1', headerName: 'график без НГПД', sortable: true, filter: true, children: [{field: `plan1-${item.Id}-0`, filter: true, sortable: true, headerName: '', editable: true}, {field: `plan1-${item.Id}-1`, filter: true, sortable: true, headerName: '', editable: true}]}, 
-    item.FactItems && {field: 'fact0', headerName: 'факт без НГПД', sortable: true, filter: true, children: [{field: `fact0-${item.Id}-0`, filter: true, sortable: true, headerName: '', editable: true}, {field: `fact0-${item.Id}-1`, filter: true, sortable: true, headerName: '', editable: true}]},
-    item.FactItems && {field: 'fact1', headerName: 'факт без НГПД', sortable: true, filter: true, children: [{field: `fact1-${item.Id}-0`, filter: true, sortable: true,  headerName: '', editable: true}, {field: `fact1-${item.Id}-1`, filter: true, sortable: true, headerName: '', editable: true}]},
-    {field: `sumPlan-${item.Id}`,   flex: 1,
-      minWidth: 50,
-      sortable: true,
-      filter: true,
-      resizable: true, editable: true, headerName: 'итого гр.'}, {field: `sumFact-${item.Id}`,   flex: 1,
-      minWidth: 50,
-      sortable: true,
-      filter: true,
-      resizable: true, headerName: 'итого фк.', editable: true},
-  ]}))
-
-const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', width: 20}, ...columnDefs1]
+const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 10,
+  editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '2px solid #ccd9e0'  } }, 
+...data.Partitions.map((item) => ({field: item.Id.toString(), headerName: item.Name, minWidth: 80,
+  children: [
+    item.PlanItems && {field: 'plan0', headerName: 'график без НГПД', headerTooltip: 'график без НГПД', 
+      children: [
+        {field: `plan0-${item.Id}-0`, headerName: ''}, 
+        {field: `plan0-${item.Id}-1`, headerName: ''}
+      ],
+      headerComponent: (displayName) => <><span>{displayName}</span><button>+</button></>
+    }, 
+    item.PlanItems && {field: 'plan1', headerName: 'график без НГПД',
+      children: [
+        {field: `plan1-${item.Id}-0`, headerName: ''}, 
+        {field: `plan1-${item.Id}-1`, headerName: ''}
+      ]}, 
+    item.FactItems && {field: 'fact0', headerName: 'факт без НГПД',
+      children: [
+        {field: `fact0-${item.Id}-0`, headerName: ''}, 
+        {field: `fact0-${item.Id}-1`, headerName: ''}
+      ]},
+    item.FactItems && {field: 'fact1', headerName: 'факт без НГПД',
+      children: [
+        {field: `fact1-${item.Id}-0`, headerName: ''}, 
+        {field: `fact1-${item.Id}-1`, headerName: ''}
+      ]},
+    {field: `sumPlan-${item.Id}`, minWidth: 90, headerName: 'итого план', children: [
+      {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#ecf1f4' }}
+    ]}, 
+    {field: `sumFact-${item.Id}`, minWidth: 90, headerName: 'итого факт', children: [
+      {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#ecf1f4', borderRight: '2px solid #ccd9e0' }}
+    ]},
+  ]}))]
 
 const Table: React.FC = () => {
   const gridRef = useRef()
-  
   const days = moment(useStore((state : StoreType) => state.month)).daysInMonth()
-  const rowData = [...Array(days)].map((_, i) => {return { day: i+1 }})
+  const [rowData, setRowData] = useState([])
 
-  // const columnDefs1 = data.Partitions.
-
-  
   const styleOptions = agGridAdapter({
-    size: 'm',
+    size: 's',
     borderBetweenColumns: true,
     borderBetweenRows: true,
-    headerVerticalAlign: 'center',
-    headerView: 'default',
-    verticalAlign: 'center',
+    headerView: 'clear',
   })
+
+  useEffect(()=>{
+    const temp = [...Array(days)].map((_, day) => {
+      const obj = { day: day+1 }
+      
+      
+      data.Partitions.map((field) => {
+        if(field.DailySum[day][0] || field.DailySum[day][1]) 
+          obj[`sumPlanChild-${field.Id}-0`] = field.DailySum[day][0] + ' / ' + field.DailySum[day][1]
+        if(field.DailySum[day][2] || field.DailySum[day][3]) 
+          obj[`sumFactChild-${field.Id}-0`] = field.DailySum[day][2] + ' / ' + field.DailySum[day][3]
+      })
+      return obj
+    })
+    setRowData(temp)
+  },[])
+
   return (
     <div className="ag-theme-quartz" style={{ height: '100%', width: '100%' }}>
       <AgGridReact
@@ -61,7 +90,7 @@ const Table: React.FC = () => {
         rowData={rowData}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
-        headerHeight={0}
+        headerHeight={1}
       />
     </div>
   )

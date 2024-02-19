@@ -1,32 +1,30 @@
 import React  from 'react'
-import { MobileMenu } from '@consta/header/MobileMenu'
 import { DatePicker } from '@consta/uikit/DatePicker'
+import { Button } from '@consta/uikit/Button'
 import useStore, {StoreType} from '../../store'
-
-const items_mobile = [
-  {
-    label: 'Сохранить',
-    onClick: (e) => {
-      e.preventDefault()
-    }
-  },
-  { label: 'Обновить' },
-]
 
 const Header: React.FC = () => {
   const month = useStore((state : StoreType) => state.month)
   const setMonth = useStore((state : StoreType) => state.setMonth)
   
-  return (<>
-    <MobileMenu items={items_mobile} style={{marginRight: 10}}/>
-    <span>Данные графика и прогноза добычи за </span>
-    <DatePicker
-      style={{  width: 100, marginLeft: 10 }} 
-      type="month"
-      value={month}
-      onChange={setMonth}
-    />
-  </>)
+  return (<div style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', paddingLeft: 52}}>
+    <div>
+      <span>Данные графика и прогноза добычи за</span>
+      <DatePicker
+        style={{  width: 64, margin: 10, marginLeft: 4 }} 
+        type="month"
+        value={month}
+        onChange={setMonth}
+        size="xs"
+        form="brick"
+      />
+      <Button label="Заполнить" size="xs"/>
+    </div>
+    <div >
+      <Button label="Загрузить" size="xs" style={{ margin: 10 }} view="ghost"/>
+      <Button label="Сохранить" size="xs" style={{ margin: 10 }} view="secondary"/>
+    </div>
+  </div>)
 }
 
 export default Header
