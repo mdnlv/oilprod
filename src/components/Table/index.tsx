@@ -5,6 +5,7 @@ import moment from 'moment'
 import data from '../../store/02.json'
 import useStore, {StoreType} from '../../store'
 
+import { Button } from '@consta/uikit/Button'
 const defaultColDef = {
   flex: 1,
   minWidth: 40,
@@ -18,21 +19,34 @@ const defaultColDef = {
     view: 'brand',
     align: 'right',
   },
-  cellStyle: { whiteSpace: 'pre' }
+  cellStyle: { whiteSpace: 'pre' },
 }
 
 const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 80,
   editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '2px solid #ccd9e0'  } }, 
 ...data.Partitions.map((item) => ({field: item.Id.toString(), headerName: item.Name, minWidth: 80,
   children: [
-    item.PlanItems && {field: 'plan0', headerName: 'график без НГПД', headerTooltip: 'график без НГПД', 
+    item.PlanItems && {field: 'plan0', headerName: 'график без НГПД', headerTooltip: 'график без НГПД',
+      headerGroupComponent:  ({ displayName }) => {
+        return (
+          <div className='custom-header ag-header-group-cell-label ag-sticky-label'>
+            <span className='ag-header-group-text'>{displayName }</span>
+            <Button label="+" size="xs" view="clear"/>
+          </div>
+        )}, 
       children: [
         {field: `plan0-${item.Id}-0`, headerName: ''}, 
         {field: `plan0-${item.Id}-1`, headerName: ''}
       ],
-      headerComponent: (displayName) => <><span>{displayName}</span><button>+</button></>
     }, 
     item.PlanItems && {field: 'plan1', headerName: 'график без НГПД',
+      headerGroupComponent:  ({ displayName }) => {
+        return (
+          <div className='custom-header ag-header-group-cell-label ag-sticky-label'>
+            <span className='ag-header-group-text'>{displayName }</span>
+            <Button label="+" size="xs" view="clear"/>
+          </div>
+        )}, 
       children: [
         {field: `plan1-${item.Id}-0`, headerName: ''}, 
         {field: `plan1-${item.Id}-1`, headerName: ''}
