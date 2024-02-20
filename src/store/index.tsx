@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
-
+// + возможность добавлять (пока из кода)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const names = [
   {

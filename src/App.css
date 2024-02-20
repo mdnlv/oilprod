@@ -72,3 +72,8 @@
 .border-top {
   border-top: 2px solid #ccd9e0 !important;
 }
+
+.ag-cell-not-inline-editing {
+  line-height: 1 !important;
+  padding-left: 3px !important;
+}

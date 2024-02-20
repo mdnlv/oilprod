@@ -18,10 +18,10 @@ const Header: React.FC = () => {
         size="xs"
         form="brick"
       />
-      <Button label="Заполнить" size="xs"/>
     </div>
     <div >
-      <Button label="Загрузить" size="xs" style={{ margin: 10 }} view="ghost"/>
+      <Button label="Графики" size="xs"/>
+      <Button label="Фильтры" size="xs" style={{ margin: 10 }} view="ghost"/>
       <Button label="Сохранить" size="xs" style={{ margin: 10 }} view="secondary"/>
     </div>
   </div>)

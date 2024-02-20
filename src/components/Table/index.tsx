@@ -4,11 +4,10 @@ import { AgGridReact } from 'ag-grid-react'
 import moment from 'moment'
 import data from '../../store/02.json'
 import useStore, {StoreType} from '../../store'
-import { Button } from '@consta/uikit/Button'
 
 const defaultColDef = {
   flex: 1,
-  minWidth: 40,
+  minWidth: 50,
   resizable: true,
   suppressMovable: true,
   fontSize: 8,
@@ -26,12 +25,11 @@ const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left'
   editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '2px solid #ccd9e0'  } }, 
 ...data.Partitions.map((item) => ({field: item.Id.toString(), headerName: item.Name, minWidth: 80,
   children: [
-    item.PlanItems && {field: 'plan0', headerName: 'график без НГПД', headerTooltip: 'график без НГПД',
+    item.PlanItems && {field: 'plan0', headerName: 'график', headerTooltip: 'график',
       headerGroupComponent:  ({ displayName }) => {
         return (
           <div className='custom-header ag-header-group-cell-label ag-sticky-label'>
             <span className='ag-header-group-text'>{displayName }</span>
-            <Button label="+" size="xs" view="clear"/>
           </div>
         )}, 
       children: [
@@ -39,34 +37,27 @@ const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left'
         {field: `plan0-${item.Id}-1`, headerName: ''}
       ],
     }, 
-    item.PlanItems && {field: 'plan1', headerName: 'график без НГПД',
-      headerGroupComponent:  ({ displayName }) => {
-        return (
-          <div className='custom-header ag-header-group-cell-label ag-sticky-label'>
-            <span className='ag-header-group-text'>{displayName }</span>
-            <Button label="+" size="xs" view="clear"/>
-          </div>
-        )}, 
-      children: [
-        {field: `plan1-${item.Id}-0`, headerName: ''}, 
-        {field: `plan1-${item.Id}-1`, headerName: ''}
-      ]}, 
-    item.FactItems && {field: 'fact0', headerName: 'факт без НГПД',
+    item.FactItems && {field: 'fact0', headerName: 'факт',
       children: [
         {field: `fact0-${item.Id}-0`, headerName: ''}, 
         {field: `fact0-${item.Id}-1`, headerName: ''}
       ]},
-    item.FactItems && {field: 'fact1', headerName: 'факт без НГПД',
+    {field: `sumPlan-${item.Id}`, minWidth: 90,  headerName: '\nплан!', cellStyle: {whiteSpace: 'pre'},
+      headerGroupComponent:  ({ displayName }) => {
+        return (
+          <div className='custom-header ag-header-group-cell-label ag-sticky-label' style={{flexDirection: 'column'}}>
+            <div className='ag-header-group-text'>итого</div>
+            <div className='ag-header-group-text'>{displayName}</div>
+          </div>
+        )}, 
       children: [
-        {field: `fact1-${item.Id}-0`, headerName: ''}, 
-        {field: `fact1-${item.Id}-1`, headerName: ''}
+        {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#dbe4ea' }}
+      ]
+    }, 
+    {field: `sumFact-${item.Id}`, minWidth: 90, headerName: 'итого\nфакт', 
+      children: [
+        {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#dbe4ea', borderRight: '2px solid #ccd9e0' }}
       ]},
-    {field: `sumPlan-${item.Id}`, minWidth: 90, headerName: 'итого план', children: [
-      {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#dbe4ea' }}
-    ]}, 
-    {field: `sumFact-${item.Id}`, minWidth: 90, headerName: 'итого факт', children: [
-      {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#dbe4ea', borderRight: '2px solid #ccd9e0' }}
-    ]},
   ]}))]
 
 const Table: React.FC = () => {
@@ -101,11 +92,11 @@ const Table: React.FC = () => {
       data.Partitions.map((itemCol) => {
         itemCol.PlanItems.map((itemRow) => {
           const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
-          rowNode.setDataValue(`plan0-${itemCol.Id}-0`, '*')
+          rowNode.setDataValue(`plan0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
         })
         itemCol.FactItems.map((itemRow) => {
           const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
-          rowNode.setDataValue(`fact0-${itemCol.Id}-0`, '*')
+          rowNode.setDataValue(`fact0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
         })
       })
     }, 500)
@@ -124,6 +115,7 @@ const Table: React.FC = () => {
           'border-top': (params) => params.data?.day === 'ИТОГО:\nмер-тий',
         }}
         enableCellChangeFlash={true}
+        rowHeight={42}
       />
     </div>
   )
