@@ -23,35 +23,36 @@ const defaultColDef = {
 
 const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 80,
   editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '2px solid #ccd9e0'  } }, 
-...data.Partitions.map((item) => ({field: item.Id.toString(), headerName: item.Name, minWidth: 80,
-  children: [
-    item.PlanItems && {field: 'plan0', headerName: 'график', headerTooltip: 'график',
-      headerGroupComponent:  ({ displayName }) => {
-        return (
-          <div className='custom-header ag-header-group-cell-label ag-sticky-label'>
-            <span className='ag-header-group-text'>{displayName }</span>
-          </div>
-        )}, 
-      children: [
-        {field: `plan0-${item.Id}-0`, headerName: ''}, 
-        {field: `plan0-${item.Id}-1`, headerName: ''}
-      ],
-    }, 
-    item.FactItems && {field: 'fact0', headerName: 'факт',
-      children: [
-        {field: `fact0-${item.Id}-0`, headerName: ''}, 
-        {field: `fact0-${item.Id}-1`, headerName: ''}
-      ]},
-    {field: `sumPlan-${item.Id}`, headerName: 'итого\nплан',
-      children: [
-        {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#dbe4ea'}}
-      ]
-    }, 
-    {field: `sumFact-${item.Id}`, headerName: 'итого\nфакт', 
-      children: [
-        {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#dbe4ea', borderRight: '2px solid #ccd9e0' }}
-      ]},
-  ]}))]
+...data.Partitions.map((item) => {
+ 
+  const children = []
+  const colors = {'LightBlue':'rgb(223, 237, 246)','LightGreen':'rgb(207, 248, 228)'}
+  
+  item.PlanItems.length > 0 && children.push({field: 'plan0', headerName: 'график', headerTooltip: 'график',
+    children: [
+      {field: `plan0-${item.Id}-0`, headerName: ''}, 
+      {field: `plan0-${item.Id}-1`, headerName: ''}
+    ]
+  })
+  item.FactItems.length > 0 && children.push({field: 'fact0', headerName: 'факт',
+    children: [
+      {field: `fact0-${item.Id}-0`, headerName: ''}, 
+      {field: `fact0-${item.Id}-1`, headerName: ''}
+    ]
+  })
+  return ({field: item.Id.toString(), headerName: item.Name, minWidth: 80, borderRight: '2px solid #ccd9e0',
+    children: [...children,
+      {field: `sumPlan-${item.Id}`, headerName: 'итого\nплан',
+        children: [
+          {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: colors[item.Color]}}
+        ]
+      }, 
+      {field: `sumFact-${item.Id}`, headerName: 'итого\nфакт', 
+        children: [
+          {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: colors[item.Color], borderRight: '2px solid #ccd9e0' }}
+        ]},
+    ]})
+})]
 
 const Table: React.FC = () => {
   const gridRef = useRef(null)
@@ -69,9 +70,9 @@ const Table: React.FC = () => {
     const temp = [...Array(days)].map((_, day) => {
       const obj: {id: number, day: string} = { id: day,  day: (day+1).toString() } 
       data.Partitions.map((field) => {
-        if(field.DailySum[day][0] || field.DailySum[day][1]) 
+        if(field.DailySum[day] && (field.DailySum[day][0] || field.DailySum[day][1])) 
           obj[`sumPlanChild-${field.Id}-0`] = (field.DailySum[day][0] ?? '') + '\n' + (field.DailySum[day][1] ?? '')
-        if(field.DailySum[day][2] || field.DailySum[day][3]) 
+        if(field.DailySum[day] && (field.DailySum[day][2] || field.DailySum[day][3]))
           obj[`sumFactChild-${field.Id}-0`] = (field.DailySum[day][2] ?? '' )+ '\n' + (field.DailySum[day][3] ?? '')
       })
       return obj
@@ -85,11 +86,11 @@ const Table: React.FC = () => {
       data.Partitions.map((itemCol) => {
         itemCol.PlanItems.map((itemRow) => {
           const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
-          rowNode.setDataValue(`plan0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
+          itemRow?.Name &&rowNode.setDataValue(`plan0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
         })
         itemCol.FactItems.map((itemRow) => {
           const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
-          rowNode.setDataValue(`fact0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
+          itemRow?.Name && rowNode.setDataValue(`fact0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
         })
       })
     }, 500)
