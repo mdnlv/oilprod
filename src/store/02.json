@@ -8423,7 +8423,7 @@
       "Id": 38,
       "Name": "Итого добыча(т)",
       "OptId": 100000000200022,
-      "Color": "LightGreen",
+      "Color": "LightGreenRed",
       "PlanItems": [],
       "FactItems": [],
       "DailySum": [
@@ -8620,13 +8620,13 @@
     {
       "Id": 44,
       "Name": "КЦ",
-      "Color": "LightGreen",
+      "Color": "LightGreenRed",
       "PlanItems": [],      "FactItems": [],      "DailySum": [],      "PartitionSum": []
     },
     {
       "Id": 46,
       "Name": "МЭ",
-      "Color": "LightGreen",
+      "Color": "LightGreenRed",
       "PlanItems": [],      "FactItems": [],      "DailySum": [],      "PartitionSum": []
     },
     {

@@ -26,7 +26,11 @@ const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left'
 ...data.Partitions.map((item) => {
  
   const children = []
-  const colors = {'LightBlue':'rgb(223, 237, 246)','LightGreen':'rgb(207, 248, 228)'}
+  const colors = {
+    'LightBlue': {left:'rgb(223, 237, 246)', right: 'rgb(223, 237, 246)'},
+    'LightGreen': {left: 'rgb(207, 248, 228)', right: 'rgb(207, 248, 228)'},
+    'LightGreenRed': {left: 'rgb(207, 248, 228)', right: 'rgb(248, 215, 207)'}
+  }
   
   item.PlanItems.length > 0 && children.push({field: 'plan0', headerName: 'график', headerTooltip: 'график',
     children: [
@@ -44,12 +48,12 @@ const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left'
     children: [...children,
       {field: `sumPlan-${item.Id}`, headerName: 'итого\nплан',
         children: [
-          {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: colors[item.Color]}}
+          {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].left : '#fff'}}
         ]
       }, 
       {field: `sumFact-${item.Id}`, headerName: 'итого\nфакт', 
         children: [
-          {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: colors[item.Color], borderRight: '2px solid #ccd9e0' }}
+          {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].right : '#fff', borderRight: '2px solid #ccd9e0' }}
         ]},
     ]})
 })]
