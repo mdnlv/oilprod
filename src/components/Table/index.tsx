@@ -7,7 +7,7 @@ import useStore, {StoreType} from '../../store'
 
 const defaultColDef = {
   flex: 1,
-  minWidth: 50,
+  minWidth: 60,
   resizable: true,
   suppressMovable: true,
   fontSize: 8,
@@ -42,19 +42,12 @@ const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left'
         {field: `fact0-${item.Id}-0`, headerName: ''}, 
         {field: `fact0-${item.Id}-1`, headerName: ''}
       ]},
-    {field: `sumPlan-${item.Id}`, minWidth: 90,  headerName: '\nплан!', cellStyle: {whiteSpace: 'pre'},
-      headerGroupComponent:  ({ displayName }) => {
-        return (
-          <div className='custom-header ag-header-group-cell-label ag-sticky-label' style={{flexDirection: 'column'}}>
-            <div className='ag-header-group-text'>итого</div>
-            <div className='ag-header-group-text'>{displayName}</div>
-          </div>
-        )}, 
+    {field: `sumPlan-${item.Id}`, headerName: 'итого\nплан',
       children: [
-        {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#dbe4ea' }}
+        {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#dbe4ea'}}
       ]
     }, 
-    {field: `sumFact-${item.Id}`, minWidth: 90, headerName: 'итого\nфакт', 
+    {field: `sumFact-${item.Id}`, headerName: 'итого\nфакт', 
       children: [
         {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: '#dbe4ea', borderRight: '2px solid #ccd9e0' }}
       ]},

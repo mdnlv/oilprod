@@ -144,9 +144,20 @@ const names = [
 ]
 
 
+type Ngpd = {
+  label: string;
+  id: 'yes' | 'no' | 'all'
+};
+
 export type StoreType = {
   month: Date;
   setMonth: (Date) => void;
+
+  ngpd: Ngpd;
+  setNgpd: (Ngpd) => void;
+
+  chart: boolean;
+  changeChart: () => void;
 }
 
 export type Items = {
@@ -187,9 +198,18 @@ export type OilType = {
   CompanyName: string
 }
 
-const useStore = create<StoreType>()(devtools((set) => ({
+const useStore = create<StoreType>()(devtools((set, get) => ({
   month: new Date(),
   setMonth: (newMonth) => set(() => ({ month: newMonth })),
+
+  ngpd: {
+    label: 'Без НГПД',
+    id: 'no',
+  },
+  setNgpd: (newNgpd) => set(() => ({ ngpd: newNgpd })),
+
+  chart: false,
+  changeChart: () => set({chart: !get().chart}),
 }), {enabled: true, name: 'MyStore'}))
 
 export default useStore

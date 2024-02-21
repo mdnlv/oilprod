@@ -8,6 +8,7 @@
     "@ag-grid-community/styles": "^30.0.0",
     "@bem-react/classname": "^1.6.0",
     "@consta/ag-grid-adapter": "^3.0.0",
+    "@consta/charts": "^1.0.0",
     "@consta/header": "^3.0.0",
     "@consta/uikit": "^5.0.3",
     "@testing-library/jest-dom": "^5.14.1",

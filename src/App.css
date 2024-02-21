@@ -66,7 +66,12 @@
 
 .ag-text-field-input-wrapper > input  {
   margin: -10px !important;
-  margin-top: -2px !important;
+  margin-top: 10px !important;
+  
+}
+
+.ag-cell-edit-wrapper::after {
+  height: 0px !important;
 }
 
 .border-top {
@@ -76,4 +81,9 @@
 .ag-cell-not-inline-editing {
   line-height: 1 !important;
   padding-left: 3px !important;
+}
+
+.ag-header-group-text {
+  white-space: pre !important;
+  line-height: 1.1 !important;
 }
