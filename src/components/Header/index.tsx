@@ -3,6 +3,7 @@ import { DatePicker } from '@consta/uikit/DatePicker'
 import { Button } from '@consta/uikit/Button'
 import { Select } from '@consta/uikit/Select'
 import useStore, {StoreType} from '../../store'
+import { FieldGroup } from '@consta/uikit/FieldGroup'
 
 const Header: React.FC = () => {
   const month = useStore((state : StoreType) => state.month)
@@ -43,23 +44,26 @@ const Header: React.FC = () => {
         ]}
         value={ngpd}
         onChange={setNgpd}
-        style={{ margin: 20, width: 100, marginLeft:0  }} 
+        style={{ width: 100, marginRight: 10  }} 
         size="xs"
       />
-      <Button 
-        label="Таблица" 
-        size="xs" 
-        style={{ margin: 20, marginLeft:0, marginRight: 10 }} 
-        view={chart ? 'secondary' : 'primary'} 
-        onClick={changeChart}
-      />
-      <Button 
-        label="Графики"
-        size="xs"
-        style={{ margin: 20, marginLeft: 0 }}
-        view={!chart ? 'secondary' : 'primary'}
-        onClick={changeChart}
-      />
+
+      <FieldGroup size="xs"  style={{ marginRight: 10  }} >
+        <Button 
+          label="Таблица" 
+          size="xs" 
+          style={{ marginLeft:0}} 
+          view={chart ? 'secondary' : 'primary'} 
+          onClick={changeChart}
+        />
+        <Button 
+          label="Графики"
+          size="xs"
+          style={{ marginLeft: 0 }}
+          view={!chart ? 'secondary' : 'primary'}
+          onClick={changeChart}
+        />
+      </FieldGroup>
     </div>
   </div>)
 }
