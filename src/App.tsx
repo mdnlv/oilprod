@@ -11,17 +11,18 @@ import MultiSelect from './components/MultiSelect'
 
 function App() {
   const chart = useStore((state : StoreType) => state.chart)
+  const filter = useStore((state : StoreType) => state.filter)
   return (
     <Theme preset={presetGpnDefault} style={{height: '100%'}}>
       <Layout style={{  height: '100%'}} direction="row">
-        <Layout flex={1} style={{  height: '100%'}}>
-          <MultiSelect />
+        <Layout flex={filter ? 1 : 0} style={{height: '100%', background: '#dfedf6'}}>
+          {filter && <MultiSelect />}
         </Layout>
-        <Layout flex={6} style={{  height: '100%'}} direction="column">
+        <Layout flex={7} style={{  height: '100%'}} direction="column">
           <Layout flex={1} style={{background: '#ecf1f4', width: '100%', flex: 1, alignItems: 'center' }}>
             <Header />
           </Layout>
-          <Layout flex={10} style={{ width: '100%' }}>
+          <Layout flex={13} style={{ width: '100%' }}>
             {chart ? <Charts/> :<Table />}
           </Layout>
         </Layout>

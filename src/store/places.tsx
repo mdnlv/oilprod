@@ -1,4 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { create } from 'zustand'
+import { devtools } from 'zustand/middleware'
+
+/*
 const names = [
   {
     'id': 1,
@@ -159,132 +162,154 @@ const names = [
     'total': true
   }
 ]
+*/
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type Places = {
   id: number;
   name: string;
+  select: boolean;
   wells: Array<{
     id: number;
     name: string;
   }>
 };
 
-const places: Places[] = [
-  {
-    id: 0,
-    name: 'ЦДНГ-1',
-    wells: [
-      {
-        id: 0,
-        name: 'Холмогорское'
-      },
-      {
-        id: 1,
-        name: 'Карамовское'
-      },
-      {
-        id: 2,
-        name: 'Пограничное'
-      },
-      {
-        id: 3,
-        name: 'Отдельное'
-      },
-      {
-        id: 4,
-        name: 'Южно-Ноябрьское'
-      },
-      {
-        id: 5,
-        name: 'Западно-Ноябрьское'
-      },
-      {
-        id: 6,
-        name: 'Спорышевское'
-      }
-    ]
-  },
-  {
-    id: 1,
-    name: 'ЦДНГ-2',
-    wells: [
-      {
-        id: 0,
-        name: 'Восточно-Пякутинское'
-      },
-      {
-        id: 1,
-        name: 'Крайнее'
-      },
-      {
-        id: 2,
-        name: 'Суторминское'
-      },
-    ]
-  },
-  {
-    id: 2,
-    name: 'ЦДНГ-3',
-    wells: [
-      {
-        id: 0,
-        name: 'Сугмутское'
-      },
-      {
-        id: 1,
-        name: 'Муравленковское'
-      },
-      {
-        id: 2,
-        name: 'Северо-Янгтинское'
-      },
-      {
-        id: 3,
-        name: 'Северо-Пямалияхское'
-      },
-      {
-        id: 4,
-        name: 'Умсейское+Южно-Пурпейское'
-      },
-    ]
-  },
-  {
-    id: 3,
-    name: 'ЦДНГ-7',
-    wells: [
-      {
-        id: 0,
-        name: 'Вынгапуровское'
-      },
-      {
-        id: 1,
-        name: 'Новогоднее'
-      },
-      {
-        id: 2,
-        name: 'Ярайнерское'
-      }
-    ]
-  },
-  {
-    id: 4,
-    name: 'ЦДНГ-01',
-    wells: [
-      {
-        id: 0,
-        name: 'Еты-Пуровское'
-      },
-      {
-        id: 1,
-        name: 'Валынтойское'
-      },
-      {
-        id: 2,
-        name: 'Вынгаяхинское'
-      }
-    ]
-  }
-]
+export type PlacesStoreType = {
+  places: Places[],
+  setFilterHeader: (number) => void;
+}
 
-export {places}
+const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
+  places: [
+    {
+      id: 0,
+      name: 'ЦДНГ-1',
+      select: true,
+      wells: [
+        {
+          id: 0,
+          name: 'Холмогорское'
+        },
+        {
+          id: 1,
+          name: 'Карамовское'
+        },
+        {
+          id: 2,
+          name: 'Пограничное'
+        },
+        {
+          id: 3,
+          name: 'Отдельное'
+        },
+        {
+          id: 4,
+          name: 'Южно-Ноябрьское'
+        },
+        {
+          id: 5,
+          name: 'Западно-Ноябрьское'
+        },
+        {
+          id: 6,
+          name: 'Спорышевское'
+        }
+      ]
+    },
+    {
+      id: 1,
+      name: 'ЦДНГ-2',
+      select: true,
+      wells: [
+        {
+          id: 0,
+          name: 'Восточно-Пякутинское'
+        },
+        {
+          id: 1,
+          name: 'Крайнее'
+        },
+        {
+          id: 2,
+          name: 'Суторминское'
+        },
+      ]
+    },
+    {
+      id: 2,
+      name: 'ЦДНГ-3',
+      select: true,
+      wells: [
+        {
+          id: 0,
+          name: 'Сугмутское'
+        },
+        {
+          id: 1,
+          name: 'Муравленковское'
+        },
+        {
+          id: 2,
+          name: 'Северо-Янгтинское'
+        },
+        {
+          id: 3,
+          name: 'Северо-Пямалияхское'
+        },
+        {
+          id: 4,
+          name: 'Умсейское+Южно-Пурпейское'
+        },
+      ]
+    },
+    {
+      id: 3,
+      name: 'ЦДНГ-7',
+      select: true,
+      wells: [
+        {
+          id: 0,
+          name: 'Вынгапуровское'
+        },
+        {
+          id: 1,
+          name: 'Новогоднее'
+        },
+        {
+          id: 2,
+          name: 'Ярайнерское'
+        }
+      ]
+    },
+    {
+      id: 4,
+      name: 'ЦДНГ-01',
+      select: true,
+      wells: [
+        {
+          id: 0,
+          name: 'Еты-Пуровское'
+        },
+        {
+          id: 1,
+          name: 'Валынтойское'
+        },
+        {
+          id: 2,
+          name: 'Вынгаяхинское'
+        }
+      ]
+    }
+  ],
+  setFilterHeader: (id) => set(() => 
+    ({ places: get().places.map(item => 
+      item.id !== id ? item 
+        : {
+          id: item.id,
+          name: item.name,
+          wells: item.wells,
+          select: !item.select
+        })})),
+}), {enabled: true, name: 'PlacesStore'}))
+
+export {useStore}

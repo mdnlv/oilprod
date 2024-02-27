@@ -15,6 +15,9 @@ export type StoreType = {
 
   chart: boolean;
   changeChart: () => void;
+
+  filter: boolean;
+  changeFilter: () => void;
 }
 
 export type Items = {
@@ -67,6 +70,9 @@ const useStore = create<StoreType>()(devtools((set, get) => ({
 
   chart: false,
   changeChart: () => set({chart: !get().chart}),
+
+  filter: false,
+  changeFilter: () => set({filter: !get().filter}),
 }), {enabled: true, name: 'MyStore'}))
 
 export default useStore

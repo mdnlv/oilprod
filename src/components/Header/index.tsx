@@ -4,6 +4,7 @@ import { Button } from '@consta/uikit/Button'
 import { Select } from '@consta/uikit/Select'
 import useStore, {StoreType} from '../../store'
 import { FieldGroup } from '@consta/uikit/FieldGroup'
+import { IconFilter } from '@consta/icons/IconFilter'
 
 const Header: React.FC = () => {
   const month = useStore((state : StoreType) => state.month)
@@ -15,18 +16,23 @@ const Header: React.FC = () => {
   const chart = useStore((state : StoreType) => state.chart)
   const changeChart = useStore((state : StoreType) => state.changeChart)
 
+  // const filter = useStore((state : StoreType) => state.filter)
+  const changeFilter = useStore((state : StoreType) => state.changeFilter)
+
   return (<div style={{
     display: 'flex', 
     flexDirection: 'row', 
     width: '100%', 
     justifyContent: 'space-between',
-    alignItems: 'center', 
-    paddingLeft: 92 
+    alignItems: 'center',
   }}>
-    <div >
-      <span>Данные графика и прогноза добычи за</span>
+    <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+      <div style={{width: 84, textAlign: 'center'}}>
+        <Button label="Фильтр" view="ghost" iconRight={IconFilter} onlyIcon size="s" onClick={changeFilter}/>
+      </div>
+      <div>Данные графика и прогноза добычи за</div>
       <DatePicker
-        style={{  width: 64, margin: 10, marginLeft: 4 }} 
+        style={{  width: 63, margin: 10, marginLeft: 4 }} 
         type="month"
         value={month}
         onChange={setMonth}
