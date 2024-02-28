@@ -1,10 +1,13 @@
-import React, {useEffect, useRef, useState} from 'react'
+/* eslint-disable react/display-name */
+import React, {memo, useEffect, useRef, useState} from 'react'
 import { agGridAdapter } from '@consta/ag-grid-adapter/agGridAdapter'
 import { AgGridReact } from 'ag-grid-react'
 import moment from 'moment'
 import data from '../../store/test.json'
 import useStore, {StoreType} from '../../store'
-
+import { Button } from '@consta/uikit/Button'
+import { IconCopy } from '@consta/icons/IconCopy'
+import { IconOpenInNew } from '@consta/icons/IconOpenInNew'
 
 const defaultColDef = {
   flex: 1,
@@ -21,6 +24,60 @@ const defaultColDef = {
   },
   cellStyle: { whiteSpace: 'pre' },
 }
+
+
+
+const cellRenderer = (props) => {
+  const imageForMood = (mood: string) =>
+    'https://www.ag-grid.com/example-assets/smileys/' +
+    (mood === 'Happy' ? 'happy.png' : 'sad.png')
+
+  //const mood = useMemo(() => imageForMood(props.value), [props.value])
+
+  console.log(props.value)
+  return <div style={{display: 'flex', flexDirection: 'column'}}>
+    <div>Вынгаяхинское</div>
+    <div>174</div>
+    <div>30</div>
+  </div>
+}
+
+const cellEditor = memo(() => {
+  const refContainer = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    refContainer.current?.focus()
+  }, [])
+
+  return (
+    <div
+      ref={refContainer}
+      style={{
+        border: '1px solid grey',
+        backgroundColor: '#e6e6e6',
+        padding: 15,
+        display: 'inline-block',
+      }}
+      tabIndex={1} // important - without this the key presses wont be caught
+    >
+      <div style={{display: 'flex', flexDirection: 'column'}}>
+        <select>
+          <option disabled>Выберите месторождение</option>
+          <option value="Чебурашка">Вынгаяхинское</option>
+          <option selected value="Крокодил Гена">Муравленковское</option>
+          <option value="Шапокляк">Суторминское</option>
+        </select>
+        <input value={'174'}/>
+        <input value={'30'}/>
+        <div style={{display: 'flex', flexDirection: 'row', marginTop: 8}}>
+          <Button size="xs" label="Скопировать" view="clear" iconLeft={IconCopy} />
+          <Button size="xs" label="Переместить" view="clear" iconLeft={IconOpenInNew} />
+          <Button size="xs" label="Сохранить" style={{marginLeft: 7}}/>
+        </div>
+      </div>
+    </div>
+  )
+})
+
 
 const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 80,
   editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '2px solid #ccd9e0'  } }, 
@@ -53,11 +110,20 @@ const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left'
         ]
       }, 
       {field: `sumFact-${item.Id}`, headerName: 'итого\nфакт', 
+
         children: [
-          {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].right : '#fff', borderRight: '2px solid #ccd9e0' }}
+          {field: `sumFactChild-${item.Id}-0`,
+            cellRenderer: cellRenderer,
+            cellEditor: cellEditor,
+            cellEditorPopup: true, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].right : '#fff', borderRight: '2px solid #ccd9e0' }}
         ]},
     ]})
 })]
+
+
+
+
+
 
 const Table: React.FC = () => {
   const gridRef = useRef(null)

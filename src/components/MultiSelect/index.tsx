@@ -13,11 +13,11 @@ const MultiSelect: React.FC = () => {
   const itemClick = (headerId, id) => setFilter(headerId, id)
 
   return (
-    <Layout flex={7} style={{ height: '100%', borderRight: '2px solid #dfedf6'}} direction="column">
-      <Layout flex={1} style={{alignItems: 'center', paddingLeft: 16}}>
+    <Layout flex={7} style={{ height: '100%', borderRight: '2px solid #bacada'}} direction="column">
+      <Layout flex={1} style={{alignItems: 'center', paddingLeft: 22}}>
         Месторождения
       </Layout> 
-      <Layout flex={13} direction="column" style={{ paddingLeft: 16, paddingRight: 16}}>
+      <Layout flex={13} direction="column" style={{ paddingLeft: 22, paddingRight: 16}}>
         {places.map(item => 
           <div key={item.id} style={{flexDirection: 'column', marginBottom: 24}}>
             <Checkbox 
@@ -27,7 +27,7 @@ const MultiSelect: React.FC = () => {
               size="s" 
               onChange={()=>headerItemClick(item.id)}
             />
-            <div style={{paddingLeft: 16}}>
+            <div style={{paddingLeft: 20}}>
               {item.wells.map(el => <Checkbox 
                 key={item.id+'-'+el.id}
                 label={el.name} 

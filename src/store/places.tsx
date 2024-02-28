@@ -111,7 +111,7 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
         },
         {
           id: 4,
-          name: 'Умсейское+Южно-Пурпейское',
+          name: 'Умсейское + Южно-Пурпейское',
           select: true
         },
       ]
