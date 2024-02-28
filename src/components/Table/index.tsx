@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react'
 import { agGridAdapter } from '@consta/ag-grid-adapter/agGridAdapter'
 import { AgGridReact } from 'ag-grid-react'
 import moment from 'moment'
-import data from '../../store/02.json'
+import data from '../../store/test.json'
 import useStore, {StoreType} from '../../store'
 
 

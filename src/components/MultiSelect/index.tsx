@@ -1,15 +1,16 @@
 import React from 'react'
 import { Checkbox } from '@consta/uikit/Checkbox'
-import { CheckboxGroup } from '@consta/uikit/CheckboxGroup'
 import { useStore, PlacesStoreType } from '../../store/places'
 import { Layout } from '@consta/uikit/Layout'
 
 const MultiSelect: React.FC = () => {
   const places = useStore((state : PlacesStoreType) => state.places)
   const setFilterHeader = useStore((state : PlacesStoreType) => state.setFilterHeader)
+  const setFilter = useStore((state : PlacesStoreType) => state.setFilter)
+
 
   const headerItemClick = (id) => setFilterHeader(id)
-  // const itemClick = () => {}
+  const itemClick = (headerId, id) => setFilter(headerId, id)
 
   return (
     <Layout flex={7} style={{ height: '100%', borderRight: '2px solid #dfedf6'}} direction="column">
@@ -26,13 +27,16 @@ const MultiSelect: React.FC = () => {
               size="s" 
               onChange={()=>headerItemClick(item.id)}
             />
-            <CheckboxGroup
-              items={item.wells}
-              getItemLabel={(i) => i.name}
-              name={'CheckboxGroup'}
-              style={{paddingLeft: 16}}
-              size="s"
-            />
+            <div style={{paddingLeft: 16}}>
+              {item.wells.map(el => <Checkbox 
+                key={item.id+'-'+el.id}
+                label={el.name} 
+                checked={el.select} 
+                style={{marginBottom: 12, color: '#eee'}} 
+                size="s" 
+                onChange={()=>itemClick(item.id, el.id)}
+              />)}
+            </div>
           </div> 
         )}
       </Layout>
