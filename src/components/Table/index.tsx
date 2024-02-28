@@ -8,6 +8,8 @@ import useStore, {StoreType} from '../../store'
 import { Button } from '@consta/uikit/Button'
 import { IconCopy } from '@consta/icons/IconCopy'
 import { IconOpenInNew } from '@consta/icons/IconOpenInNew'
+//import { IconClose } from '@consta/icons/IconClose'
+import { Text } from '@consta/uikit/Text'
 
 const defaultColDef = {
   flex: 1,
@@ -25,13 +27,7 @@ const defaultColDef = {
   cellStyle: { whiteSpace: 'pre' },
 }
 
-
-
 const cellRenderer = (props) => {
-  const imageForMood = (mood: string) =>
-    'https://www.ag-grid.com/example-assets/smileys/' +
-    (mood === 'Happy' ? 'happy.png' : 'sad.png')
-
   //const mood = useMemo(() => imageForMood(props.value), [props.value])
 
   console.log(props.value)
@@ -60,16 +56,27 @@ const cellEditor = memo(() => {
       tabIndex={1} // important - without this the key presses wont be caught
     >
       <div style={{display: 'flex', flexDirection: 'column'}}>
-        <select>
+        <div style={{
+          display: 'flex', 
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          marginBottom: 12, 
+          alignItems: 'flex-start'
+        }}>
+          <Text size="xs" view="linkMinor" weight="semibold">Рост потенциала простоя</Text>
+          <Text size="xs" view="brand" weight="semibold">2 февраля</Text>
+          {/*<Button size="xs" label="Скопировать" view="clear" iconLeft={IconClose} onlyIcon/>*/}
+        </div>
+        <select  style={{marginBottom: 4}}>
           <option disabled>Выберите месторождение</option>
           <option value="Чебурашка">Вынгаяхинское</option>
           <option selected value="Крокодил Гена">Муравленковское</option>
           <option value="Шапокляк">Суторминское</option>
         </select>
-        <input value={'174'}/>
-        <input value={'30'}/>
+        <input value={'174'}  style={{marginBottom: 4}}/>
+        <input value={'30'}  style={{marginBottom: 4}}/>
         <div style={{display: 'flex', flexDirection: 'row', marginTop: 8}}>
-          <Button size="xs" label="Скопировать" view="clear" iconLeft={IconCopy} />
+          <Button size="xs" label="Скопировать" view="clear" iconLeft={IconCopy}/>
           <Button size="xs" label="Переместить" view="clear" iconLeft={IconOpenInNew} />
           <Button size="xs" label="Сохранить" style={{marginLeft: 7}}/>
         </div>
@@ -119,11 +126,6 @@ const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left'
         ]},
     ]})
 })]
-
-
-
-
-
 
 const Table: React.FC = () => {
   const gridRef = useRef(null)

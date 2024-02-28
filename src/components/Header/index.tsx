@@ -5,6 +5,7 @@ import { Select } from '@consta/uikit/Select'
 import useStore, {StoreType} from '../../store'
 import { FieldGroup } from '@consta/uikit/FieldGroup'
 import { IconFilter } from '@consta/icons/IconFilter'
+import { Text } from '@consta/uikit/Text'
 
 const Header: React.FC = () => {
   const month = useStore((state : StoreType) => state.month)
@@ -30,7 +31,8 @@ const Header: React.FC = () => {
       <div style={{width: 84, textAlign: 'center'}}>
         <Button label="Фильтр" view="ghost" iconRight={IconFilter} onlyIcon size="s" onClick={changeFilter}/>
       </div>
-      <div>Данные графика и прогноза добычи за</div>
+      <Text size="s">Данные графика и прогноза добычи за</Text>
+      
       <DatePicker
         style={{  width: 63, margin: 10, marginLeft: 4 }} 
         type="month"
