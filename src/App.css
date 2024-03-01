@@ -40,12 +40,12 @@
 .oneh { background-color: '#457' }
 
 .ag-header-group-cell[aria-colspan="10"] {
-  border-right: 2px solid #ccd9e0;
+  border-right: 3px solid #ccd9e0;
 
 }
 
 .ag-header-group-cell[aria-colindex$="1"] {
-  border-right: 2px solid #ccd9e0;
+  border-right: 3px solid #ccd9e0;
 }
 
 .ag-header-group-cell[aria-colindex$="1"] .ag-header-cell-resize  {

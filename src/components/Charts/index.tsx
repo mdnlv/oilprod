@@ -4,40 +4,30 @@ import { Line } from '@consta/charts/Line'
 type Item = { Date: string; scales: number, country: string };
 
 const colorMap: { [key: string]: string } = {
-  'Austria': '#ff7514',
-  'Canada': '#ad4800',
-  'France': '#ca3a27',
-  'Germany': '#470d0b',
-  'Japan': '#ffc0cb',
-  'Netherlands': '#ffd88a',
-  'New Zealand': '#b39929',
-  'Spain': '#c5e384',
-  'Sweden': '#8c4566',
-  'Switzerland': '#924e7d',
-  'United Kingdom': '#905d5d',
-  'United States': '#a2a2d0',
+  'Итого добыча': '#ad4800',
+  'Потенциал простоя': '#924e7d',
 }
 
 const data: Item[] =  [
   {
     Date: '2010-01',
-    scales: 1998,
-    country: 'Canada'
+    scales: 19998,
+    country: 'Итого добыча'
   },
   {
-    Date: '2010-02',
-    scales: 1850,
-    country: 'Switzerland'
+    Date: '2011-02',
+    scales: 18560,
+    country: 'Потенциал простоя'
   },
   {
     Date: '2009-01',
-    scales: 1898,
-    country: 'Canada'
+    scales: 21898,
+    country: 'Итого добыча'
   },
   {
     Date: '2009-02',
-    scales: 1750,
-    country: 'Switzerland'
+    scales: 21750,
+    country: 'Потенциал простоя'
   },
 ]
 

@@ -52,7 +52,7 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
         },
         {
           id: 5,
-          name: 'Западно-Ноябрьское',
+          name: 'Средне-Тульское',
           select: true
         },
         {
@@ -140,7 +140,7 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
     },
     {
       id: 4,
-      name: 'ЦДНГ-01',
+      name: 'ЦДНГ-10',
       select: true,
       wells: [
         {

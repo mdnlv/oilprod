@@ -16,7 +16,7 @@ const MultiSelect: React.FC = () => {
     <Layout flex={7} style={{ height: '100%', borderRight: '2px solid #bacada'}} direction="column">
       <Layout direction="column" style={{ marginTop: 22, paddingLeft: 18, paddingRight: 16}}>
         {places.map(item => 
-          <div key={item.id} style={{flexDirection: 'column', marginBottom: 24}}>
+          <div key={item.id} style={{flexDirection: 'column', marginBottom: 18}}>
             <Checkbox 
               label={item.name} 
               checked={item.select} 
@@ -24,7 +24,7 @@ const MultiSelect: React.FC = () => {
               size="xs" 
               onChange={()=>headerItemClick(item.id)}
             />
-            <div style={{paddingLeft: 20}}>
+            <div style={{flexDirection: 'column', paddingLeft: 20}}>
               {item.wells.map(el => <Checkbox 
                 key={item.id+'-'+el.id}
                 label={el.name} 

@@ -29,12 +29,11 @@ const defaultColDef = {
 
 const cellRenderer = (props) => {
   //const mood = useMemo(() => imageForMood(props.value), [props.value])
-
   console.log(props.value)
   return <div style={{display: 'flex', flexDirection: 'column'}}>
-    <div>Вынгаяхинское</div>
+    {/*<div>Вынгаяхинское</div>
     <div>174</div>
-    <div>30</div>
+<div>30</div>*/}
   </div>
 }
 
@@ -58,27 +57,21 @@ const cellEditor = memo(() => {
       <div style={{display: 'flex', flexDirection: 'column'}}>
         <div style={{
           display: 'flex', 
-          flexDirection: 'column',
+          flexDirection: 'row',
           justifyContent: 'space-between',
-          marginBottom: 12, 
+          marginBottom: 2, 
           alignItems: 'flex-start'
         }}>
-          <Text size="xs" view="linkMinor" weight="semibold">Рост потенциала простоя</Text>
-          <Text size="xs" view="brand" weight="semibold">2 февраля</Text>
+          <Text size="xs" view="linkMinor" weight="semibold">ЗБС(т/сут)</Text>
+          <Text size="xs" view="linkMinor" style={{marginBottom: 12}}>2 февраля</Text>
           {/*<Button size="xs" label="Скопировать" view="clear" iconLeft={IconClose} onlyIcon/>*/}
         </div>
-        <select  style={{marginBottom: 4}}>
-          <option disabled>Выберите месторождение</option>
-          <option value="Чебурашка">Вынгаяхинское</option>
-          <option selected value="Крокодил Гена">Муравленковское</option>
-          <option value="Шапокляк">Суторминское</option>
-        </select>
-        <input value={'174'}  style={{marginBottom: 4}}/>
+        <input value={'1895 Сугмутское'}  style={{marginBottom: 4}}/>
         <input value={'30'}  style={{marginBottom: 4}}/>
-        <div style={{display: 'flex', flexDirection: 'row', marginTop: 8}}>
+        <div style={{display: 'flex', flexDirection: 'row', marginTop: 4}}>
           <Button size="xs" label="Скопировать" view="clear" iconLeft={IconCopy}/>
           <Button size="xs" label="Переместить" view="clear" iconLeft={IconOpenInNew} />
-          <Button size="xs" label="Сохранить" style={{marginLeft: 7}}/>
+          {/*<Button size="xs" label="Сохранить" style={{marginLeft: 7}}/>*/}
         </div>
       </div>
     </div>
@@ -87,7 +80,7 @@ const cellEditor = memo(() => {
 
 
 const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 80,
-  editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '2px solid #ccd9e0'  } }, 
+  editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '3px solid #ccd9e0'  } }, 
 ...data.Partitions.map((item) => {
  
   const children = []
@@ -106,10 +99,13 @@ const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left'
   item.FactItems.length > 0 && children.push({field: 'fact0', headerName: 'факт',
     children: [
       {field: `fact0-${item.Id}-0`, headerName: ''}, 
-      {field: `fact0-${item.Id}-1`, headerName: ''}
+      {field: `fact0-${item.Id}-1`, headerName: '',
+        cellRenderer: cellRenderer,
+        cellEditor: cellEditor,
+        cellEditorPopup: true}
     ]
   })
-  return ({field: item.Id.toString(), headerName: item.Name, minWidth: 80, borderRight: '2px solid #ccd9e0',
+  return ({field: item.Id.toString(), headerName: item.Name, minWidth: 80, borderRight: '3px solid #ccd9e0',
     children: [...children,
       {field: `sumPlan-${item.Id}`, headerName: 'итого\nплан',
         children: [
@@ -119,10 +115,7 @@ const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left'
       {field: `sumFact-${item.Id}`, headerName: 'итого\nфакт', 
 
         children: [
-          {field: `sumFactChild-${item.Id}-0`,
-            cellRenderer: cellRenderer,
-            cellEditor: cellEditor,
-            cellEditorPopup: true, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].right : '#fff', borderRight: '2px solid #ccd9e0' }}
+          {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].right : '#fff', borderRight: '3px solid #ccd9e0' }}
         ]},
     ]})
 })]
