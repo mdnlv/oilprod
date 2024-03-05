@@ -22,143 +22,255 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
   places: [
     {
       id: 0,
+      part: 1,
       name: 'ЦДНГ-1',
       select: true,
       wells: [
         {
           id: 0,
           name: 'Холмогорское',
-          select: true
+          select: true,
+          code: 'MS0227'
         },
         {
           id: 1,
           name: 'Карамовское',
-          select: true
+          select: true,
+          code: 'MS0253'
         },
         {
           id: 2,
           name: 'Пограничное',
-          select: true
+          select: true,
+          code: 'MS0283'
         },
         {
           id: 3,
           name: 'Отдельное',
-          select: true
+          select: true,
+          code: 'MS0335'
         },
         {
           id: 4,
           name: 'Южно-Ноябрьское',
-          select: true
+          select: true,
+          code: 'MS0404'
         },
         {
           id: 5,
-          name: 'Средне-Тульское',
-          select: true
+          name: 'Средне-Итурское',
+          select: true,
+          code: 'MS0558'
         },
         {
           id: 6,
           name: 'Спорышевское',
-          select: true
+          select: true,
+          code: 'MS0228'
+        },
+        {
+          id: 7,
+          name: 'Источное',
+          select: true,
+          code: 'MS0603'
         }
       ]
     },
     {
       id: 1,
+      part: 2,
       name: 'ЦДНГ-2',
       select: true,
       wells: [
         {
           id: 0,
           name: 'Восточно-Пякутинское',
-          select: true
+          select: true,
+          code: 'MS0255'
         },
         {
           id: 1,
           name: 'Крайнее',
-          select: true
+          select: true,
+          code: 'MS0256'
         },
         {
           id: 2,
           name: 'Суторминское',
-          select: true
+          select: true,
+          code: 'MS0254'
+        },
+        {
+          id: 3,
+          name: 'Западно-Суторминско',
+          select: true,
+          code: 'MS0602'
+        },
+        {
+          id: 4,
+          name: 'Новое',
+          select: true,
+          code: 'MS0235'
         },
       ]
     },
     {
       id: 2,
+      part: 2,
       name: 'ЦДНГ-3',
       select: true,
       wells: [
         {
           id: 0,
           name: 'Сугмутское',
-          select: true
+          select: true,
+          code: 'MS0611'
         },
         {
           id: 1,
           name: 'Муравленковское',
-          select: true
+          select: true,
+          code: 'MS0237'
         },
         {
           id: 2,
           name: 'Северо-Янгтинское',
-          select: true
+          select: true,
+          code: 'MS0988'
         },
         {
           id: 3,
           name: 'Северо-Пямалияхское',
-          select: true
+          select: true,
+          code: 'MS0452'
         },
         {
           id: 4,
           name: 'Умсейское + Южно-Пурпейское',
-          select: true
+          select: true,
+          code: 'MS0562'
+        },
+        {
+          id: 5,
+          name: 'Малопякутинское',
+          select: true,
+          code: 'MS0551'
+        },
+        {
+          id: 6,
+          name: 'Пякутинское',
+          select: true,
+          code: 'MS0300'
+        },
+        {
+          id: 7,
+          name: 'Романовское',
+          select: true,
+          code: 'MS0613'
         },
       ]
     },
     {
       id: 3,
+      part: 1,
       name: 'ЦДНГ-7',
       select: true,
       wells: [
         {
           id: 0,
           name: 'Вынгапуровское',
-          select: true
+          select: true,
+          code: 'MS0313'
         },
         {
           id: 1,
           name: 'Новогоднее',
-          select: true
+          select: true,
+          code: 'MS0380'
         },
         {
           id: 2,
           name: 'Ярайнерское',
-          select: true
+          select: true,
+          code: 'MS0328'
         }
       ]
     },
     {
       id: 4,
+      part: 2,
       name: 'ЦДНГ-10',
       select: true,
       wells: [
         {
           id: 0,
           name: 'Еты-Пуровское',
-          select: true
+          select: true,
+          code: 'MS0563'
         },
         {
           id: 1,
           name: 'Валынтойское',
-          select: true
+          select: true,
+          code: 'MS0935'
         },
         {
           id: 2,
           name: 'Вынгаяхинское',
-          select: true
+          select: true,
+          code: 'MS0286'
         }
       ]
+    },
+    {
+      id: 5,
+      part: 1,
+      name: 'НГДП ОГМ',
+      select: true,
+      wells: [
+        {
+          id: 0,
+          name: 'Воргенское',
+          select: true,
+          code: 'MS0931'
+        },
+        {
+          id: 1,
+          name: 'Западно-Чатылькинское',
+          select: true,
+          code: 'MS0640'
+        },
+        {
+          id: 2,
+          name: 'Равнинное',
+          select: true,
+          code: 'MS0178'
+        },
+        {
+          id: 3,
+          name: 'Холмистое',
+          select: true,
+          code: 'MS0728'
+        },
+        {
+          id: 4,
+          name: 'Чатылькинское',
+          select: true,
+          code: 'MS0849'
+        },
+        {
+          id: 5,
+          name: 'Южно-Удмуртское',
+          select: true,
+          code: 'MS0282'
+        },
+        {
+          id: 6,
+          name: 'Западно-Ноябрьское',
+          select: true,
+          code: 'MS0589'
+        }
+      ]      
     }
   ],
   setFilterHeader: (id) => set(() => 
