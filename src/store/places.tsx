@@ -1,20 +1,28 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
-type Places = {
+
+export type Wells = {
+  id: number;
+  name: string;
+};
+
+export type Places = {
+  id: number;
+  name: string;
+  select: boolean;
+};
+
+export type Centers = {
   id: number;
   name: string;
   select: boolean;
   open: boolean;
-  wells: Array<{
-    id: number;
-    name: string;
-    select: boolean;
-  }>
+  wells: Array<Places>
 };
 
 export type PlacesStoreType = {
-  places: Places[],
+  places: Centers[],
   setFilterHeader: (number) => void;
   setFilter: (arg1: number, arg2: number) => void;
   changeFilterOpen: (number) => void;
@@ -281,6 +289,7 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
       ]      
     }
   ],
+
   setFilterHeader: (id) => set(() => 
     ({ places: get().places.map(item => 
       item.id !== id ? item 
@@ -290,7 +299,10 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
           wells: item.wells,
           select: !item.select,
           open: item.open
-        })})),
+        }
+    )})
+  ),
+
   changeFilterOpen: (id) => set(() => 
     ({ places: get().places.map(item => 
       item.id !== id ? item 
@@ -300,7 +312,10 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
           wells: item.wells,
           select: item.select,
           open: !item.open
-        })})),
+        }
+    )})
+  ),
+
   setFilter: (headerId, id) => set(() => 
     ({ places: get().places.map(item => 
       item.id !== headerId ? item 
@@ -315,7 +330,9 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
             }),
           select: item.select,
           open: item.open
-        })}))
+        }
+    )})
+  )
 }), {enabled: true, name: 'PlacesStore'}))
 
 export {useStore}
