@@ -5,6 +5,7 @@ type Places = {
   id: number;
   name: string;
   select: boolean;
+  open: boolean;
   wells: Array<{
     id: number;
     name: string;
@@ -16,6 +17,7 @@ export type PlacesStoreType = {
   places: Places[],
   setFilterHeader: (number) => void;
   setFilter: (arg1: number, arg2: number) => void;
+  changeFilterOpen: (number) => void;
 }
 
 const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
@@ -25,6 +27,7 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
       part: 1,
       name: 'ЦДНГ-1',
       select: true,
+      open: false,
       wells: [
         {
           id: 0,
@@ -81,6 +84,7 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
       part: 2,
       name: 'ЦДНГ-2',
       select: true,
+      open: false,
       wells: [
         {
           id: 0,
@@ -119,6 +123,7 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
       part: 2,
       name: 'ЦДНГ-3',
       select: true,
+      open: false,
       wells: [
         {
           id: 0,
@@ -175,6 +180,7 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
       part: 1,
       name: 'ЦДНГ-7',
       select: true,
+      open: false,
       wells: [
         {
           id: 0,
@@ -201,6 +207,7 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
       part: 2,
       name: 'ЦДНГ-10',
       select: true,
+      open: false,
       wells: [
         {
           id: 0,
@@ -227,6 +234,7 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
       part: 1,
       name: 'НГДП ОГМ',
       select: true,
+      open: false,
       wells: [
         {
           id: 0,
@@ -280,7 +288,18 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
           id: item.id,
           name: item.name,
           wells: item.wells,
-          select: !item.select
+          select: !item.select,
+          open: item.open
+        })})),
+  changeFilterOpen: (id) => set(() => 
+    ({ places: get().places.map(item => 
+      item.id !== id ? item 
+        : {
+          id: item.id,
+          name: item.name,
+          wells: item.wells,
+          select: item.select,
+          open: !item.open
         })})),
   setFilter: (headerId, id) => set(() => 
     ({ places: get().places.map(item => 
@@ -294,7 +313,8 @@ const useStore = create<PlacesStoreType>()(devtools((set, get) => ({
               name: el.name,
               select: !el.select
             }),
-          select: item.select
+          select: item.select,
+          open: item.open
         })}))
 }), {enabled: true, name: 'PlacesStore'}))
 
