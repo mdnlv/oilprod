@@ -14,8 +14,8 @@ const Header: React.FC = () => {
   const ngpd = useStore((state : StoreType) => state.ngpd)
   const setNgpd = useStore((state : StoreType) => state.setNgpd)
   
-  const chart = useStore((state : StoreType) => state.chart)
-  const changeChart = useStore((state : StoreType) => state.changeChart)
+  const tab = useStore((state : StoreType) => state.tab)
+  const changeTab = useStore((state : StoreType) => state.changeTab)
 
   // const filter = useStore((state : StoreType) => state.filter)
   const changeFilter = useStore((state : StoreType) => state.changeFilter)
@@ -61,15 +61,22 @@ const Header: React.FC = () => {
           label="Таблица" 
           size="xs" 
           style={{ marginLeft:0}} 
-          view={chart ? 'secondary' : 'primary'} 
-          onClick={changeChart}
+          view={tab === 'table' ? 'secondary' : 'primary'} 
+          onClick={()=>changeTab('table')}
+        />
+        <Button 
+          label="Доклад" 
+          size="xs" 
+          style={{ marginLeft:0}} 
+          view={tab === 'report' ? 'secondary' : 'primary'} 
+          onClick={()=>changeTab('report')}
         />
         <Button 
           label="Графики"
           size="xs"
           style={{ marginLeft: 0 }}
-          view={!chart ? 'secondary' : 'primary'}
-          onClick={changeChart}
+          view={tab === 'chart' ? 'secondary' : 'primary'}
+          onClick={()=>changeTab('chart')}
         />
       </FieldGroup>
     </div>

@@ -7,10 +7,22 @@ import { Layout } from '@consta/uikit/Layout'
 import Table from './components/Table'
 import Header from './components/Header'
 import Charts from './components/Charts'
+import Report from './components/Report'
 import MultiSelect from './components/MultiSelect'
 
+const renderSwitch = (tab) => {
+  switch(tab) {
+  case 'table':
+    return <Table/>
+  case 'chart':
+    return <Charts/>
+  case 'report':
+    return <Report/>
+  }
+}
+
 function App() {
-  const chart = useStore((state : StoreType) => state.chart)
+  const tab = useStore((state : StoreType) => state.tab)
   const filter = useStore((state : StoreType) => state.filter)
   return (
     <Theme preset={presetGpnDefault} style={{height: '100%'}}>
@@ -23,7 +35,7 @@ function App() {
             <Header />
           </Layout>
           <Layout flex={13} style={{ width: '100%' }}>
-            {chart ? <Charts/> :<Table />}
+            {renderSwitch(tab)}
           </Layout>
         </Layout>
       </Layout>

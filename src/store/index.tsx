@@ -6,6 +6,8 @@ type Ngpd = {
   id: 'yes' | 'no' | 'all'
 };
 
+type Tab = 'chart' | 'report' | 'table';
+
 export type StoreType = {
   month: Date;
   setMonth: (Date) => void;
@@ -13,8 +15,8 @@ export type StoreType = {
   ngpd: Ngpd;
   setNgpd: (Ngpd) => void;
 
-  chart: boolean;
-  changeChart: () => void;
+  tab: Tab;
+  changeTab: (Tab) => void;
 
   filter: boolean;
   changeFilter: () => void;
@@ -68,8 +70,8 @@ const useStore = create<StoreType>()(devtools((set, get) => ({
   },
   setNgpd: (newNgpd) => set(() => ({ ngpd: newNgpd })),
 
-  chart: false,
-  changeChart: () => set({chart: !get().chart}),
+  tab: 'table',
+  changeTab: (newTab) => set({tab: newTab}),
 
   filter: false,
   changeFilter: () => set({filter: !get().filter}),
