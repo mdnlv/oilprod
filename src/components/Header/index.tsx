@@ -6,6 +6,7 @@ import useStore, {StoreType} from '../../store'
 import { FieldGroup } from '@consta/uikit/FieldGroup'
 import { IconFilter } from '@consta/icons/IconFilter'
 import { Text } from '@consta/uikit/Text'
+import Files from '../Files'
 
 const Header: React.FC = () => {
   const month = useStore((state : StoreType) => state.month)
@@ -27,6 +28,8 @@ const Header: React.FC = () => {
     justifyContent: 'space-between',
     alignItems: 'center',
   }}>
+
+
     <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
       <div style={{width: 84, textAlign: 'center'}}>
         <Button label="Фильтр" view="ghost" iconRight={IconFilter} onlyIcon size="s" onClick={changeFilter}/>
@@ -43,6 +46,8 @@ const Header: React.FC = () => {
       />
     </div>
     <div style={{display: 'flex', flexDirection: 'row' }}>
+      <Files />
+    
       <Select
         placeholder="Выберите значение"
         items={[
@@ -52,7 +57,7 @@ const Header: React.FC = () => {
         ]}
         value={ngpd}
         onChange={setNgpd}
-        style={{ width: 100, marginRight: 10  }} 
+        style={{ width: 100, marginRight: 10,  marginLeft: 10}} 
         size="xs"
       />
 

@@ -3,7 +3,6 @@ import './App.css'
 import useStore, {StoreType} from './store'
 import { Theme, presetGpnDefault } from '@consta/uikit/Theme'
 import { Layout } from '@consta/uikit/Layout'
-
 import Table from './components/Table'
 import Header from './components/Header'
 import Charts from './components/Charts'
@@ -24,6 +23,7 @@ const renderSwitch = (tab) => {
 function App() {
   const tab = useStore((state : StoreType) => state.tab)
   const filter = useStore((state : StoreType) => state.filter)
+
   return (
     <Theme preset={presetGpnDefault} style={{height: '100%'}}>
       <Layout style={{  height: '100%'}} direction="row">

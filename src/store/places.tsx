@@ -1,7 +1,6 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
-
 export type Wells = {
   id: number;
   name: string;

@@ -1,27 +1,12 @@
+import moment from 'moment'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
-type Ngpd = {
-  label: string;
-  id: 'yes' | 'no' | 'all'
-};
-
-type Tab = 'chart' | 'report' | 'table';
-
-export type StoreType = {
+export type DataStoreType = {
   data: OilType | null;
-
-  month: Date;
-  setMonth: (Date) => void;
-
-  ngpd: Ngpd;
-  setNgpd: (Ngpd) => void;
-
-  tab: Tab;
-  changeTab: (Tab) => void;
-
-  filter: boolean;
-  changeFilter: () => void;
+  DailySumPlan: object;
+  DailySumFact: object;
+  setDailySum: (any) => void;
 }
 
 export type Items = {
@@ -62,23 +47,27 @@ export type OilType = {
   CompanyName: string
 }
 
-const useStore = create<StoreType>()(devtools((set, get) => ({
+function groupByDate(arr) {
+  const temp = arr.reduce((acc, item) => {
+    const date = moment(item.Day).format('D')
+    if (acc[date]) {
+      acc[date].push(item)
+    } else {
+      acc[date] = [item]
+    }
+    return acc
+  }, {})
+  return temp
+}
+
+const useDataStore = create<DataStoreType>()(devtools((set) => ({
   data: null,
+  DailySumPlan: {},
+  DailySumFact: {},
 
-  month: new Date(),
-  setMonth: (newMonth) => set(() => ({ month: newMonth })),
+  setDailySum: (data) => set(() => {
+    return { DailySumPlan: groupByDate(data.PlanItems),  DailySumFact: groupByDate(data.FactItems)}
+  }),
+}), {enabled: true, name: 'DataStore'}))
 
-  ngpd: {
-    label: 'Без НГПД',
-    id: 'no',
-  },
-  setNgpd: (newNgpd) => set(() => ({ ngpd: newNgpd })),
-
-  tab: 'table',
-  changeTab: (newTab) => set({tab: newTab}),
-
-  filter: false,
-  changeFilter: () => set({filter: !get().filter}),
-}), {enabled: true, name: 'MyStore'}))
-
-export default useStore
+export default useDataStore

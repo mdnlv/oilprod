@@ -5,11 +5,13 @@ import { AgGridReact } from 'ag-grid-react'
 import moment from 'moment'
 import data from '../../store/test.json'
 import useStore, {StoreType} from '../../store'
+
 import { Button } from '@consta/uikit/Button'
 import { IconCopy } from '@consta/icons/IconCopy'
 import { IconOpenInNew } from '@consta/icons/IconOpenInNew'
 //import { IconClose } from '@consta/icons/IconClose'
 import { Text } from '@consta/uikit/Text'
+import useDataStore, { DataStoreType } from '../../store/data'
 
 const defaultColDef = {
   flex: 1,
@@ -29,7 +31,6 @@ const defaultColDef = {
 
 const cellRenderer = (props) => {
   //const mood = useMemo(() => imageForMood(props.value), [props.value])
-  console.log(props.value)
   return <div style={{display: 'flex', flexDirection: 'column'}}>
     {/*<div>Вынгаяхинское</div>
     <div>174</div>
@@ -78,7 +79,6 @@ const cellEditor = memo(() => {
   )
 })
 
-
 const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 80,
   editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '3px solid #ccd9e0'  } }, 
 ...data.Partitions.map((item) => {
@@ -124,6 +124,9 @@ const Table: React.FC = () => {
   const gridRef = useRef(null)
   const days = moment(useStore((state : StoreType) => state.month)).daysInMonth()
   const [rowData, setRowData] = useState([])
+  const sumFact1 = useDataStore((state : DataStoreType) => state.DailySumFact)
+  const sumFact1 = useDataStore((state : DataStoreType) => state.DailySumPlan)
+  const setDailySum1 = useDataStore((state : DataStoreType) => state.setDailySum)
 
   const styleOptions = agGridAdapter({
     size: 's',
@@ -145,14 +148,16 @@ const Table: React.FC = () => {
     })
     temp.push({id: temp.length, day: 'ИТОГО:\nмер-тий'},{id: temp.length+1, day: 'Сум. прир.\nдеб. тн/сут.'},{id: temp.length+2, day: 'Накоп.\nдобыча, тн.'})
     setRowData(temp)
+    setDailySum1(data.Partitions[0])
+
   },[])
 
-  useEffect(()=>{
+  useEffect(() => {
     setTimeout(() => {
       data.Partitions.map((itemCol) => {
         itemCol.PlanItems.map((itemRow) => {
           const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
-          itemRow?.Name &&rowNode.setDataValue(`plan0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
+          itemRow?.Name && rowNode.setDataValue(`plan0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
         })
         itemCol.FactItems.map((itemRow) => {
           const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
