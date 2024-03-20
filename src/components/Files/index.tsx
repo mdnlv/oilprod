@@ -20,9 +20,18 @@ const Files: React.FC = () => {
       const url = 'http://localhost:3000/start.xls'
       const file = await (await fetch(url)).arrayBuffer()
       const wb = read(file)
-      
+      const keys = getKeyByValue(wb.Sheets?.report, 'Ввод новых ГС с МГРП')
+      const fact = keys.map(item => ({
+        date: wb.Sheets?.report['F'+item.slice(1)].w,
+        name: wb.Sheets?.report['G'+item.slice(1)].w,
+        shortName: wb.Sheets?.report['H'+item.slice(1)].w, 
+        oil: 11
+      }))
+      console.log(fact)
+
       console.log(wb.Sheets?.report)
       console.log(getKeyByValue(wb.Sheets?.report, 'Ввод новых ГС с МГРП'))
+
       //setWorkbook(wb)
     })() 
   }, [])

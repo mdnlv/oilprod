@@ -128,7 +128,6 @@ const Table: React.FC = () => {
   const sumPlan1 = useDataStore((state : DataStoreType) => state.DailySumPlan)
   //const setDailySum1 = useDataStore((state : DataStoreType) => state.setDailySum)
   
-  
   const styleOptions = agGridAdapter({
     size: 's',
     borderBetweenColumns: true,
