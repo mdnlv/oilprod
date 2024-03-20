@@ -125,34 +125,43 @@ const Table: React.FC = () => {
   const days = moment(useStore((state : StoreType) => state.month)).daysInMonth()
   const [rowData, setRowData] = useState([])
   const sumFact1 = useDataStore((state : DataStoreType) => state.DailySumFact)
-  const sumFact1 = useDataStore((state : DataStoreType) => state.DailySumPlan)
-  const setDailySum1 = useDataStore((state : DataStoreType) => state.setDailySum)
-
+  const sumPlan1 = useDataStore((state : DataStoreType) => state.DailySumPlan)
+  //const setDailySum1 = useDataStore((state : DataStoreType) => state.setDailySum)
+  
+  
   const styleOptions = agGridAdapter({
     size: 's',
     borderBetweenColumns: true,
     borderBetweenRows: true,
     headerView: 'clear',
   })
-
+  
   useEffect(()=>{
     const temp = [...Array(days)].map((_, day) => {
       const obj: {id: number, day: string} = { id: day,  day: (day+1).toString() } 
-      data.Partitions.map((field) => {
-        if(field.DailySum[day] && (field.DailySum[day][0] || field.DailySum[day][1])) 
-          obj[`sumPlanChild-${field.Id}-0`] = (field.DailySum[day][0] ?? '') + '\n' + (field.DailySum[day][1] ?? '')
-        if(field.DailySum[day] && (field.DailySum[day][2] || field.DailySum[day][3]))
-          obj[`sumFactChild-${field.Id}-0`] = (field.DailySum[day][2] ?? '' )+ '\n' + (field.DailySum[day][3] ?? '')
+        
+      data.Partitions.map((field, index) => { 
+        if(index === 0) {
+          if(sumPlan1[day + 1]) 
+            obj[`sumPlanChild-${field.Id}-0`] = sumPlan1[day+1].length + '\n' + sumPlan1[day +1].reduce((p,c) => p+c.OilRate, 0)
+          if(sumFact1[day+1])
+            obj[`sumFactChild-${field.Id}-0`] = sumFact1[day +1].length + '\n' + sumFact1[day +1].reduce((p,c) => p+c.OilRate, 0)
+        } else {
+          if(field.DailySum[day] && (field.DailySum[day][0] || field.DailySum[day][1])) 
+            obj[`sumPlanChild-${field.Id}-0`] = (field.DailySum[day][0] ?? '') + '\n' + (field.DailySum[day][1] ?? '')
+          if(field.DailySum[day] && (field.DailySum[day][2] || field.DailySum[day][3]))
+            obj[`sumFactChild-${field.Id}-0`] = (field.DailySum[day][2] ?? '' )+ '\n' + (field.DailySum[day][3] ?? '')
+        }
       })
+
       return obj
     })
     temp.push({id: temp.length, day: 'ИТОГО:\nмер-тий'},{id: temp.length+1, day: 'Сум. прир.\nдеб. тн/сут.'},{id: temp.length+2, day: 'Накоп.\nдобыча, тн.'})
     setRowData(temp)
-    setDailySum1(data.Partitions[0])
-
   },[])
-
+  
   useEffect(() => {
+    
     setTimeout(() => {
       data.Partitions.map((itemCol) => {
         itemCol.PlanItems.map((itemRow) => {

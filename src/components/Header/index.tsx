@@ -28,26 +28,27 @@ const Header: React.FC = () => {
     justifyContent: 'space-between',
     alignItems: 'center',
   }}>
-
-
-    <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-      <div style={{width: 84, textAlign: 'center'}}>
-        <Button label="Фильтр" view="ghost" iconRight={IconFilter} onlyIcon size="s" onClick={changeFilter}/>
+    <div style={{display: 'flex', flexDirection: 'row'}}>
+      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: 40}}>
+        <div style={{width: 84, textAlign: 'center'}}>
+          <Button label="Фильтр" view="ghost" iconRight={IconFilter} onlyIcon size="s" onClick={changeFilter}/>
+        </div>
+        <Text size="s">Данные графика и прогноза добычи за:</Text>
+        <DatePicker
+          style={{width: 63, margin: 10, marginLeft: 4 }} 
+          type="month"
+          value={month}
+          onChange={setMonth}
+          size="xs"
+          form="brick"
+        />
       </div>
-      <Text size="s">Данные графика и прогноза добычи за</Text>
-      
-      <DatePicker
-        style={{  width: 63, margin: 10, marginLeft: 4 }} 
-        type="month"
-        value={month}
-        onChange={setMonth}
-        size="xs"
-        form="brick"
-      />
+      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: 200}}>
+        <Text size="s" style={{marginRight: 10}}>Импорт:</Text>
+        <Files />
+      </div>
     </div>
     <div style={{display: 'flex', flexDirection: 'row' }}>
-      <Files />
-    
       <Select
         placeholder="Выберите значение"
         items={[
@@ -57,7 +58,7 @@ const Header: React.FC = () => {
         ]}
         value={ngpd}
         onChange={setNgpd}
-        style={{ width: 100, marginRight: 10,  marginLeft: 10}} 
+        style={{ width: 150, marginRight: 10,  marginLeft: 10}} 
         size="xs"
       />
 

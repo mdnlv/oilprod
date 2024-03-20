@@ -21,8 +21,8 @@ const Files: React.FC = () => {
       const file = await (await fetch(url)).arrayBuffer()
       const wb = read(file)
       
-      // console.log(wb.Sheets?.report)
-      // console.log(getKeyByValue(wb.Sheets?.report, 'Ввод новых ГС с МГРП'))
+      console.log(wb.Sheets?.report)
+      console.log(getKeyByValue(wb.Sheets?.report, 'Ввод новых ГС с МГРП'))
       //setWorkbook(wb)
     })() 
   }, [])

@@ -20,7 +20,7 @@
           "Day": "2024-02-11T00:00:00",
           "ShortName": "5408",
           "Name": "Крайнее 5408",
-          "OilRate": 30.0,
+          "OilRate": 90.0,
           "Status": 2,
           "IsForecast": false,
           "IsAddressless": false
@@ -35,7 +35,7 @@
           "Day": "2024-02-15T00:00:00",
           "ShortName": "174",
           "Name": "Вынгаяхинское 174",
-          "OilRate": 30.0,
+          "OilRate": 33.0,
           "Status": 2,
           "IsForecast": false,
           "IsAddressless": false
@@ -430,7 +430,7 @@
           "Day": "2024-02-28T00:00:00",
           "ShortName": "1068",
           "Name": "Вынгаяхинское 1068",
-          "OilRate": 20.0,
+          "OilRate": 90.0,
           "Status": 2,
           "IsForecast": false,
           "IsAddressless": false

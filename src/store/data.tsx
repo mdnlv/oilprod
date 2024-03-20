@@ -1,6 +1,7 @@
 import moment from 'moment'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+import testData from './test.json'
 
 export type DataStoreType = {
   data: OilType | null;
@@ -62,8 +63,8 @@ function groupByDate(arr) {
 
 const useDataStore = create<DataStoreType>()(devtools((set) => ({
   data: null,
-  DailySumPlan: {},
-  DailySumFact: {},
+  DailySumPlan: groupByDate(testData.Partitions[0].PlanItems),
+  DailySumFact: groupByDate(testData.Partitions[0].FactItems),
 
   setDailySum: (data) => set(() => {
     return { DailySumPlan: groupByDate(data.PlanItems),  DailySumFact: groupByDate(data.FactItems)}
