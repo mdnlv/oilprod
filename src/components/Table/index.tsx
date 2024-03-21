@@ -29,7 +29,7 @@ const defaultColDef = {
   cellStyle: { whiteSpace: 'pre' },
 }
 
-const cellRenderer = (props) => {
+const cellRenderer = () => {
   //const mood = useMemo(() => imageForMood(props.value), [props.value])
   return <div style={{display: 'flex', flexDirection: 'column'}}>
     {/*<div>Вынгаяхинское</div>
@@ -124,10 +124,10 @@ const Table: React.FC = () => {
   const gridRef = useRef(null)
   const days = moment(useStore((state : StoreType) => state.month)).daysInMonth()
   const [rowData, setRowData] = useState([])
-  const sumFact1 = useDataStore((state : DataStoreType) => state.DailySumFact)
   const sumPlan1 = useDataStore((state : DataStoreType) => state.DailySumPlan)
   //const setDailySum1 = useDataStore((state : DataStoreType) => state.setDailySum)
-  
+  const factItems1 = useDataStore((state : DataStoreType) => state.FactItems)
+
   const styleOptions = agGridAdapter({
     size: 's',
     borderBetweenColumns: true,
@@ -141,10 +141,13 @@ const Table: React.FC = () => {
         
       data.Partitions.map((field, index) => { 
         if(index === 0) {
+          console.log(factItems1)
           if(sumPlan1[day + 1]) 
             obj[`sumPlanChild-${field.Id}-0`] = sumPlan1[day+1].length + '\n' + sumPlan1[day +1].reduce((p,c) => p+c.OilRate, 0)
-          if(sumFact1[day+1])
-            obj[`sumFactChild-${field.Id}-0`] = sumFact1[day +1].length + '\n' + sumFact1[day +1].reduce((p,c) => p+c.OilRate, 0)
+
+          if(factItems1 && factItems1[day+1])
+            obj[`sumFactChild-${field.Id}-0`] = factItems1[day +1].length + '\n' + factItems1[day +1].reduce((p,c) => p+Number(c.oil), 0)
+
         } else {
           if(field.DailySum[day] && (field.DailySum[day][0] || field.DailySum[day][1])) 
             obj[`sumPlanChild-${field.Id}-0`] = (field.DailySum[day][0] ?? '') + '\n' + (field.DailySum[day][1] ?? '')
@@ -157,20 +160,29 @@ const Table: React.FC = () => {
     })
     temp.push({id: temp.length, day: 'ИТОГО:\nмер-тий'},{id: temp.length+1, day: 'Сум. прир.\nдеб. тн/сут.'},{id: temp.length+2, day: 'Накоп.\nдобыча, тн.'})
     setRowData(temp)
-  },[])
+  },[factItems1])
   
   useEffect(() => {
-    
     setTimeout(() => {
-      data.Partitions.map((itemCol) => {
+      data.Partitions.map((itemCol, index) => {
         itemCol.PlanItems.map((itemRow) => {
           const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
           itemRow?.Name && rowNode.setDataValue(`plan0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
         })
-        itemCol.FactItems.map((itemRow) => {
-          const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
-          itemRow?.Name && rowNode.setDataValue(`fact0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
-        })
+
+        if(index === 0) {
+          for (const key in factItems1) {
+            // console.log(itemRow)
+            const rowNode = gridRef.current!.api.getRowNode(Number(factItems1[key][0].date)-1)!
+            rowNode.setDataValue(`fact0-${itemCol.Id}-0`, factItems1[key][0].name+ '\n'+ factItems1[key][0].shortName + '\n' + factItems1[key][0].oil)
+          }
+
+        } else {
+          itemCol.FactItems.map((itemRow) => {
+            const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
+            itemRow?.Name && rowNode.setDataValue(`fact0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
+          })
+        }
       })
     }, 500)
   })
@@ -187,7 +199,7 @@ const Table: React.FC = () => {
         rowClassRules={{
           'border-top': (params) => params.data?.day === 'ИТОГО:\nмер-тий',
         }}
-        enableCellChangeFlash={true}
+        //enableCellChangeFlash={true}
         rowHeight={42}
       />
     </div>
