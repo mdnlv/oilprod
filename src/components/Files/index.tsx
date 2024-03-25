@@ -1,12 +1,12 @@
 import React, { useEffect }  from 'react'
 //import useStore, {StoreType} from '../../store'
-import { Button } from '@consta/uikit/Button'
 import { FileField } from '@consta/uikit/FileField'
 import { read } from 'xlsx'
 import useDataStore, { DataStoreType } from '../../store/data'
+import { Attachment } from '@consta/uikit/Attachment'
 
 function getKeyByValue(object, value) {
-  console.log(object, value)
+  // console.log(object, value)
   return Object.keys(object).filter(key => (object[key].v + '').indexOf(value) > -1)
 }
 
@@ -89,11 +89,39 @@ const Files: React.FC = () => {
     justifyContent: 'space-between',
     alignItems: 'center',
   }}>
-    <FileField  id="FileFieldWithText" style={{ width: 200 }} onChange={() => {
+    <FileField  id="FileFieldWithText1"  onChange={() => {
       one()
       //setFile(e.target.files[0]?.name)
     }}>
-      {(props) => <Button {...props} size="xs" label="Запуски скважин" view='ghost'/>}
+      {(props) =>       
+        <Attachment {...props} style={{ width: 138, marginRight: -8 }}
+          withPictogram
+          fileName="Запуски скважин"
+          fileExtension="xls"
+          size='xs'
+        />}
+    </FileField>
+    <FileField  id="FileFieldWithText2" onChange={() => {
+      one()
+      //setFile(e.target.files[0]?.name)
+    }}>
+      {(props) => <Attachment {...props} style={{ width: 138, marginRight: -8 }}
+        withPictogram
+        fileName="Остановки скважин"
+        fileExtension="x"
+        size='xs'
+      />}
+    </FileField>
+    <FileField  id="FileFieldWithText3" onChange={() => {
+      one()
+      //setFile(e.target.files[0]?.name)
+    }}>
+      {(props) => <Attachment {...props} style={{ width: 138, marginRight: -8 }}
+        withPictogram
+        fileName="Расчёт графика добычи"
+        fileExtension="x"
+        size='xs'
+      />}
     </FileField>
   </div>)
 }

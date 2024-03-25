@@ -79,47 +79,6 @@ const cellEditor = memo(() => {
   )
 })
 
-const columnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 80,
-  editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '3px solid #ccd9e0'  } }, 
-...data.Partitions.map((item) => {
- 
-  const children = []
-  const colors = {
-    'LightBlue': {left:'rgb(223, 237, 246)', right: 'rgb(223, 237, 246)'},
-    'LightGreen': {left: 'rgb(207, 248, 228)', right: 'rgb(207, 248, 228)'},
-    'LightGreenRed': {left: 'rgb(207, 248, 228)', right: 'rgb(248, 215, 207)'}
-  }
-  
-  item.PlanItems.length > 0 && children.push({field: 'plan0', headerName: 'график', headerTooltip: 'график',
-    children: [
-      {field: `plan0-${item.Id}-0`, headerName: ''}, 
-      {field: `plan0-${item.Id}-1`, headerName: ''}
-    ]
-  })
-  item.FactItems.length > 0 && children.push({field: 'fact0', headerName: 'факт',
-    children: [
-      {field: `fact0-${item.Id}-0`, headerName: ''}, 
-      {field: `fact0-${item.Id}-1`, headerName: '',
-        cellRenderer: cellRenderer,
-        cellEditor: cellEditor,
-        cellEditorPopup: true}
-    ]
-  })
-  return ({field: item.Id.toString(), headerName: item.Name, minWidth: 80, borderRight: '3px solid #ccd9e0',
-    children: [...children,
-      {field: `sumPlan-${item.Id}`, headerName: 'итого\nплан',
-        children: [
-          {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].left : '#fff'}}
-        ]
-      }, 
-      {field: `sumFact-${item.Id}`, headerName: 'итого\nфакт', 
-
-        children: [
-          {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].right : '#fff', borderRight: '3px solid #ccd9e0' }}
-        ]},
-    ]})
-})]
-
 const Table: React.FC = () => {
   const gridRef = useRef(null)
   const days = moment(useStore((state : StoreType) => state.month)).daysInMonth()
@@ -127,6 +86,76 @@ const Table: React.FC = () => {
   const sumPlan1 = useDataStore((state : DataStoreType) => state.DailySumPlan)
   //const setDailySum1 = useDataStore((state : DataStoreType) => state.setDailySum)
   const factItems1 = useDataStore((state : DataStoreType) => state.FactItems)
+  const [columnDefs, setColumnDefs] = useState([])
+
+  // Заголовки столбцов
+  
+  useEffect(()=>{
+
+    const tempColumnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 80,
+      editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '3px solid #ccd9e0'  } }, 
+    ...data.Partitions.map((item, index) => {
+   
+      const children = []
+      const colors = {
+        'LightBlue': {left:'rgb(223, 237, 246)', right: 'rgb(223, 237, 246)'},
+        'LightGreen': {left: 'rgb(207, 248, 228)', right: 'rgb(207, 248, 228)'},
+        'LightGreenRed': {left: 'rgb(207, 248, 228)', right: 'rgb(248, 215, 207)'}
+      }
+    
+      item.PlanItems.length > 0 && children.push({field: 'plan0', headerName: 'график', headerTooltip: 'график',
+        children: [
+          {field: `plan0-${item.Id}-0`, headerName: ''}, 
+          {field: `plan0-${item.Id}-1`, headerName: ''}
+        ]
+      })
+
+      if(index === 0) {
+        let temp = []
+        for (const i in factItems1) {
+          if(factItems1[i].length > temp.length) temp = factItems1[i]
+        }
+    
+        factItems1 && children.push({field: 'fact0', headerName: 'факт',
+          children: [...temp.map((_, i) =>
+            ({field: `fact0-${index}-${i}`, headerName: '',
+              // cellRenderer: cellRenderer,
+              // cellEditor: cellEditor,
+              // cellEditorPopup: true
+            })),
+          {field: `fact0-${index}-${temp.length}`, headerName: '',
+            // cellRenderer: cellRenderer,
+            // cellEditor: cellEditor,
+            // cellEditorPopup: true
+          }
+          ] 
+        })
+      } else {
+        item.FactItems.length > 0 && children.push({field: 'fact0', headerName: 'факт',
+          children: [
+            {field: `fact0-${item.Id}-0`, headerName: ''}, 
+            {field: `fact0-${item.Id}-1`, headerName: '',
+              cellRenderer: cellRenderer,
+              cellEditor: cellEditor,
+              cellEditorPopup: true}
+          ]})
+      }
+  
+      return ({field: item.Id.toString(), headerName: item.Name, minWidth: 80, borderRight: '3px solid #ccd9e0',
+        children: [...children,
+          {field: `sumPlan-${item.Id}`, headerName: 'итого\nплан',
+            children: [
+              {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].left : '#fff'}}
+            ]
+          }, 
+          {field: `sumFact-${item.Id}`, headerName: 'итого\nфакт', 
+            children: [
+              {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].right : '#fff', borderRight: '3px solid #ccd9e0' }}
+            ]},
+        ]})
+    })]
+    setColumnDefs(tempColumnDefs)
+  }, [factItems1])
 
   const styleOptions = agGridAdapter({
     size: 's',
@@ -134,14 +163,15 @@ const Table: React.FC = () => {
     borderBetweenRows: true,
     headerView: 'clear',
   })
-  
+
+  // Данные итоговых столбцов
   useEffect(()=>{
     const temp = [...Array(days)].map((_, day) => {
       const obj: {id: number, day: string} = { id: day,  day: (day+1).toString() } 
         
       data.Partitions.map((field, index) => { 
         if(index === 0) {
-          console.log(factItems1)
+          // console.log(factItems1)
           if(sumPlan1[day + 1]) 
             obj[`sumPlanChild-${field.Id}-0`] = sumPlan1[day+1].length + '\n' + sumPlan1[day +1].reduce((p,c) => p+c.OilRate, 0)
 
@@ -161,7 +191,8 @@ const Table: React.FC = () => {
     temp.push({id: temp.length, day: 'ИТОГО:\nмер-тий'},{id: temp.length+1, day: 'Сум. прир.\nдеб. тн/сут.'},{id: temp.length+2, day: 'Накоп.\nдобыча, тн.'})
     setRowData(temp)
   },[factItems1])
-  
+
+  // Данные основных столбцов
   useEffect(() => {
     setTimeout(() => {
       data.Partitions.map((itemCol, index) => {
@@ -171,12 +202,14 @@ const Table: React.FC = () => {
         })
 
         if(index === 0) {
+          console.log(factItems1)
           for (const key in factItems1) {
-            // console.log(itemRow)
-            const rowNode = gridRef.current!.api.getRowNode(Number(factItems1[key][0].date)-1)!
-            rowNode.setDataValue(`fact0-${itemCol.Id}-0`, factItems1[key][0].name+ '\n'+ factItems1[key][0].shortName + '\n' + factItems1[key][0].oil)
+            const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
+            factItems1[key].map((item, i) => {
+              console.log(`fact0-${index}-${i}`)
+              setTimeout(() => {rowNode.setDataValue(`fact0-${index}-${i}`, item.name+ '\n'+ item.shortName + '\n' + item.oil)}, 300)
+            })
           }
-
         } else {
           itemCol.FactItems.map((itemRow) => {
             const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
@@ -184,8 +217,8 @@ const Table: React.FC = () => {
           })
         }
       })
-    }, 500)
-  })
+    }, 1000)
+  }, [factItems1])
 
   return (
     <div className="ag-theme-quartz" style={{ height: '100%', width: '100%' }}>
@@ -196,6 +229,7 @@ const Table: React.FC = () => {
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
         headerHeight={1}
+        enableCellChangeFlash = {true}
         rowClassRules={{
           'border-top': (params) => params.data?.day === 'ИТОГО:\nмер-тий',
         }}

@@ -43,12 +43,11 @@ const Header: React.FC = () => {
           form="brick"
         />
       </div>
-      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: 200}}>
-        <Text size="s" style={{marginRight: 10}}>Импорт:</Text>
+    </div>
+    <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
         <Files />
       </div>
-    </div>
-    <div style={{display: 'flex', flexDirection: 'row' }}>
       <Select
         placeholder="Выберите значение"
         items={[
@@ -58,11 +57,11 @@ const Header: React.FC = () => {
         ]}
         value={ngpd}
         onChange={setNgpd}
-        style={{ width: 150, marginRight: 10,  marginLeft: 10}} 
+        style={{ width: 150, marginRight: 10,  marginLeft: 60}} 
         size="xs"
       />
 
-      <FieldGroup size="xs"  style={{ marginRight: 10  }} >
+      <FieldGroup size="xs" style={{ marginRight: 10  }}>
         <Button 
           label="Таблица" 
           size="xs" 
