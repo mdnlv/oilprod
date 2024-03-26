@@ -10,6 +10,11 @@
     "total": false
   },
   {
+    "id": 4,
+    "name": "ГРП(т/сут)",
+    "total": false
+  },
+  {
     "id": 3,
     "name": "Возврат(т/сут)",
     "total": false

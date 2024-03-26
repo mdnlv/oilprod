@@ -202,11 +202,9 @@ const Table: React.FC = () => {
         })
 
         if(index === 0) {
-          console.log(factItems1)
           for (const key in factItems1) {
             const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
             factItems1[key].map((item, i) => {
-              console.log(`fact0-${index}-${i}`)
               setTimeout(() => {rowNode.setDataValue(`fact0-${index}-${i}`, item.name+ '\n'+ item.shortName + '\n' + item.oil)}, 300)
             })
           }

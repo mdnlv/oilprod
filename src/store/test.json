@@ -735,6 +735,14 @@
       ]
     },
     {
+      "Id": 4,
+      "Name": "ГРП(т/сут)",
+      "PlanItems": [{}],
+      "FactItems": [{}],
+      "DailySum": [[null,null,null,null]],
+      "PartitionSum": [[null,null,null,null]]
+    },
+    {
       "Id": 3,
       "Name": "Возврат(т/сут)",
       "PlanItems": [{}],
