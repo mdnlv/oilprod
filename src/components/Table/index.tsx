@@ -1,17 +1,18 @@
 /* eslint-disable react/display-name */
-import React, {memo, useEffect, useRef, useState} from 'react'
+import React, { memo, useEffect, useRef, useState} from 'react'
 import { agGridAdapter } from '@consta/ag-grid-adapter/agGridAdapter'
 import { AgGridReact } from 'ag-grid-react'
 import moment from 'moment'
 import data from '../../store/test.json'
 import useStore, {StoreType} from '../../store'
 
-import { Button } from '@consta/uikit/Button'
+// import { Button } from '@consta/uikit/Button'
 import { IconCopy } from '@consta/icons/IconCopy'
 import { IconOpenInNew } from '@consta/icons/IconOpenInNew'
-//import { IconClose } from '@consta/icons/IconClose'
+// import { IconClose } from '@consta/icons/IconClose'
 import { Text } from '@consta/uikit/Text'
 import useDataStore, { DataStoreType } from '../../store/data'
+import { Button } from '@consta/uikit/Button'
 
 const defaultColDef = {
   flex: 1,
@@ -23,27 +24,27 @@ const defaultColDef = {
   tooltipShowDelay: 10,
   headerComponentParams: {
     transform: 'uppercase',
-    view: 'brand',
+    view: 'brand',  
     align: 'right',
   },
   cellStyle: { whiteSpace: 'pre' },
 }
 
-const cellRenderer = () => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const cellRenderer = (params: any) => {
   //const mood = useMemo(() => imageForMood(props.value), [props.value])
-  return <div style={{display: 'flex', flexDirection: 'column'}}>
-    {/*<div>Вынгаяхинское</div>
-    <div>174</div>
-<div>30</div>*/}
-  </div>
+  return <div style={{display: 'flex', flexDirection: 'column'}}>{params.value}</div>
 }
 
-const cellEditor = memo(() => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const cellEditor = memo((params: any) => {
   const refContainer = useRef<HTMLDivElement>(null)
   useEffect(() => {
     refContainer.current?.focus()
   }, [])
 
+  const values = params.value.split(/(\n)/)
+  console.log(values)
   return (
     <div
       ref={refContainer}
@@ -63,12 +64,12 @@ const cellEditor = memo(() => {
           marginBottom: 2, 
           alignItems: 'flex-start'
         }}>
-          <Text size="xs" view="linkMinor" weight="semibold">ЗБС(т/сут)</Text>
-          <Text size="xs" view="linkMinor" style={{marginBottom: 12}}>2 февраля</Text>
-          {/*<Button size="xs" label="Скопировать" view="clear" iconLeft={IconClose} onlyIcon/>*/}
+          {/*<Text size="xs" view="linkMinor" weight="semibold">ЗБС(т/сут)</Text>*/}
+          <Text size="xs" view="linkMinor" style={{marginBottom: 12}}>{params.data.day} февраля</Text>
+          {/*<Button size="xs" label="Скопировать" view="clear" iconLeft={IconClose} onlyIcon*/}
         </div>
-        <input value={'1895 Сугмутское'}  style={{marginBottom: 4}}/>
-        <input value={'30'}  style={{marginBottom: 4}}/>
+        <input value={values[2] + ' ' + values[0]}  style={{marginBottom: 4}}/>
+        <input value={values[4]}  style={{marginBottom: 4}}/>
         <div style={{display: 'flex', flexDirection: 'row', marginTop: 4}}>
           <Button size="xs" label="Скопировать" view="clear" iconLeft={IconCopy}/>
           <Button size="xs" label="Переместить" view="clear" iconLeft={IconOpenInNew} />
@@ -79,19 +80,18 @@ const cellEditor = memo(() => {
   )
 })
 
+
 const Table: React.FC = () => {
   const gridRef = useRef(null)
   const days = moment(useStore((state : StoreType) => state.month)).daysInMonth()
   const [rowData, setRowData] = useState([])
-  const sumPlan1 = useDataStore((state : DataStoreType) => state.DailySumPlan)
+  // const sumPlan1 = useDataStore((state : DataStoreType) => state.DailySumPlan)
   //const setDailySum1 = useDataStore((state : DataStoreType) => state.setDailySum)
   const factItems1 = useDataStore((state : DataStoreType) => state.FactItems)
   const [columnDefs, setColumnDefs] = useState([])
 
   // Заголовки столбцов
-  
-  useEffect(()=>{
-
+  useEffect(() => {
     const tempColumnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 80,
       editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '3px solid #ccd9e0'  } }, 
     ...data.Partitions.map((item, index) => {
@@ -110,36 +110,38 @@ const Table: React.FC = () => {
         ]
       })
 
-      if(index === 0) {
+      if(factItems1 && factItems1[item.Id]) {
         let temp = []
-        for (const i in factItems1) {
-          if(factItems1[i].length > temp.length) temp = factItems1[i]
+        for (const i in factItems1[item.Id]) {
+          if(factItems1[item.Id][i].length > temp.length) temp = factItems1[item.Id][i]
         }
     
-        factItems1 && children.push({field: 'fact0', headerName: 'факт',
+        factItems1[item.Id] && children.push({field: 'fact0', headerName: 'факт',
           children: [...temp.map((_, i) =>
             ({field: `fact0-${index}-${i}`, headerName: '',
-              // cellRenderer: cellRenderer,
-              // cellEditor: cellEditor,
-              // cellEditorPopup: true
+              cellRenderer: cellRenderer,
+              cellEditor: cellEditor,
+              cellEditorPopup: true
             })),
           {field: `fact0-${index}-${temp.length}`, headerName: '',
-            // cellRenderer: cellRenderer,
-            // cellEditor: cellEditor,
-            // cellEditorPopup: true
+            cellRenderer: cellRenderer,
+            cellEditor: cellEditor,
+            cellEditorPopup: true
           }
           ] 
         })
-      } else {
-        item.FactItems.length > 0 && children.push({field: 'fact0', headerName: 'факт',
-          children: [
-            {field: `fact0-${item.Id}-0`, headerName: ''}, 
-            {field: `fact0-${item.Id}-1`, headerName: '',
-              cellRenderer: cellRenderer,
-              cellEditor: cellEditor,
-              cellEditorPopup: true}
-          ]})
-      }
+      } 
+
+      // else {
+      //   item.FactItems.length > 0 && children.push({field: 'fact0', headerName: 'факт',
+      //     children: [
+      //       {field: `fact0-${item.Id}-0`, headerName: ''}, 
+      //       {field: `fact0-${item.Id}-1`, headerName: '',
+      //         cellRenderer: cellRenderer,
+      //         cellEditor: cellEditor,
+      //         cellEditorPopup: true}
+      //     ]})
+      // }
   
       return ({field: item.Id.toString(), headerName: item.Name, minWidth: 80, borderRight: '3px solid #ccd9e0',
         children: [...children,
@@ -169,21 +171,20 @@ const Table: React.FC = () => {
     const temp = [...Array(days)].map((_, day) => {
       const obj: {id: number, day: string} = { id: day,  day: (day+1).toString() } 
         
-      data.Partitions.map((field, index) => { 
-        if(index === 0) {
-          // console.log(factItems1)
-          if(sumPlan1[day + 1]) 
-            obj[`sumPlanChild-${field.Id}-0`] = sumPlan1[day+1].length + '\n' + sumPlan1[day +1].reduce((p,c) => p+c.OilRate, 0)
+      data.Partitions.map((field) => { 
+        // // console.log(factItems1)
+        // if(sumPlan1[day + 1]) 
+        //   obj[`sumPlanChild-${field.Id}-0`] = sumPlan1[day+1].length + '\n' + sumPlan1[day +1].reduce((p,c) => p+c.OilRate, 0)
 
-          if(factItems1 && factItems1[day+1])
-            obj[`sumFactChild-${field.Id}-0`] = factItems1[day +1].length + '\n' + factItems1[day +1].reduce((p,c) => p+Number(c.oil), 0)
+        if(factItems1 && factItems1[field.Id] && factItems1[field.Id][day+1])
+          obj[`sumFactChild-${field.Id}-0`] = factItems1[field.Id][day +1].length + '\n' + factItems1[field.Id][day +1].reduce((p,c) => p+Number(c.oil), 0)
 
-        } else {
-          if(field.DailySum[day] && (field.DailySum[day][0] || field.DailySum[day][1])) 
-            obj[`sumPlanChild-${field.Id}-0`] = (field.DailySum[day][0] ?? '') + '\n' + (field.DailySum[day][1] ?? '')
-          if(field.DailySum[day] && (field.DailySum[day][2] || field.DailySum[day][3]))
-            obj[`sumFactChild-${field.Id}-0`] = (field.DailySum[day][2] ?? '' )+ '\n' + (field.DailySum[day][3] ?? '')
-        }
+        // else {
+        //   if(field.DailySum[day] && (field.DailySum[day][0] || field.DailySum[day][1])) 
+        //     obj[`sumPlanChild-${field.Id}-0`] = (field.DailySum[day][0] ?? '') + '\n' + (field.DailySum[day][1] ?? '')
+        //   if(field.DailySum[day] && (field.DailySum[day][2] || field.DailySum[day][3]))
+        //     obj[`sumFactChild-${field.Id}-0`] = (field.DailySum[day][2] ?? '' )+ '\n' + (field.DailySum[day][3] ?? '')
+        // }
       })
 
       return obj
@@ -196,24 +197,26 @@ const Table: React.FC = () => {
   useEffect(() => {
     setTimeout(() => {
       data.Partitions.map((itemCol, index) => {
-        itemCol.PlanItems.map((itemRow) => {
-          const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
-          itemRow?.Name && rowNode.setDataValue(`plan0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
-        })
+        // itemCol.PlanItems.map((itemRow) => {
+        //   const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
+        //   itemRow?.Name && rowNode.setDataValue(`plan0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
+        // })
 
-        if(index === 0) {
-          for (const key in factItems1) {
+        if(factItems1) {
+          for (const key in factItems1[itemCol.Id]) {
             const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
-            factItems1[key].map((item, i) => {
+            factItems1[itemCol.Id][key].map((item, i) => {
               setTimeout(() => {rowNode.setDataValue(`fact0-${index}-${i}`, item.name+ '\n'+ item.shortName + '\n' + item.oil)}, 300)
             })
           }
-        } else {
-          itemCol.FactItems.map((itemRow) => {
-            const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
-            itemRow?.Name && rowNode.setDataValue(`fact0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
-          })
-        }
+
+        } 
+        // else {
+        //   itemCol.FactItems.map((itemRow) => {
+        //     const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
+        //     itemRow?.Name && rowNode.setDataValue(`fact0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
+        //   })
+        // }
       })
     }, 1000)
   }, [factItems1])

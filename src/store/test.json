@@ -737,6 +737,7 @@
     {
       "Id": 4,
       "Name": "ГРП(т/сут)",
+      "Color": "LightBlue",
       "PlanItems": [{}],
       "FactItems": [{}],
       "DailySum": [[null,null,null,null]],
@@ -745,6 +746,7 @@
     {
       "Id": 3,
       "Name": "Возврат(т/сут)",
+      "Color": "LightBlue",
       "PlanItems": [{}],
       "FactItems": [{}],
       "DailySum": [[null,null,null,null]],

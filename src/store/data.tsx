@@ -5,12 +5,15 @@ import testData from './test.json'
 
 export type DataStoreType = {
   data: OilType | null;
-  FactItems: Array<Array<{
-    date: string,
-    name: string,
-    shortName: string, 
-    oil: number
-  }>> | null;
+  FactItems:  {
+    [id: number]: Array<Array<{
+      date: string,
+      name: string,
+      shortName: string, 
+      oil: number
+    }>> 
+  } | null;
+  
   DailySumPlan: object;
   DailySumFact: object;
   setDailySum: (any) => void;
@@ -47,7 +50,7 @@ export type PartitionType = {
 export type OilType = {
   InputOilRatePlan: number,
   InputOilRateFact: number,
-  InputIdleFundOldPlan: number
+  InputIdleFundOldPlan: number,
   InputIdleFundOldFact: number,
   Partitions: Array<PartitionType>,
   Month: Date,
@@ -68,18 +71,18 @@ function groupByDate(arr) {
   return temp
 }
 
-function newGroupByDate(arr) {
-  const temp = arr.reduce((acc, item) => {
-    const date = item.date
-    if (acc[date]) {
-      acc[date].push(item)
-    } else {
-      acc[Number(date)] = [item]
-    }
-    return acc
-  }, {})
-  return temp
-}
+// function newGroupByDate(arr) {
+//   const temp = arr.reduce((acc, item) => {
+//     const date = item.date
+//     if (acc[date]) {
+//       acc[date].push(item)
+//     } else {
+//       acc[Number(date)] = [item]
+//     }
+//     return acc
+//   }, {})
+//   return temp
+// }
 
 const useDataStore = create<DataStoreType>()(devtools((set) => ({
   data: null,
@@ -88,12 +91,16 @@ const useDataStore = create<DataStoreType>()(devtools((set) => ({
   DailySumFact: groupByDate(testData.Partitions[0].FactItems),
 
   setDailySum: (data) => set(() => {
-    return { DailySumPlan: groupByDate(data.PlanItems),  DailySumFact: groupByDate(data.FactItems)}
+    return { DailySumPlan: groupByDate(data.PlanItems),  DailySumFact: groupByDate(data.FactItems) }
   }),
 
   setFactItems: (data) => set(() => {
-    return { FactItems: newGroupByDate(data)}
+    return { FactItems: data}
   }),
+
+  // addFactItems: (data) => set(() => {
+  //   return { FactItems: [...get().FactItems, newGroupByDate(data)]}
+  // }),
 }), {enabled: true, name: 'DataStore'}))
 
 export default useDataStore

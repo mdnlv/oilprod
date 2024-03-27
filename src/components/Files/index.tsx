@@ -7,7 +7,27 @@ import { Attachment } from '@consta/uikit/Attachment'
 
 function getKeyByValue(object, value) {
   // console.log(object, value)
-  return Object.keys(object).filter(key => (object[key].v + '').indexOf(value) > -1)
+  return Object.keys(object).filter(key => {
+    for(const i of value) {
+      if ((object[key].v + '').indexOf(i) > -1) {
+        return true
+      }
+    }
+    return false
+  })
+}
+
+function newGroupByDate(arr) {
+  const temp = arr.reduce((acc, item) => {
+    const date = item.date
+    if (acc[date]) {
+      acc[date].push(item)
+    } else {
+      acc[Number(date)] = [item]
+    }
+    return acc
+  }, {})
+  return temp
 }
 
 const Files: React.FC = () => {
@@ -43,42 +63,72 @@ const Files: React.FC = () => {
   //   })() 
   // }, [])
   
-  useEffect(() => {
-    (async() =>{
-      const url = 'http://localhost:3000/start.xls'
-      const file = await (await fetch(url)).arrayBuffer()
-      const wb = read(file)
-      const keys = getKeyByValue(wb.Sheets?.report, 'Ввод новых')
-      const fact = keys.map(item => ({
-        date: wb.Sheets?.report['F'+item.slice(1)].w.substr(0, 2),
-        name: wb.Sheets?.report['G'+item.slice(1)].w,
-        shortName: wb.Sheets?.report['H'+item.slice(1)].w, 
-        oil: wb.Sheets?.report['U'+item.slice(1)].w
-      }))
-      // console.log(fact)
-      setFactItems(fact)
-      // console.log(wb.Sheets?.report)
-      // console.log(getKeyByValue(wb.Sheets?.report, 'Ввод новых ГС с МГРП'))
-      //setWorkbook(wb)
-    })() 
-  }, [])  
+  // useEffect(() => {
+  //   (async() =>{
+  //     const url = 'http://localhost:3000/start.xls'
+  //     const file = await (await fetch(url)).arrayBuffer()
+  //     const wb = read(file)
+  //     const keys = getKeyByValue(wb.Sheets?.report, 'Ввод новых')
+  //     const fact = keys.map(item => ({
+  //       date: wb.Sheets?.report['F'+item.slice(1)].w.substr(0, 2),
+  //       name: wb.Sheets?.report['G'+item.slice(1)].w,
+  //       shortName: wb.Sheets?.report['H'+item.slice(1)].w, 
+  //       oil: wb.Sheets?.report['U'+item.slice(1)].w
+  //     }))
+  //     // console.log(fact)
+  //     setFactItems(fact)
+  //     // console.log(wb.Sheets?.report)
+  //     // console.log(getKeyByValue(wb.Sheets?.report, 'Ввод новых ГС с МГРП'))
+  //     //setWorkbook(wb)
+  //   })() 
+  // }, [])  
 
   const importStarts = () => {
     (async() =>{
       const url = 'http://localhost:3000/start.xls'
       const file = await (await fetch(url)).arrayBuffer()
       const wb = read(file)
-      const keys = getKeyByValue(wb.Sheets?.report, 'Ввод новых')
-      const fact = keys.map(item => ({
+      const fact = {}
+      
+      // ВНС
+      const keys1 = getKeyByValue(wb.Sheets?.report, ['Ввод новых'])
+      fact[1] = newGroupByDate(keys1.map(item => ({
         date: wb.Sheets?.report['F'+item.slice(1)].w.substr(0, 2),
         name: wb.Sheets?.report['G'+item.slice(1)].w,
         shortName: wb.Sheets?.report['H'+item.slice(1)].w, 
         oil: wb.Sheets?.report['U'+item.slice(1)].w
-      }))
-      // console.log(fact)
+      })))
+
+      // ЗБС
+      const keys2 = getKeyByValue(wb.Sheets?.report, ['Зарезка'])
+      fact[2] = newGroupByDate(keys2.map(item => ({
+        date: wb.Sheets?.report['F'+item.slice(1)].w.substr(0, 2),
+        name: wb.Sheets?.report['G'+item.slice(1)].w,
+        shortName: wb.Sheets?.report['H'+item.slice(1)].w, 
+        oil: wb.Sheets?.report['U'+item.slice(1)].w
+      })))
+
+      //ГРП
+      // const keys3 = getKeyByValue(wb.Sheets?.report, ['ГРП', 'Гидроразрыв'])
+      // console.log(keys3)
+      // fact[4] = newGroupByDate(keys3.map(item => ({
+      //   date: wb.Sheets?.report['F'+item.slice(1)].w.substr(0, 2),
+      //   name: wb.Sheets?.report['G'+item.slice(1)].w,
+      //   shortName: wb.Sheets?.report['H'+item.slice(1)].w, 
+      //   oil: wb.Sheets?.report['U'+item.slice(1)].w
+      // })))
+
+      //Возврат
+      // const keys4 = getKeyByValue(wb.Sheets?.report, ['Возврат', 'Переход на'])
+      // console.log(keys4)
+      // fact[3] = newGroupByDate(keys4.map(item => ({
+      //   date: wb.Sheets?.report['F'+item.slice(1)].w.substr(0, 2),
+      //   name: wb.Sheets?.report['G'+item.slice(1)].w,
+      //   shortName: wb.Sheets?.report['H'+item.slice(1)].w, 
+      //   oil: wb.Sheets?.report['U'+item.slice(1)].w
+      // })))
+
       setFactItems(fact)
-      // console.log(wb.Sheets?.report)
-      // console.log(getKeyByValue(wb.Sheets?.report, 'Ввод новых ГС с МГРП'))
       setStarts('xls')
       //setWorkbook(wb)
     })() 
@@ -96,7 +146,7 @@ const Files: React.FC = () => {
       const url = 'http://localhost:3000/rgd.xlsx'
       const file = await (await fetch(url)).arrayBuffer()
       const wb = read(file)
-      console.log(wb.Sheets['Расчет_Суточной_Добычи_По_Датам'])
+      // console.log(wb.Sheets['Расчет_Суточной_Добычи_По_Датам'])
       setRgd('xls')
       // const keys = getKeyByValue(wb.Sheets?.report, 'Ввод новых')
       // const fact = keys.map(item => ({
