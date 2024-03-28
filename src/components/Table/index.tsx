@@ -52,12 +52,14 @@ const Table: React.FC = () => {
     const [input1, setInput1] = useState('')
     const [input2, setInput2] = useState('')
     const refContainer = useRef<HTMLDivElement>(null)
-    const values = params.value.split(/(\n)/)
+    const values = params.value?.split(/(\n)/)
 
     useEffect(() => {
       refContainer.current?.focus()
-      setInput1(values[2] + ' ' + values[0])
-      setInput2(values[4])
+      if(values) {
+        setInput1(values[2] + ' ' + values[0])
+        setInput2(values[4])
+      }
     }, [])
 
     return (
@@ -94,9 +96,6 @@ const Table: React.FC = () => {
               const newValues = input1.split(' ')
               cellUpdate({
                 day: Number(params.data.day),
-                oldPlaceNum: values[2],
-                oldPlace: values[0],
-                oldWeight: values[4],
                 newPlaceName: newValues[1],
                 newPlaceNum: newValues[0],
                 newWeight: input2,
@@ -130,8 +129,12 @@ const Table: React.FC = () => {
     
       item.PlanItems.length > 0 && children.push({field: 'plan0', headerName: 'график', headerTooltip: 'график',
         children: [
-          {field: `plan0-${item.Id}-0`, headerName: ''}, 
-          {field: `plan0-${item.Id}-1`, headerName: ''}
+          {field: `plan0-${item.Id}-0`, headerName: '', cellRenderer: cellRenderer,
+            cellEditor: cellEditor,
+            cellEditorPopup: true}, 
+          {field: `plan0-${item.Id}-1`, headerName: '', cellRenderer: cellRenderer,
+            cellEditor: cellEditor,
+            cellEditorPopup: true}
         ]
       })
 
@@ -239,7 +242,7 @@ const Table: React.FC = () => {
             setTimeout(() => {
               rowNode.setDataValue(`fact0-${index}-${i}`, item.name+ '\n'+ item.shortName + '\n' + item.oil)
               factItems1[itemCol.Id] && factItems1[itemCol.Id][key] && rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`, factItems1[itemCol.Id][key].length + '\n' + factItems1[itemCol.Id][key].reduce((p,c) => p+Number(c.oil), 0))
-            }, 300)
+            }, 200)
           })
         }
 

@@ -96,17 +96,36 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
   }),
 
   setFactItems: (data) => set(() => {
-    return { FactItems: data}
+    return { FactItems: data }
   }),
 
   cellUpdate: (data) => set(() => {
     const temp = get().FactItems
-    temp[data.colId][data.day][data.colIndex].name = data.newPlaceName
-    temp[data.colId][data.day][data.colIndex].shortName = data.newPlaceNum
-    temp[data.colId][data.day][data.colIndex].oil = data.newWeight
-    console.log(data, get().FactItems)
+    if( temp[data.colId][data.day]) {
+      if(temp[data.colId][data.day][data.colIndex]) {
+        temp[data.colId][data.day][data.colIndex].name = data.newPlaceName
+        temp[data.colId][data.day][data.colIndex].shortName = data.newPlaceNum
+        temp[data.colId][data.day][data.colIndex].oil = data.newWeight
+      } else {
+        temp[data.colId][data.day].push({
+          date: data.day,
+          name: data.newPlaceName,
+          oil: data.newWeight,
+          shortName: data.newPlaceNum
+        })
+      }
+    } else {
+      temp[data.colId][data.day] = [{
+        date: data.day,
+        name: data.newPlaceName,
+        oil: data.newWeight,
+        shortName: data.newPlaceNum
+      }]
+    }
+
+
     console.log(temp)
-    return { FactItems: temp}
+    return { FactItems: temp }
   }),
 
   // addFactItems: (data) => set(() => {
