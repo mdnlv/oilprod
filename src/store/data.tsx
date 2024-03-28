@@ -18,6 +18,7 @@ export type DataStoreType = {
   DailySumFact: object;
   setDailySum: (any) => void;
   setFactItems: (any) => void;
+  cellUpdate: (any) => void;
 }
 
 export type Items = {
@@ -84,7 +85,7 @@ function groupByDate(arr) {
 //   return temp
 // }
 
-const useDataStore = create<DataStoreType>()(devtools((set) => ({
+const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
   data: null,
   FactItems: null,
   DailySumPlan: groupByDate(testData.Partitions[0].PlanItems),
@@ -96,6 +97,16 @@ const useDataStore = create<DataStoreType>()(devtools((set) => ({
 
   setFactItems: (data) => set(() => {
     return { FactItems: data}
+  }),
+
+  cellUpdate: (data) => set(() => {
+    const temp = get().FactItems
+    temp[data.colId][data.day][data.colIndex].name = data.newPlaceName
+    temp[data.colId][data.day][data.colIndex].shortName = data.newPlaceNum
+    temp[data.colId][data.day][data.colIndex].oil = data.newWeight
+    console.log(data, get().FactItems)
+    console.log(temp)
+    return { FactItems: temp}
   }),
 
   // addFactItems: (data) => set(() => {
