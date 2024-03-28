@@ -110,7 +110,7 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
 
   cellUpdate: (data) => set(() => {
     let temp = data.colType === 'plan' ? get().PlanItems : get().FactItems
-    console.log(data)
+
     if(!temp) temp = {} 
     if(!temp[data.colId]) temp[data.colId] = {}
 
@@ -135,8 +135,7 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
         shortName: data.newPlaceNum
       }]
     }
-    
-    console.log(temp)
+
     return (data.colType === 'plan' ? { PlanItems: temp } : { FactItems: temp })
   }),
 

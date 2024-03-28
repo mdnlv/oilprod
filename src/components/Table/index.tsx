@@ -96,7 +96,7 @@ const Table: React.FC = () => {
               const colIndex =  params.colDef.field.slice(params.colDef.field.lastIndexOf('-') +1)
               const newValues = input1.split(' ')
               const colType =  params.colDef.field.slice(0, 4)
-              console.log(params.colDef)
+              
               cellUpdate({
                 day: Number(params.data.day),
                 newPlaceName: newValues[1],
