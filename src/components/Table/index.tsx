@@ -7,8 +7,8 @@ import data from '../../store/test.json'
 import useStore, {StoreType} from '../../store'
 
 // import { Button } from '@consta/uikit/Button'
-import { IconCopy } from '@consta/icons/IconCopy'
-import { IconOpenInNew } from '@consta/icons/IconOpenInNew'
+// import { IconCopy } from '@consta/icons/IconCopy'
+// import { IconOpenInNew } from '@consta/icons/IconOpenInNew'
 // import { IconClose } from '@consta/icons/IconClose'
 import { Text } from '@consta/uikit/Text'
 import useDataStore, { DataStoreType } from '../../store/data'
@@ -44,6 +44,7 @@ const Table: React.FC = () => {
   // const sumPlan1 = useDataStore((state : DataStoreType) => state.DailySumPlan)
   //const setDailySum1 = useDataStore((state : DataStoreType) => state.setDailySum)
   const factItems1 = useDataStore((state : DataStoreType) => state.FactItems)
+  const planItems1 = useDataStore((state : DataStoreType) => state.PlanItems)
   const cellUpdate = useDataStore((state : DataStoreType) => state.cellUpdate)
 
   
@@ -94,14 +95,18 @@ const Table: React.FC = () => {
               const colId =  params.colDef.field.slice((params.colDef.field.indexOf('-') + 1), params.colDef.field.lastIndexOf('-'))
               const colIndex =  params.colDef.field.slice(params.colDef.field.lastIndexOf('-') +1)
               const newValues = input1.split(' ')
+              const colType =  params.colDef.field.slice(0, 4)
+              console.log(params.colDef)
               cellUpdate({
                 day: Number(params.data.day),
                 newPlaceName: newValues[1],
                 newPlaceNum: newValues[0],
                 newWeight: input2,
                 colId: Number(colId)+1,
-                colIndex: Number(colIndex)
+                colIndex: Number(colIndex),
+                colType: colType
               })
+              updateColumns()
               setTimeout(() => {
                 tableUpdate()
                 //sumUpdate()
@@ -113,30 +118,59 @@ const Table: React.FC = () => {
     )
   })
 
-
-  // Заголовки столбцов
-  useEffect(() => {
+  const updateColumns = () => {
     const tempColumnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 80,
       editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '3px solid #ccd9e0'  } }, 
     ...data.Partitions.map((item, index) => {
    
-      const children = []
       const colors = {
         'LightBlue': {left:'rgb(223, 237, 246)', right: 'rgb(223, 237, 246)'},
         'LightGreen': {left: 'rgb(207, 248, 228)', right: 'rgb(207, 248, 228)'},
         'LightGreenRed': {left: 'rgb(207, 248, 228)', right: 'rgb(248, 215, 207)'}
       }
     
-      item.PlanItems.length > 0 && children.push({field: 'plan0', headerName: 'график', headerTooltip: 'график',
-        children: [
-          {field: `plan0-${item.Id}-0`, headerName: '', cellRenderer: cellRenderer,
+      // item.PlanItems.length > 0 && children.push({field: 'plan0', headerName: 'график', headerTooltip: 'график',
+      //   children: [
+      //     {field: `plan0-${index}-0`, headerName: '', cellRenderer: cellRenderer,
+      //       cellEditor: cellEditor,
+      //       cellEditorPopup: true}, 
+      //     {field: `plan0-${index}-1`, headerName: '', cellRenderer: cellRenderer,
+      //       cellEditor: cellEditor,
+      //       cellEditorPopup: true}
+      //   ]
+      // })
+      const children = []
+      
+      if(planItems1 && planItems1[item.Id]) {
+        let temp = []
+        for (const i in planItems1[item.Id]) {
+          if(planItems1[item.Id][i].length > temp.length) temp = planItems1[item.Id][i]
+        }
+        planItems1[item.Id] && children.push({field: 'plan0', headerName: 'план',
+          children: [...temp.map((_, i) =>
+            ({field: `plan0-${index}-${i}`, headerName: '',
+              cellRenderer: cellRenderer,
+              cellEditor: cellEditor,
+              cellEditorPopup: true
+            })),
+          {field: `plan0-${index}-${temp.length}`, headerName: '',
+            cellRenderer: cellRenderer,
             cellEditor: cellEditor,
-            cellEditorPopup: true}, 
-          {field: `plan0-${item.Id}-1`, headerName: '', cellRenderer: cellRenderer,
-            cellEditor: cellEditor,
-            cellEditorPopup: true}
-        ]
-      })
+            cellEditorPopup: true
+          }
+          ] 
+        })
+      }  else {
+        children.push({field: 'plan0', headerName: 'план',
+          children: [
+            {field: `plan0-${index}-0`, headerName: '',
+              cellRenderer: cellRenderer,
+              cellEditor: cellEditor,
+              cellEditorPopup: true
+            }
+          ] 
+        })
+      }
 
       if(factItems1 && factItems1[item.Id]) {
         let temp = []
@@ -158,7 +192,17 @@ const Table: React.FC = () => {
           }
           ] 
         })
-      } 
+      } else {
+        children.push({field: 'fact0', headerName: 'факт',
+          children: [
+            {field: `fact0-${index}-0`, headerName: '',
+              cellRenderer: cellRenderer,
+              cellEditor: cellEditor,
+              cellEditorPopup: true
+            }
+          ] 
+        })
+      }
 
       // else {
       //   item.FactItems.length > 0 && children.push({field: 'fact0', headerName: 'факт',
@@ -185,7 +229,12 @@ const Table: React.FC = () => {
         ]})
     })]
     setColumnDefs(tempColumnDefs)
-  }, [factItems1])
+  }
+
+  // Заголовки столбцов
+  useEffect(() => {
+    updateColumns()
+  }, [factItems1, planItems1])
 
   const styleOptions = agGridAdapter({
     size: 's',
@@ -209,6 +258,8 @@ const Table: React.FC = () => {
         if(factItems1 && factItems1[field.Id] && factItems1[field.Id][day+1])
           obj[`sumFactChild-${field.Id}-0`] = factItems1[field.Id][day +1].length + '\n' + factItems1[field.Id][day +1].reduce((p,c) => p+Number(c.oil), 0)
 
+        if(planItems1 && planItems1[field.Id] && planItems1[field.Id][day+1])
+          obj[`sumPlanChild-${field.Id}-0`] = planItems1[field.Id][day +1].length + '\n' + planItems1[field.Id][day +1].reduce((p,c) => p+Number(c.oil), 0)
         // else {
         //   if(field.DailySum[day] && (field.DailySum[day][0] || field.DailySum[day][1])) 
         //     obj[`sumPlanChild-${field.Id}-0`] = (field.DailySum[day][0] ?? '') + '\n' + (field.DailySum[day][1] ?? '')
@@ -216,7 +267,6 @@ const Table: React.FC = () => {
         //     obj[`sumFactChild-${field.Id}-0`] = (field.DailySum[day][2] ?? '' )+ '\n' + (field.DailySum[day][3] ?? '')
         // }
       })
-
       return obj
     })
     temp.push({id: temp.length, day: 'ИТОГО:\nмер-тий'},{id: temp.length+1, day: 'Сум. прир.\nдеб. тн/сут.'},{id: temp.length+2, day: 'Накоп.\nдобыча, тн.'})
@@ -225,7 +275,7 @@ const Table: React.FC = () => {
   
   useEffect(()=>{
     sumUpdate()
-  },[factItems1])
+  },[factItems1, planItems1])
 
   // Данные основных столбцов
   const tableUpdate = () => {
@@ -245,7 +295,18 @@ const Table: React.FC = () => {
             }, 200)
           })
         }
+      } 
 
+      if(planItems1) {
+        for (const key in planItems1[itemCol.Id]) {
+          const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
+          planItems1[itemCol.Id][key].map((item, i) => {
+            setTimeout(() => {
+              rowNode.setDataValue(`plan0-${index}-${i}`, item.name+ '\n'+ item.shortName + '\n' + item.oil)
+              planItems1[itemCol.Id] && planItems1[itemCol.Id][key] && rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, planItems1[itemCol.Id][key].length + '\n' + planItems1[itemCol.Id][key].reduce((p,c) => p+Number(c.oil), 0))
+            }, 200)
+          })
+        }
       } 
       // else {
       //   itemCol.FactItems.map((itemRow) => {
@@ -261,7 +322,7 @@ const Table: React.FC = () => {
     setTimeout(() => {
       tableUpdate()
     }, 100)
-  }, [factItems1])
+  }, [factItems1, planItems1])
 
   return (
     <div className="ag-theme-quartz" style={{ height: '100%', width: '100%' }}>
