@@ -50,6 +50,7 @@ const Table: React.FC = () => {
   
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cellEditor = memo((params: any) => {
+    const [input0, setInput0] = useState('')
     const [input1, setInput1] = useState('')
     const [input2, setInput2] = useState('')
     const refContainer = useRef<HTMLDivElement>(null)
@@ -58,7 +59,8 @@ const Table: React.FC = () => {
     useEffect(() => {
       refContainer.current?.focus()
       if(values) {
-        setInput1(values[2] + ' ' + values[0])
+        setInput0(values[0])
+        setInput1(values[2])
         setInput2(values[4])
       }
     }, [])
@@ -69,38 +71,39 @@ const Table: React.FC = () => {
         style={{
           border: '1px solid grey',
           backgroundColor: '#e6e6e6',
-          padding: 15,
+          padding: 8,
+          paddingBottom: 4,
           display: 'inline-block',
+          width: 180,
         }}
         tabIndex={1} // important - without this the key presses wont be caught
       >
         <div style={{display: 'flex', flexDirection: 'column'}}>
-          <div style={{
+          {/*<div style={{
             display: 'flex', 
             flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginBottom: 2, 
+
             alignItems: 'flex-start'
           }}>
-            {/*<Text size="xs" view="linkMinor" weight="semibold">ЗБС(т/сут)</Text>*/}
-            <Text size="xs" view="linkMinor" style={{marginBottom: 12}}>{params.data.day} февраля</Text>
-            {/*<Button size="xs" label="Скопировать" view="clear" iconLeft={IconClose} onlyIcon*/}
-          </div>
-          <input value={input1} onChange={(e) => {setInput1(e.target.value)}} style={{marginBottom: 4}}/>
-          <input value={input2} onChange={(e) => {setInput2(e.target.value)}} style={{marginBottom: 4}}/>
-          <div style={{display: 'flex', flexDirection: 'row', justifyContent:'flex-end', marginTop: 4}}>
+            <Text size="xs" view="linkMinor" weight="semibold">ЗБС(т/сут)</Text>
+            <Button size="xs" label="Скопировать" view="clear" iconLeft={IconClose} onlyIcon
+          </div>*/}
+          <input value={input0} onChange={(e) => {setInput0(e.target.value)}} style={{marginBottom: 2}}/>
+          <input value={input1} onChange={(e) => {setInput1(e.target.value)}} style={{marginBottom: 2}}/>
+          <input value={input2} onChange={(e) => {setInput2(e.target.value)}} style={{marginBottom: 2}}/>
+          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems:'baseline', marginTop: 6}}>
             {/*<Button size="xs" label="Скопировать" view="clear" iconLeft={IconCopy}/>
           <Button size="xs" label="Переместить" view="clear" iconLeft={IconOpenInNew} />*/}
+            <Text size="xs" view="linkMinor" style={{marginBottom: 8}}>{params.data.day} февраля</Text>
             <Button size="xs" label="Сохранить" style={{marginLeft: 7}} onClick={() => {
               const colId =  params.colDef.field.slice((params.colDef.field.indexOf('-') + 1), params.colDef.field.lastIndexOf('-'))
               const colIndex =  params.colDef.field.slice(params.colDef.field.lastIndexOf('-') +1)
-              const newValues = input1.split(' ')
               const colType =  params.colDef.field.slice(0, 4)
               
               cellUpdate({
                 day: Number(params.data.day),
-                newPlaceName: newValues[1],
-                newPlaceNum: newValues[0],
+                newPlaceName: input0,
+                newPlaceNum: input1,
                 newWeight: input2,
                 colId: Number(colId)+1,
                 colIndex: Number(colIndex),
@@ -139,6 +142,7 @@ const Table: React.FC = () => {
       //       cellEditorPopup: true}
       //   ]
       // })
+      
       const children = []
       
       if(planItems1 && planItems1[item.Id]) {
@@ -161,7 +165,7 @@ const Table: React.FC = () => {
           ] 
         })
       }  else {
-        children.push({field: 'plan0', headerName: 'план',
+        item.PlanItems.length !== 0 && children.push({field: 'plan0', headerName: 'план',
           children: [
             {field: `plan0-${index}-0`, headerName: '',
               cellRenderer: cellRenderer,
@@ -193,7 +197,7 @@ const Table: React.FC = () => {
           ] 
         })
       } else {
-        children.push({field: 'fact0', headerName: 'факт',
+        item.FactItems.length !== 0 && children.push({field: 'fact0', headerName: 'факт',
           children: [
             {field: `fact0-${index}-0`, headerName: '',
               cellRenderer: cellRenderer,

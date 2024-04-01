@@ -1413,6 +1413,7 @@
       "Name": "Работа с переходящим фондом",
       "PlanItems": [{}],
       "FactItems": [{}],
+      "Color": "LightBlue",
       "DailySum": [[null,null,null,null]],
       "PartitionSum": [[null,null,null,null]]
     },
@@ -5964,7 +5965,7 @@
     },
     {
       "Id": 26,
-      "Name": "Остановки по роспоряжению(т/сут)",
+      "Name": "Остановки по распоряжению(т/сут)",
       "OptId": 100000000200010,
       "Color": "LightBlue",
       "PlanItems": [
@@ -6029,7 +6030,7 @@
           "IsAddressless": false
         }
       ],
-      "FactItems": [],
+      "FactItems": [{}],
       "DailySum": [
         [
           null,
@@ -6226,6 +6227,7 @@
       "Name": "Остановки нерентабельного фонда(т/сут)",
       "PlanItems": [{}],
       "FactItems": [{}],
+      "Color": "LightBlue",
       "DailySum": [[null,null,null,null]],
       "PartitionSum": [[null,null,null,null]]
     },
@@ -7441,7 +7443,7 @@
     },
     {
       "Id": 47,
-      "Name": "ОТМ Прочие(т)",
+      "Name": "Прочие потери(т)",
       "OptId": 100000000200031,
       "Color": "LightGreen",
       "PlanItems": [],
