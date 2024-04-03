@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parsing xlsx</title>
+
+    <link rel="icon" href="./favicon.ico" sizes="any" />
+    <link rel="icon" href="/icons/p-icon.svg" type="image/svg+xml" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        min-width: 320px;
+      }
+      .pre-block:empty {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container py-4">
+      <div class="mb-4 pb-3 border-bottom">
+        <h1
+          class="d-flex align-items-center text-body-emphasis text-decoration-none"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            fill="#008000"
+            class="me-2"
+            viewBox="0 0 16 16"
+            role="img"
+          >
+            <path
+              d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 2h-4v3h4zm0 4h-4v3h4zm0 4h-4v3h3a1 1 0 0 0 1-1zm-5 3v-3H6v3zm-5 0v-3H1v2a1 1 0 0 0 1 1zm-4-4h4V8H1zm0-4h4V4H1zm5-3v3h4V4zm4 4H6v3h4z"
+            />
+          </svg>
+          <span class="fs-4">Parsing xlsx</span>
+        </h1>
+      </div>
+
+      <div class="row align-items-md-start g-2 mb-lg-3">
+        <div class="p-5 bg-body-tertiary rounded-3 col-lg-6 px-2">
+          <form class="container-fluid js-form">
+            <div class="mb-3">
+              <label for="form_file" class="form-label">Выбрать таблицу</label>
+              <input
+                class="form-control"
+                id="form_file"
+                type="file"
+                accept=".xlsx"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="page_number" class="form-label">Номер страницы</label>
+              <input
+                type="number"
+                class="form-control"
+                id="page_number"
+                value="2"
+                required
+              />
+            </div>
+
+            <fieldset class="mb-3" required>
+              <legend class="fs-6">Колонки с данными</legend>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Ввод новых скважин"
+                  id="commissioning_of_new_wells"
+                  name="colums_with_data"
+                  checked
+                />
+                <label
+                  class="form-check-label"
+                  for="commissioning_of_new_wells"
+                >
+                  Ввод новых скважин
+                </label>
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Зарезка бокового ствола"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking">
+                  Зарезка бокового ствола
+                </label>
+              </div>
+            </fieldset>
+
+            <button class="btn btn-primary" type="submit">Submit</button>
+          </form>
+        </div>
+
+        <div class="col-lg-6 px-0 px-lg-2">
+          <pre
+            class="h-100 p-5 text-bg-dark rounded-3 js-result font-monospace mb-0 pre-block"
+          ></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- scripts -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./assets/xlsx.full.min.js"></script>
+    <script src="./assets/script.js"></script>
+    <script>
+      const result = document.querySelector('.js-result')
+      const form = document.querySelector('.js-form')
+
+      form.addEventListener('submit', onSubmitForm)
+
+      function printData(data) {
+        result.textContent = JSON.stringify(data, null, 4)
+      }
+
+      function onSubmitForm(evt) {
+        evt.preventDefault()
+
+        const pageNumber = +form.elements.page_number.value
+
+        if (isNaN(pageNumber) || pageNumber <= 0) {
+          printData('Указан не верный номер страницы')
+          console.log(1, isNaN(pageNumber))
+          console.log(2, pageNumber <= 0)
+          console.log(3, pageNumber.isInteger)
+          return
+        }
+
+        const nameColList = [...form.elements.colums_with_data].reduce(
+          (acc, it) => {
+            if (it.checked) acc.push(it.value)
+            return acc
+          },
+          []
+        )
+
+        if (nameColList.length === 0) {
+          printData('Не выбраны колонки с данными')
+          return
+        }
+
+        const file = form.elements.form_file.files[0]
+        const reader = new FileReader()
+
+        reader.onerror = (event) => {
+          printData('File could not be read! Code ' + event.target.error.code)
+        }
+
+        reader.readAsBinaryString(file)
+
+        reader.onload = (event) => {
+          const dataFile = event.target.result
+
+          const parsingData = parsingXLSX.parse(
+            XLSX,
+            dataFile,
+            pageNumber,
+            nameColList
+          )
+
+          printData(parsingData)
+        }
+      }
+    </script>
+  </body>
+</html>
