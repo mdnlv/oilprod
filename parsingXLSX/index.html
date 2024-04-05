@@ -56,7 +56,7 @@
                 class="form-control"
                 id="form_file"
                 type="file"
-                accept=".xlsx"
+                accept=".xlsx, .xls"
                 required
               />
             </div>
@@ -73,7 +73,8 @@
             </div>
 
             <fieldset class="mb-3" required>
-              <legend class="fs-6">Колонки с данными</legend>
+              <legend class="fs-6">Колонки объединенные</legend>
+              <!-- item -->
               <div class="form-check">
                 <input
                   class="form-check-input"
@@ -90,6 +91,8 @@
                   Ввод новых скважин
                 </label>
               </div>
+
+              <!-- item -->
               <div class="form-check">
                 <input
                   class="form-check-input"
@@ -101,6 +104,259 @@
                 />
                 <label class="form-check-label" for="sidetracking">
                   Зарезка бокового ствола
+                </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="ГРП"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking"> ГРП </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Возврат"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking">
+                  Возврат
+                </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Оптимизация"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking">
+                  Оптимизация
+                </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Работа с переходящим фондом"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking">
+                  Работа с переходящим фондом
+                </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Ввод из БД ТГ (без инвест.)"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking">
+                  Ввод из БД ТГ (без инвест.)
+                </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Базовый дебит ГТМ и Оптимизация скважин"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking">
+                  Базовый дебит ГТМ и Оптимизация скважин
+                </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Текущий простой"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking">
+                  Текущий простой
+                </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Рост потенциала простоя (в т.ч.остановки скв. для ГТМ, оптимизацию, нерентабельный фонд, по распоряжению)"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking">
+                  Рост потенциала простоя
+                </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Перевод скважин в ППД"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking">
+                  Перевод скважин в ППД
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="mb-3" required>
+              <legend class="fs-6">Колонки одиночные</legend>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Нараст.  по потенциалу"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking">
+                  Нараст. по потенциалу
+                </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="ВНР"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking"> ВНР </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Итого (с ВНР)"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking">
+                  Итого (с ВНР)
+                </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Геол. снижение,  т/сут"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking">
+                  Геол. снижение, т/сут
+                </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="ИТОГО перевод в ППД"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking">
+                  ИТОГО перевод в ППД
+                </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="ВСП"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking"> ВСП </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Итого (с ВСП)"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking">
+                  Итого (с ВСП)
+                </label>
+              </div>
+
+              <!-- item -->
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value="Нараст. баланс"
+                  id="sidetracking"
+                  name="colums_with_data"
+                  checked
+                />
+                <label class="form-check-label" for="sidetracking">
+                  Нараст. баланс
                 </label>
               </div>
             </fieldset>

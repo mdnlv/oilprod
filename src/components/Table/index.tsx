@@ -88,9 +88,9 @@ const Table: React.FC = () => {
             <Text size="xs" view="linkMinor" weight="semibold">ЗБС(т/сут)</Text>
             <Button size="xs" label="Скопировать" view="clear" iconLeft={IconClose} onlyIcon
           </div>*/}
-          <input value={input0} onChange={(e) => {setInput0(e.target.value)}} style={{marginBottom: 2}}/>
-          <input value={input1} onChange={(e) => {setInput1(e.target.value)}} style={{marginBottom: 2}}/>
-          <input value={input2} onChange={(e) => {setInput2(e.target.value)}} style={{marginBottom: 2}}/>
+          <input placeholder="Название" value={input0} onChange={(e) => {setInput0(e.target.value)}} style={{marginBottom: 2}}/>
+          <input placeholder="Номер" value={input1} onChange={(e) => {setInput1(e.target.value)}} style={{marginBottom: 2}}/>
+          <input placeholder="Значение" value={input2} onChange={(e) => {setInput2(e.target.value)}} style={{marginBottom: 2}}/>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems:'baseline', marginTop: 6}}>
             {/*<Button size="xs" label="Скопировать" view="clear" iconLeft={IconCopy}/>
           <Button size="xs" label="Переместить" view="clear" iconLeft={IconOpenInNew} />*/}

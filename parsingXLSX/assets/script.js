@@ -1,17 +1,22 @@
 'use strict'
 
-// — он берет столбец, например «Ввод новых скважин», определяет какие он колонки занимает (подколонки) минут последную, 
+// — он берет столбец, например «Ввод новых скважин», определяет какие он колонки занимает (подколонки) минут последную,
 // тк обычно в ней находиться вычесляемые значения. Нужно убедиться что у всех колонок такой вид
+// Задача примерно такая: отдельно скрипт написать для генерации новых кошельков юзеров, на основе кода который есть.
+// В коде, думаю, для каждого при создании аккаунта создаются 6 кошельков. Нужен скрипт, который всем имеющимся юзерам задаст новые вместо имеющихся.
 
 const parsingXLSX = {
-  // colIndex — 3
-  // colName — D
-  // rowIndex — 3
-  // rowName — 4
-  // address — { r:1, c:0 }
-  // a1Address — A2
-  // range — { s: { c: 0, r: 0 }, e: { c: 3, r: 2 } }
-  // a1Range — A1:D3
+  /**
+   * принципы наименования
+   * colIndex — 3
+   * colName — D
+   * rowIndex — 3
+   * rowName — 4
+   * address — { r:1, c:0 }
+   * a1Address — A2
+   * range — { s: { c: 0, r: 0 }, e: { c: 3, r: 2 } }
+   * a1Range — A1:D3
+   */
 
   XLSX: null,
   worksheet: null,
@@ -24,11 +29,6 @@ const parsingXLSX = {
   },
 
   parse(XLSX, dataFile, pageNumber, nameColList) {
-    // TODO:
-    // добавить проверку на кол-во страниц
-    // на существования страницы
-    // проdерить формат xls
-
     this.init(XLSX, dataFile, pageNumber)
 
     const indexSubColsOfCols = this.getIndexSubColsOfCols(nameColList)
@@ -74,17 +74,24 @@ const parsingXLSX = {
     const adress = this.findAdressCellByName(valueCell)
 
     if (!adress) {
-      return null
+      return []
     }
 
     const mergedRange = this.getMergedRange(adress)
 
     if (mergedRange) {
-      // TODO: fix old subCol
-      // const colums = new Array(mergedRange.e.c - mergedRange.s.c + 1) //
-      const colums = new Array(mergedRange.e.c - mergedRange.s.c)
+      const colums = new Array(mergedRange.e.c - mergedRange.s.c + 1)
         .fill(null)
         .map((_, i) => mergedRange.s.c + i)
+
+      /**
+       * если колонка имеет несколько подсталбцов, убираем послдений
+       * столбец с вычесляемым значением
+       */
+      if (colums.length > 1) {
+        colums.pop()
+      }
+
       return colums
     } else {
       return [adress.c]
@@ -153,7 +160,9 @@ const parsingXLSX = {
     }, {})
   },
 
-  // TODO: протестировать
+  /**
+   * на случай если есть строка без подстрок
+   */
   getObjSubRowDay(adressCell) {
     const cell = this.getCell({
       r: adressCell.r,
