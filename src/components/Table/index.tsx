@@ -307,8 +307,8 @@ const Table: React.FC = () => {
           const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
           planItems1[itemCol.Id][key].map((item, i) => {
             setTimeout(() => {
-              rowNode.setDataValue(`plan0-${index}-${i}`, item.name+ '\n'+ item.shortName + '\n' + item.oil)
-              planItems1[itemCol.Id] && planItems1[itemCol.Id][key] && rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, planItems1[itemCol.Id][key].length + '\n' + planItems1[itemCol.Id][key].reduce((p,c) => p+Number(c.oil), 0))
+              rowNode.setDataValue(`plan0-${index}-${i}`, item['Местор.']+ '\n'+ item['N,N скважин'] + '\n' + item['Эффект'])
+              planItems1[itemCol.Id] && planItems1[itemCol.Id][key] && rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, planItems1[itemCol.Id][key].length + '\n' + planItems1[itemCol.Id][key].reduce((p,c) => p+Number(c['Эффект']), 0))
             }, 200)
           })
         }

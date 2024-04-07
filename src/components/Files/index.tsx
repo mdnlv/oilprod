@@ -6,27 +6,29 @@ import useDataStore, { DataStoreType } from '../../store/data'
 import { Attachment } from '@consta/uikit/Attachment'
 import parsingXLSX from './script'
 
-const nameColList = [
-  'Ввод новых скважин',
-  'Зарезка бокового ствола',
-  'ГРП',
-  'Возврат',
-  'Оптимизация',
-  'Работа с переходящим фондом',
-  'Ввод из БД ТГ (без инвест.)',
-  'Базовый дебит ГТМ и Оптимизация скважин',
-  'Текущий простой',
-  'Рост потенциала простоя (в т.ч.остановки скв. для ГТМ, оптимизацию, нерентабельный фонд, по распоряжению)',
-  'Перевод скважин в ППД',
-  'Нараст.  по потенциалу',
-  'ВНР',
-  'Итого (с ВНР)',
-  'Геол. снижение,  т/сут',
-  'ИТОГО перевод в ППД',
-  'ВСП',
-  'Итого (с ВСП)',
-  'Нараст. баланс'
-]
+const obj = {
+  'Ввод новых скважин': 1,
+  'Зарезка бокового ствола': 2,
+  'ГРП': 5,
+  'Возврат': 3,
+  'Оптимизация': 16,
+  'Работа с переходящим фондом': 4,
+  'Ввод из БД ТГ (без инвест.)': 17,
+  'Базовый дебит ГТМ и Оптимизация скважин': 22,
+  'Текущий простой': 40,
+  'Рост потенциала простоя (в т.ч.остановки скв. для ГТМ, оптимизацию, нерентабельный фонд, по распоряжению)': 25,
+  'Перевод скважин в ППД': 27,
+  'Нараст.  по потенциалу': 0,
+  'ВНР': 0,
+  'Итого (с ВНР)': 0,
+  'Геол. снижение,  т/сут': 36,
+  'ИТОГО перевод в ППД': 0,
+  'ВСП': 0,
+  'Итого (с ВСП)': 0,
+  'Нараст. баланс': 0
+}
+
+const nameColList = Object.keys(obj)
 
 function getKeyByValue(object, value) {
   // console.log(object, value)
@@ -70,6 +72,7 @@ const Files: React.FC = () => {
   // const setMonth = useStore((state : StoreType) => state.setMonth)
 
   const setFactItems = useDataStore((state : DataStoreType) => state.setFactItems)
+  const setPlanItems = useDataStore((state : DataStoreType) => state.setPlanItems)
   const [starts, setStarts] = useState('')
   const [stops, setStops] = useState('')
   const [rgd, setRgd] = useState('')
@@ -118,6 +121,8 @@ const Files: React.FC = () => {
   //   })() 
   // }, [])  
 
+
+  // Факт. Ввод скважин
   const importStarts = () => {
     (async() =>{
       const url = 'http://localhost:3000/start.xls'
@@ -178,6 +183,8 @@ const Files: React.FC = () => {
     })() 
   }
 
+
+  // План
   const importRgd = () => {
     (async() =>{
       const url = 'http://localhost:3000/rgd.xlsx'
@@ -191,7 +198,15 @@ const Files: React.FC = () => {
         pageNumber,
         nameColList
       )
-      console.log(parsingData)
+
+      const tempo = {}
+      for (const key in parsingData) {
+        if(obj[key] !== 0) tempo[obj[key]] = parsingData[key]
+        /* ... делать что-то с obj[key] ... */
+      }
+      console.log(tempo)
+      setPlanItems(tempo)
+      
       // const keys = getKeyByValue(wb.Sheets?.report, 'Ввод новых')
       // const fact = keys.map(item => ({
       //   date: wb.Sheets?.report['F'+item.slice(1)].w.substr(0, 2),

@@ -25,6 +25,7 @@ export type DataStoreType = {
   DailySumFact: object;
   setDailySum: (any) => void;
   setFactItems: (any) => void;
+  setPlanItems: (any) => void;
   cellUpdate: (any) => void;
 }
 
@@ -106,6 +107,10 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
 
   setFactItems: (data) => set(() => {
     return { FactItems: data }
+  }),
+
+  setPlanItems: (data) => set(() => {
+    return { PlanItems: data }
   }),
 
   cellUpdate: (data) => set(() => {

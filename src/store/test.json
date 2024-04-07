@@ -735,7 +735,7 @@
       ]
     },
     {
-      "Id": 4,
+      "Id": 5,
       "Name": "ГРП(т/сут)",
       "Color": "LightBlue",
       "PlanItems": [{}],
@@ -6233,7 +6233,7 @@
     },
     {
       "Id": 27,
-      "Name": "Пеевод скважин в ППД(т/сут)",
+      "Name": "Перевод скважин в ППД(т/сут)",
       "PlanItems": [{}],
       "FactItems": [{}],
       "DailySum": [[null,null,null,null]],
