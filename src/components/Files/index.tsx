@@ -1,9 +1,32 @@
-import React, { useEffect, useState }  from 'react'
+import React, { useState }  from 'react'
 //import useStore, {StoreType} from '../../store'
 import { FileField } from '@consta/uikit/FileField'
 import { read } from 'xlsx'
 import useDataStore, { DataStoreType } from '../../store/data'
 import { Attachment } from '@consta/uikit/Attachment'
+import parsingXLSX from './script'
+
+const nameColList = [
+  'Ввод новых скважин',
+  'Зарезка бокового ствола',
+  'ГРП',
+  'Возврат',
+  'Оптимизация',
+  'Работа с переходящим фондом',
+  'Ввод из БД ТГ (без инвест.)',
+  'Базовый дебит ГТМ и Оптимизация скважин',
+  'Текущий простой',
+  'Рост потенциала простоя (в т.ч.остановки скв. для ГТМ, оптимизацию, нерентабельный фонд, по распоряжению)',
+  'Перевод скважин в ППД',
+  'Нараст.  по потенциалу',
+  'ВНР',
+  'Итого (с ВНР)',
+  'Геол. снижение,  т/сут',
+  'ИТОГО перевод в ППД',
+  'ВСП',
+  'Итого (с ВСП)',
+  'Нараст. баланс'
+]
 
 function getKeyByValue(object, value) {
   // console.log(object, value)
@@ -159,9 +182,16 @@ const Files: React.FC = () => {
     (async() =>{
       const url = 'http://localhost:3000/rgd.xlsx'
       const file = await (await fetch(url)).arrayBuffer()
-      const wb = read(file)
+      const pageNumber = 2
       // console.log(wb.Sheets['Расчет_Суточной_Добычи_По_Датам'])
       setRgd('xls')
+
+      const parsingData = parsingXLSX.parse(
+        file,
+        pageNumber,
+        nameColList
+      )
+      console.log(parsingData)
       // const keys = getKeyByValue(wb.Sheets?.report, 'Ввод новых')
       // const fact = keys.map(item => ({
       //   date: wb.Sheets?.report['F'+item.slice(1)].w.substr(0, 2),
@@ -175,6 +205,16 @@ const Files: React.FC = () => {
       // // console.log(getKeyByValue(wb.Sheets?.report, 'Ввод новых ГС с МГРП'))
 
       // //setWorkbook(wb)
+
+      // const reader = new FileReader()
+
+      // reader.onerror = (event) => {
+      //   console.log('File could not be read! Code ' + event.target.error.code)
+      // }
+
+      // reader.readAsBinaryString(file)
+      // reader.onload = (event) => {
+      //   const dataFile = event.target.result
     })() 
   }
 

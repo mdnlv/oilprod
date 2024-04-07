@@ -30,6 +30,7 @@ const defaultColDef = {
   cellStyle: { whiteSpace: 'pre' },
 }
 
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cellRenderer = (params: any) => {
   //const mood = useMemo(() => imageForMood(props.value), [props.value])

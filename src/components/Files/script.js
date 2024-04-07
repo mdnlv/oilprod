@@ -1,5 +1,5 @@
 'use strict'
-
+import { read, utils } from 'xlsx'
 // — он берет столбец, например «Ввод новых скважин», определяет какие он колонки занимает (подколонки) минут последную,
 // тк обычно в ней находиться вычесляемые значения. Нужно убедиться что у всех колонок такой вид
 // Задача примерно такая: отдельно скрипт написать для генерации новых кошельков юзеров, на основе кода который есть.
@@ -18,18 +18,16 @@ const parsingXLSX = {
    * a1Range — A1:D3
    */
 
-  XLSX: null,
   worksheet: null,
 
-  init(XLSX, dataFile, pageNumber) {
-    this.XLSX = XLSX
-    const workbook = this.XLSX.read(dataFile, { type: 'binary' })
+  init(dataFile, pageNumber) {
+    const workbook = read(dataFile, { type: 'binary' })
     const worksheetName = workbook.SheetNames[pageNumber - 1]
     this.worksheet = workbook.Sheets[worksheetName]
   },
 
-  parse(XLSX, dataFile, pageNumber, nameColList) {
-    this.init(XLSX, dataFile, pageNumber)
+  parse(dataFile, pageNumber, nameColList) {
+    this.init(dataFile, pageNumber)
 
     const indexSubColsOfCols = this.getIndexSubColsOfCols(nameColList)
     const subRowDayObj = this.getSubRowDayObj()
@@ -43,7 +41,7 @@ const parsingXLSX = {
 
       const cell = this.worksheet[cellAddress]
       if (cell.v === name) {
-        return this.XLSX.utils.decode_cell(cellAddress)
+        return utils.decode_cell(cellAddress)
       }
     }
     return null
@@ -137,7 +135,7 @@ const parsingXLSX = {
       const cell = this.worksheet[a1Adress]
 
       if (!daysAdress.hasOwnProperty(cell.w) && days.includes(cell.w)) {
-        daysAdress[cell.w] = this.XLSX.utils.decode_cell(a1Adress)
+        daysAdress[cell.w] = utils.decode_cell(a1Adress)
       }
     }
 
@@ -221,8 +219,10 @@ const parsingXLSX = {
   },
 
   getCell(adress) {
-    const a1Address = this.XLSX.utils.encode_cell(adress)
+    const a1Address = utils.encode_cell(adress)
 
     return this.worksheet[a1Address]
   }
 }
+
+export default parsingXLSX
