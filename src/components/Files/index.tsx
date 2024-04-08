@@ -1,5 +1,5 @@
 import React, { useState }  from 'react'
-//import useStore, {StoreType} from '../../store'
+// import useStore, {StoreType} from '../../store'
 import { FileField } from '@consta/uikit/FileField'
 import { read } from 'xlsx'
 import useDataStore, { DataStoreType } from '../../store/data'
@@ -18,14 +18,9 @@ const obj = {
   'Текущий простой': 40,
   'Рост потенциала простоя (в т.ч.остановки скв. для ГТМ, оптимизацию, нерентабельный фонд, по распоряжению)': 25,
   'Перевод скважин в ППД': 27,
-  'Нараст.  по потенциалу': 0,
-  'ВНР': 0,
-  'Итого (с ВНР)': 0,
+  'Итого (с ВНР)': 23, // прочая добыча
   'Геол. снижение,  т/сут': 36,
-  'ИТОГО перевод в ППД': 0,
-  'ВСП': 0,
-  'Итого (с ВСП)': 0,
-  'Нараст. баланс': 0
+  'Итого (с ВСП)': 47 // прочие потери
 }
 
 const nameColList = Object.keys(obj)

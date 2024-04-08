@@ -37,6 +37,7 @@ const parsingXLSX = {
 
   findAdressCellByName(name) {
     for (const cellAddress in this.worksheet) {
+      // eslint-disable-next-line no-prototype-builtins
       if (!this.worksheet.hasOwnProperty(cellAddress)) continue
 
       const cell = this.worksheet[cellAddress]
@@ -129,11 +130,13 @@ const parsingXLSX = {
       .map((_, i) => (i < 9 ? `0${i + 1}` : `${i + 1}`))
 
     for (const a1Adress in this.worksheet) {
+      // eslint-disable-next-line no-prototype-builtins
       if (!this.worksheet.hasOwnProperty(a1Adress)) continue
       if (a1Adress[0] !== 'A' || isNaN(Number(a1Adress[1]))) continue
 
       const cell = this.worksheet[a1Adress]
 
+      // eslint-disable-next-line no-prototype-builtins
       if (!daysAdress.hasOwnProperty(cell.w) && days.includes(cell.w)) {
         daysAdress[cell.w] = utils.decode_cell(a1Adress)
       }

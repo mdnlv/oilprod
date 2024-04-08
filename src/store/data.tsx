@@ -117,7 +117,7 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
     let temp = data.colType === 'plan' ? get().PlanItems : get().FactItems
 
     if(!temp) temp = {} 
-    if(!temp[data.colId]) temp[data.colId] = {}
+    if(!temp[data.colId]) temp[data.colId + ''] = {}
 
     if( temp[data.colId][data.day]) {
       if(temp[data.colId][data.day][data.colIndex]) {
