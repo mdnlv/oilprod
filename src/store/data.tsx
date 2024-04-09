@@ -1,28 +1,32 @@
 import moment from 'moment'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import testData from './test.json'
+import testData from './json/test.json'
 
 export type DataStoreType = {
   data: OilType | null;
+
   FactItems:  {
     [id: number]: Array<Array<{
       date: string,
-      name: string,
-      shortName: string, 
-      oil: number
+      'Местор.': string,
+      'N,N скважин': string, 
+      'Эффект': number
     }>> 
   } | null;
+
   PlanItems:  {
     [id: number]: Array<Array<{
       date: string,
-      name: string,
-      shortName: string, 
-      oil: number
+      'Местор.': string,
+      'N,N скважин': string, 
+      'Эффект': number
     }>> 
   } | null;
+
   DailySumPlan: object;
   DailySumFact: object;
+
   setDailySum: (any) => void;
   setFactItems: (any) => void;
   setPlanItems: (any) => void;
@@ -121,23 +125,23 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
 
     if( temp[data.colId][data.day]) {
       if(temp[data.colId][data.day][data.colIndex]) {
-        temp[data.colId][data.day][data.colIndex].name = data.newPlaceName
-        temp[data.colId][data.day][data.colIndex].shortName = data.newPlaceNum
-        temp[data.colId][data.day][data.colIndex].oil = data.newWeight
+        temp[data.colId][data.day][data.colIndex]['Местор.'] = data.newPlaceName
+        temp[data.colId][data.day][data.colIndex]['N,N скважин'] = data.newPlaceNum
+        temp[data.colId][data.day][data.colIndex]['Эффект'] = data.newWeight
       } else {
         temp[data.colId][data.day].push({
           date: data.day,
-          name: data.newPlaceName,
-          oil: data.newWeight,
-          shortName: data.newPlaceNum
+          'Местор.': data.newPlaceName,
+          'N,N скважин': data.newWeight,
+          'Эффект': data.newPlaceNum
         })
       }
     } else {
       temp[data.colId][data.day] = [{
         date: data.day,
-        name: data.newPlaceName,
-        oil: data.newWeight,
-        shortName: data.newPlaceNum
+        'Местор.': data.newPlaceName,
+        'N,N скважин': data.newWeight,
+        'Эффект': data.newPlaceNum
       }]
     }
 

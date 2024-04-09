@@ -3,7 +3,8 @@ import React, { memo, useEffect, useRef, useState} from 'react'
 import { agGridAdapter } from '@consta/ag-grid-adapter/agGridAdapter'
 import { AgGridReact } from 'ag-grid-react'
 import moment from 'moment'
-import data from '../../store/test.json'
+import data from '../../store/json/test.json'
+import struct from '../../store/json/struct.json'
 import useStore, {StoreType} from '../../store'
 
 // import { Button } from '@consta/uikit/Button'
@@ -106,7 +107,7 @@ const Table: React.FC = () => {
                 newPlaceName: input0,
                 newPlaceNum: input1,
                 newWeight: input2,
-                colId: Number(colId)+1,
+                colId: Number(colId),
                 colIndex: Number(colIndex),
                 colType: colType
               })
@@ -125,9 +126,10 @@ const Table: React.FC = () => {
   const updateColumns = () => {
     const tempColumnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 80,
       editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '3px solid #ccd9e0'  } }, 
-    ...data.Partitions.map((item, index) => {
+    ...data.Partitions.map((item) => {
    
       const colors = {
+        'LightGray': '#fafafa',
         'LightBlue': {left:'rgb(223, 237, 246)', right: 'rgb(223, 237, 246)'},
         'LightGreen': {left: 'rgb(207, 248, 228)', right: 'rgb(207, 248, 228)'},
         'LightGreenRed': {left: 'rgb(207, 248, 228)', right: 'rgb(248, 215, 207)'}
@@ -145,70 +147,72 @@ const Table: React.FC = () => {
       // })
       
       const children = []
-      
-      if(planItems1 && planItems1[item.Id]) {
-        let temp = []
-        for (const i in planItems1[item.Id]) {
-          if(planItems1[item.Id][i].length > temp.length) temp = planItems1[item.Id][i]
-        }
-        planItems1[item.Id] && children.push({field: 'plan0', headerName: 'план',
-          children: [...temp.map((_, i) =>
-            ({field: `plan0-${index}-${i}`, headerName: '',
-              cellRenderer: cellRenderer,
-              cellEditor: cellEditor,
-              cellEditorPopup: true
-            })),
-          {field: `plan0-${index}-${temp.length}`, headerName: '',
-            cellRenderer: cellRenderer,
-            cellEditor: cellEditor,
-            cellEditorPopup: true
+
+      if(!struct.find(el => el.id == item.Id)?.total){
+        if(planItems1 && planItems1[item.Id]) {
+          let temp = []
+          for (const i in planItems1[item.Id]) {
+            if(planItems1[item.Id][i].length > temp.length) temp = planItems1[item.Id][i]
           }
-          ] 
-        })
-      }  else {
-        item.PlanItems.length !== 0 && children.push({field: 'plan0', headerName: 'план',
-          children: [
-            {field: `plan0-${index}-0`, headerName: '',
+          planItems1[item.Id] && children.push({field: 'plan0', headerName: 'план',
+            children: [...temp.map((_, i) =>
+              ({field: `plan0-${item.Id}-${i}`, headerName: '', cellStyle: { backgroundColor: colors.LightGray },
+                cellRenderer: cellRenderer,
+                cellEditor: cellEditor,
+                cellEditorPopup: true
+              })),
+            {field: `plan0-${item.Id}-${temp.length}`, headerName: '', cellStyle: { backgroundColor: colors.LightGray },
               cellRenderer: cellRenderer,
               cellEditor: cellEditor,
               cellEditorPopup: true
             }
-          ] 
-        })
-      }
-
-      if(factItems1 && factItems1[item.Id]) {
-        let temp = []
-        for (const i in factItems1[item.Id]) {
-          if(factItems1[item.Id][i].length > temp.length) temp = factItems1[item.Id][i]
+            ] 
+          })
+        }  else {
+          item.PlanItems.length !== 0 && children.push({field: 'plan0', headerName: 'план',
+            children: [
+              {field: `plan0-${item.Id}-0`, headerName: '',  cellStyle: { backgroundColor: colors.LightGray },
+                cellRenderer: cellRenderer,
+                cellEditor: cellEditor,
+                cellEditorPopup: true
+              }
+            ] 
+          })
         }
+
+        if(factItems1 && factItems1[item.Id]) {
+          let temp = []
+          for (const i in factItems1[item.Id]) {
+            if(factItems1[item.Id][i].length > temp.length) temp = factItems1[item.Id][i]
+          }
     
-        factItems1[item.Id] && children.push({field: 'fact0', headerName: 'факт',
-          children: [...temp.map((_, i) =>
-            ({field: `fact0-${index}-${i}`, headerName: '',
-              cellRenderer: cellRenderer,
-              cellEditor: cellEditor,
-              cellEditorPopup: true
-            })),
-          {field: `fact0-${index}-${temp.length}`, headerName: '',
-            cellRenderer: cellRenderer,
-            cellEditor: cellEditor,
-            cellEditorPopup: true
-          }
-          ] 
-        })
-      } else {
-        item.FactItems.length !== 0 && children.push({field: 'fact0', headerName: 'факт',
-          children: [
-            {field: `fact0-${index}-0`, headerName: '',
+          factItems1[item.Id] && children.push({field: 'fact0', headerName: 'факт',
+            children: [...temp.map((_, i) =>
+              ({field: `fact0-${item.Id}-${i}`, headerName: '',
+                cellRenderer: cellRenderer,
+                cellEditor: cellEditor,
+                cellEditorPopup: true
+              })),
+            {field: `fact0-${item.Id}-${temp.length}`, headerName: '',
               cellRenderer: cellRenderer,
               cellEditor: cellEditor,
               cellEditorPopup: true
             }
-          ] 
-        })
+            ] 
+          })
+        
+        } else {
+          item.FactItems.length !== 0 && children.push({field: 'fact0', headerName: 'факт',
+            children: [
+              {field: `fact0-${item.Id}-0`, headerName: '',
+                cellRenderer: cellRenderer,
+                cellEditor: cellEditor,
+                cellEditorPopup: true
+              }
+            ] 
+          })
+        }
       }
-
       // else {
       //   item.FactItems.length > 0 && children.push({field: 'fact0', headerName: 'факт',
       //     children: [
@@ -219,7 +223,7 @@ const Table: React.FC = () => {
       //         cellEditorPopup: true}
       //     ]})
       // }
-  
+
       return ({field: item.Id.toString(), headerName: item.Name, minWidth: 80, borderRight: '3px solid #ccd9e0',
         children: [...children,
           {field: `sumPlan-${item.Id}`, headerName: 'итого\nплан',
@@ -250,7 +254,6 @@ const Table: React.FC = () => {
 
   // Данные итоговых столбцов
 
-
   const sumUpdate = () => {
     const temp = [...Array(days)].map((_, day) => {
       const obj: {id: number, day: string} = { id: day,  day: (day+1).toString() } 
@@ -261,10 +264,10 @@ const Table: React.FC = () => {
         //   obj[`sumPlanChild-${field.Id}-0`] = sumPlan1[day+1].length + '\n' + sumPlan1[day +1].reduce((p,c) => p+c.OilRate, 0)
 
         if(factItems1 && factItems1[field.Id] && factItems1[field.Id][day+1])
-          obj[`sumFactChild-${field.Id}-0`] = factItems1[field.Id][day +1].length + '\n' + factItems1[field.Id][day +1].reduce((p,c) => p+Number(c.oil), 0)
+          obj[`sumFactChild-${field.Id}-0`] = factItems1[field.Id][day +1].length + '\n' + factItems1[field.Id][day +1].reduce((p,c) => p+Number(c['Эффект']), 0)
 
         if(planItems1 && planItems1[field.Id] && planItems1[field.Id][day+1])
-          obj[`sumPlanChild-${field.Id}-0`] = planItems1[field.Id][day +1].length + '\n' + planItems1[field.Id][day +1].reduce((p,c) => p+Number(c.oil), 0)
+          obj[`sumPlanChild-${field.Id}-0`] = planItems1[field.Id][day +1].length + '\n' + planItems1[field.Id][day +1].reduce((p,c) => p+Number(c['Эффект']), 0)
         // else {
         //   if(field.DailySum[day] && (field.DailySum[day][0] || field.DailySum[day][1])) 
         //     obj[`sumPlanChild-${field.Id}-0`] = (field.DailySum[day][0] ?? '') + '\n' + (field.DailySum[day][1] ?? '')
@@ -284,7 +287,7 @@ const Table: React.FC = () => {
 
   // Данные основных столбцов
   const tableUpdate = () => {
-    data.Partitions.map((itemCol, index) => {
+    data.Partitions.map((itemCol) => {
       // itemCol.PlanItems.map((itemRow) => {
       //   const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
       //   itemRow?.Name && rowNode.setDataValue(`plan0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
@@ -295,8 +298,8 @@ const Table: React.FC = () => {
           const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
           factItems1[itemCol.Id][key].map((item, i) => {
             setTimeout(() => {
-              rowNode.setDataValue(`fact0-${index}-${i}`, item.name+ '\n'+ item.shortName + '\n' + item.oil)
-              factItems1[itemCol.Id] && factItems1[itemCol.Id][key] && rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`, factItems1[itemCol.Id][key].length + '\n' + factItems1[itemCol.Id][key].reduce((p,c) => p+Number(c.oil), 0))
+              rowNode.setDataValue(`fact0-${itemCol.Id}-${i}`, item['Местор.'] + '\n'+ item['N,N скважин'] + '\n' + item['Эффект'])
+              factItems1[itemCol.Id] && factItems1[itemCol.Id][key] && rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`, factItems1[itemCol.Id][key].length + '\n' + factItems1[itemCol.Id][key].reduce((p,c) => p+Number(c['Эффект']), 0))
             }, 200)
           })
         }
@@ -307,8 +310,15 @@ const Table: React.FC = () => {
           const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
           planItems1[itemCol.Id][key].map((item, i) => {
             setTimeout(() => {
-              rowNode.setDataValue(`plan0-${index}-${i}`, item['Местор.']+ '\n'+ item['N,N скважин'] + '\n' + item['Эффект'])
-              planItems1[itemCol.Id] && planItems1[itemCol.Id][key] && rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, planItems1[itemCol.Id][key].length + '\n' + planItems1[itemCol.Id][key].reduce((p,c) => p+Number(c['Эффект']), 0))
+              const m = item['Местор.'] ? item['Местор.'] : ''
+              const n = item['N,N скважин'] ? item['N,N скважин'] : ''
+
+              if(struct.find(item => item.id === itemCol.Id).total) {
+                rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + item['Эффект'])
+              } else {
+                rowNode.setDataValue(`plan0-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + item['Эффект'])
+                planItems1[itemCol.Id] && planItems1[itemCol.Id][key] && rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, planItems1[itemCol.Id][key].length + '\n' + planItems1[itemCol.Id][key].reduce((p,c) => p+Number(c['Эффект']), 0))
+              }
             }, 200)
           })
         }
@@ -321,7 +331,6 @@ const Table: React.FC = () => {
       // }
     })
   }
-
 
   useEffect(() => {
     setTimeout(() => {

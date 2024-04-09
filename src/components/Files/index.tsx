@@ -129,18 +129,18 @@ const Files: React.FC = () => {
       const keys1 = getKeyByValue(wb.Sheets?.report, ['Ввод новых'])
       fact[1] = newGroupByDate(keys1.map(item => ({
         date: wb.Sheets?.report['F'+item.slice(1)].w.substr(0, 2),
-        name: wb.Sheets?.report['G'+item.slice(1)].w,
-        shortName: wb.Sheets?.report['H'+item.slice(1)].w, 
-        oil: wb.Sheets?.report['U'+item.slice(1)].w
+        'Местор.': wb.Sheets?.report['G'+item.slice(1)].w,
+        'N,N скважин': wb.Sheets?.report['H'+item.slice(1)].w, 
+        'Эффект': wb.Sheets?.report['U'+item.slice(1)].w
       })))
 
       // ЗБС
       const keys2 = getKeyByValue(wb.Sheets?.report, ['Зарезка'])
       fact[2] = newGroupByDate(keys2.map(item => ({
         date: wb.Sheets?.report['F'+item.slice(1)].w.substr(0, 2),
-        name: wb.Sheets?.report['G'+item.slice(1)].w,
-        shortName: wb.Sheets?.report['H'+item.slice(1)].w, 
-        oil: wb.Sheets?.report['U'+item.slice(1)].w
+        'Местор.': wb.Sheets?.report['G'+item.slice(1)].w,
+        'N,N скважин': wb.Sheets?.report['H'+item.slice(1)].w, 
+        'Эффект': wb.Sheets?.report['U'+item.slice(1)].w
       })))
 
       // ГРП
@@ -148,21 +148,20 @@ const Files: React.FC = () => {
       const keys3_2 = getKeyByValueStrong(wb.Sheets?.report, ['ГРП'])
 
       const keys3 = [...keys3_1, ...keys3_2]
-      fact[4] = newGroupByDate(keys3.map(item => ({
+      fact[5] = newGroupByDate(keys3.map(item => ({
         date: wb.Sheets?.report['F'+item.slice(1)].w.substr(0, 2),
-        name: wb.Sheets?.report['G'+item.slice(1)].w,
-        shortName: wb.Sheets?.report['H'+item.slice(1)].w, 
-        oil: wb.Sheets?.report['U'+item.slice(1)].w
+        'Местор.': wb.Sheets?.report['G'+item.slice(1)].w,
+        'N,N скважин': wb.Sheets?.report['H'+item.slice(1)].w, 
+        'Эффект': wb.Sheets?.report['U'+item.slice(1)].w
       })))
 
       //Возврат
       const keys4 = getKeyByValue(wb.Sheets?.report, ['Возврат', 'Перевод на', 'Приобщение пласта'])
-      console.log(keys4)
       fact[3] = newGroupByDate(keys4.map(item => ({
         date: wb.Sheets?.report['F'+item.slice(1)].w.substr(0, 2),
-        name: wb.Sheets?.report['G'+item.slice(1)].w,
-        shortName: wb.Sheets?.report['H'+item.slice(1)].w, 
-        oil: wb.Sheets?.report['U'+item.slice(1)].w
+        'Местор.': wb.Sheets?.report['G'+item.slice(1)].w,
+        'N,N скважин': wb.Sheets?.report['H'+item.slice(1)].w, 
+        'Эффект': wb.Sheets?.report['U'+item.slice(1)].w
       })))
 
       setFactItems(fact)

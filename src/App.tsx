@@ -27,9 +27,11 @@ function App() {
   return (
     <Theme preset={presetGpnDefault} style={{height: '100%'}}>
       <Layout style={{  height: '100%'}} direction="row">
+
         <Layout flex={filter ? 1 : 0} style={{height: '100%', background: '#dfedf6'}}>
           {filter && <MultiSelect />}
         </Layout>
+
         <Layout flex={7} style={{  height: '100%'}} direction="column">
           <Layout flex={1} style={{background: '#ecf1f4', width: '100%', flex: 1, alignItems: 'center' }}>
             <Header />
@@ -38,6 +40,7 @@ function App() {
             {renderSwitch(tab)}
           </Layout>
         </Layout>
+        
       </Layout>
     </Theme>
   )

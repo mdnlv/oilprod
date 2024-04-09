@@ -2132,7 +2132,7 @@
       "Name": "Прирост от мероприятий на БФ(т/сут)",
       "OptId": 100000000200004,
       "Color": "LightBlue",
-      "PlanItems": [],
+      "PlanItems": [{}],
       "FactItems": [
         {
           "PlanId": null,
@@ -6236,6 +6236,7 @@
       "Name": "Перевод скважин в ППД(т/сут)",
       "PlanItems": [{}],
       "FactItems": [{}],
+      "Color": "LightBlue",
       "DailySum": [[null,null,null,null]],
       "PartitionSum": [[null,null,null,null]]
     },
@@ -6640,6 +6641,7 @@
       "Name": "Остановоный дебит ЗБС, Возвраты, Углубления(т/сут)",
       "PlanItems": [{}],
       "FactItems": [{}],
+      "Color": "LightBlue",
       "DailySum": [[null,null,null,null]],
       "PartitionSum": [[null,null,null,null]]
     },
