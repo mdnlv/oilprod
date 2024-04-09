@@ -57,7 +57,7 @@ const Table: React.FC = () => {
     const [input2, setInput2] = useState('')
     const refContainer = useRef<HTMLDivElement>(null)
     const values = params.value?.split(/(\n)/)
-
+    
     useEffect(() => {
       refContainer.current?.focus()
       if(values) {
@@ -101,7 +101,7 @@ const Table: React.FC = () => {
               const colId =  params.colDef.field.slice((params.colDef.field.indexOf('-') + 1), params.colDef.field.lastIndexOf('-'))
               const colIndex =  params.colDef.field.slice(params.colDef.field.lastIndexOf('-') +1)
               const colType =  params.colDef.field.slice(0, 4)
-              
+
               cellUpdate({
                 day: Number(params.data.day),
                 newPlaceName: input0,
@@ -111,11 +111,12 @@ const Table: React.FC = () => {
                 colIndex: Number(colIndex),
                 colType: colType
               })
+              
               updateColumns()
               setTimeout(() => {
                 tableUpdate()
                 //sumUpdate()
-              }, 100)
+              }, 200)
             }} />
           </div>
         </div>

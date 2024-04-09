@@ -23,6 +23,11 @@ const obj = {
   'Итого (с ВСП)': 47 // прочие потери
 }
 
+// Восстановление потенциала простоя (Текущий простой + Базовый дебит ГТМ и Оптимизация скважин )-> Сокращение пп
+// Потенциал по графику -> Потенциал простоя
+// Ошибка нерент фон
+// 16й столбец -> Накопленный эффект по базовому дебиту
+
 const nameColList = Object.keys(obj)
 
 function getKeyByValue(object, value) {
@@ -72,7 +77,7 @@ const Files: React.FC = () => {
   const [stops, setStops] = useState('')
   const [rgd, setRgd] = useState('')
 
-  // const [file, setFile] = useState()
+  // const [fileRgd, setFileRgd] = useState()
   // const [workbook, setWorkbook] = useState([])
 
   // useEffect(() => {
@@ -184,7 +189,16 @@ const Files: React.FC = () => {
       const url = 'http://localhost:3000/rgd.xlsx'
       const file = await (await fetch(url)).arrayBuffer()
       const pageNumber = 2
-      // console.log(wb.Sheets['Расчет_Суточной_Добычи_По_Датам'])
+
+      // const reader = new FileReader()
+      // reader.onerror = (event) => {
+      //   console.log('File could not be read! Code ' + event.target.error.code)
+      // }
+
+      // reader.readAsBinaryString(file)
+      // reader.onload = (event) => {
+      // const dataFile = event.target.result
+
       setRgd('xls')
 
       const parsingData = parsingXLSX.parse(
@@ -198,9 +212,8 @@ const Files: React.FC = () => {
         if(obj[key] !== 0) tempo[obj[key]] = parsingData[key]
         /* ... делать что-то с obj[key] ... */
       }
-      console.log(tempo)
+
       setPlanItems(tempo)
-      
       // const keys = getKeyByValue(wb.Sheets?.report, 'Ввод новых')
       // const fact = keys.map(item => ({
       //   date: wb.Sheets?.report['F'+item.slice(1)].w.substr(0, 2),
@@ -212,18 +225,7 @@ const Files: React.FC = () => {
       // setFactItems(fact)
       // // console.log(wb.Sheets?.report)
       // // console.log(getKeyByValue(wb.Sheets?.report, 'Ввод новых ГС с МГРП'))
-
       // //setWorkbook(wb)
-
-      // const reader = new FileReader()
-
-      // reader.onerror = (event) => {
-      //   console.log('File could not be read! Code ' + event.target.error.code)
-      // }
-
-      // reader.readAsBinaryString(file)
-      // reader.onload = (event) => {
-      //   const dataFile = event.target.result
     })() 
   }
 
@@ -257,9 +259,10 @@ const Files: React.FC = () => {
         size='xs'
       />}
     </FileField>
-    <FileField  id="FileFieldWithText3" onChange={() => {
+    <FileField  id="FileFieldWithText3" onChange={(e) => {
       importRgd()
-      //setFile(e.target.files[0]?.name)
+      console.log(e)
+      //setFileRgd(e.target.files[0]?.name)
     }}>
       {(props) => <Attachment {...props} style={{ width: 138, marginRight: -8 }}
         withPictogram

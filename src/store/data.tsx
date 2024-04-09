@@ -21,7 +21,7 @@ export type DataStoreType = {
       'Местор.': string,
       'N,N скважин': string, 
       'Эффект': number
-    }>> 
+    }>> ,
   } | null;
 
   DailySumPlan: object;
@@ -120,6 +120,7 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
   cellUpdate: (data) => set(() => {
     let temp = data.colType === 'plan' ? get().PlanItems : get().FactItems
 
+    console.log(data)
     if(!temp) temp = {} 
     if(!temp[data.colId]) temp[data.colId + ''] = {}
 
