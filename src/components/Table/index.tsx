@@ -6,7 +6,6 @@ import moment from 'moment'
 import data from '../../store/json/test.json'
 import struct from '../../store/json/struct.json'
 import useStore, {StoreType} from '../../store'
-
 // import { Button } from '@consta/uikit/Button'
 // import { IconCopy } from '@consta/icons/IconCopy'
 // import { IconOpenInNew } from '@consta/icons/IconOpenInNew'
@@ -30,7 +29,6 @@ const defaultColDef = {
   },
   cellStyle: { whiteSpace: 'pre' },
 }
-
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cellRenderer = (params: any) => {
