@@ -191,7 +191,7 @@ const Files: React.FC = () => {
       //const url = 'http://localhost:3000/rgd.xlsx'
       //const file = await (await fetch(url)).arrayBuffer()
       
-      const pageNumber = 2
+      const pageNumber = 3
 
       const reader = new FileReader()
 
