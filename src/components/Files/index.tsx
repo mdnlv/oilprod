@@ -1,4 +1,4 @@
-import React, { useState }  from 'react'
+import React, { useRef, useState }  from 'react'
 // import useStore, {StoreType} from '../../store'
 import { FileField } from '@consta/uikit/FileField'
 import { read } from 'xlsx'
@@ -76,6 +76,8 @@ const Files: React.FC = () => {
   const [starts, setStarts] = useState('')
   const [stops, setStops] = useState('')
   const [rgd, setRgd] = useState('')
+
+  const fileInput = useRef(null)
 
   // const [fileRgd, setFileRgd] = useState()
   // const [workbook, setWorkbook] = useState([])
@@ -186,10 +188,14 @@ const Files: React.FC = () => {
   // План
   const importRgd = () => {
     (async() =>{
-      const url = 'http://localhost:3000/rgd.xlsx'
-      const file = await (await fetch(url)).arrayBuffer()
+      //const url = 'http://localhost:3000/rgd.xlsx'
+      //const file = await (await fetch(url)).arrayBuffer()
+      
       const pageNumber = 2
 
+      const reader = new FileReader()
+
+      const file = fileInput.current.files[0]
       // const reader = new FileReader()
       // reader.onerror = (event) => {
       //   console.log('File could not be read! Code ' + event.target.error.code)
@@ -199,21 +205,39 @@ const Files: React.FC = () => {
       // reader.onload = (event) => {
       // const dataFile = event.target.result
 
-      setRgd('xls')
-
-      const parsingData = parsingXLSX.parse(
-        file,
-        pageNumber,
-        nameColList
-      )
-
-      const tempo = {}
-      for (const key in parsingData) {
-        if(obj[key] !== 0) tempo[obj[key]] = parsingData[key]
-        /* ... делать что-то с obj[key] ... */
+      reader.onerror = (event) => {
+        console.log('File could not be read! Code ' + event.target.error.code)
       }
 
-      setPlanItems(tempo)
+      reader.readAsBinaryString(file)
+
+      reader.onload = (event) => {
+        const dataFile = event.target.result
+
+        const parsingData = parsingXLSX.parse(
+          dataFile,
+          pageNumber,
+          nameColList
+        )
+
+        console.log(parsingData)
+        const tempo = {}
+        for (const key in parsingData) {
+          if(obj[key] !== 0) tempo[obj[key]] = parsingData[key]
+          /* ... делать что-то с obj[key] ... */
+        }
+  
+        setPlanItems(tempo)
+      }
+
+      setRgd('xls')
+
+      // const parsingData = parsingXLSX.parse(
+      //   file,
+      //   pageNumber,
+      //   nameColList
+      // )
+
       // const keys = getKeyByValue(wb.Sheets?.report, 'Ввод новых')
       // const fact = keys.map(item => ({
       //   date: wb.Sheets?.report['F'+item.slice(1)].w.substr(0, 2),
@@ -228,6 +252,8 @@ const Files: React.FC = () => {
       // //setWorkbook(wb)
     })() 
   }
+
+
 
   return (<div style={{
     display: 'flex', 
@@ -259,9 +285,9 @@ const Files: React.FC = () => {
         size='xs'
       />}
     </FileField>
-    <FileField  id="FileFieldWithText3" onChange={(e) => {
+
+    <FileField  id="FileFieldWithText3" inputRef={fileInput} onChange={() => {
       importRgd()
-      console.log(e)
       //setFileRgd(e.target.files[0]?.name)
     }}>
       {(props) => <Attachment {...props} style={{ width: 138, marginRight: -8 }}
