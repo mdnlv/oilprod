@@ -183,7 +183,6 @@ const Files: React.FC = () => {
   // План
   const importRgd = () => {
     (async() => {
-      const pageNumber = 3
       const reader = new FileReader()
       const file = fileInput.current.files[0]
 
@@ -195,7 +194,6 @@ const Files: React.FC = () => {
         const dataFile = event.target.result
         const parsingData = parsingXLSX.parse(
           dataFile,
-          pageNumber,
           nameColList
         )
         const tempo = {}

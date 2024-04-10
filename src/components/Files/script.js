@@ -20,14 +20,13 @@ const parsingXLSX = {
 
   worksheet: null,
 
-  init(dataFile, pageNumber) {
+  init(dataFile) {
     const workbook = read(dataFile, { type: 'binary' })
-    const worksheetName = workbook.SheetNames[pageNumber - 1]
-    this.worksheet = workbook.Sheets[worksheetName]
+    this.worksheet = workbook.Sheets['Расчет_Суточной_Добычи_По_Датам']
   },
 
-  parse(dataFile, pageNumber, nameColList) {
-    this.init(dataFile, pageNumber)
+  parse(dataFile, nameColList) {
+    this.init(dataFile)
 
     const indexSubColsOfCols = this.getIndexSubColsOfCols(nameColList)
     const subRowDayObj = this.getSubRowDayObj()
