@@ -24,6 +24,11 @@ const renderSwitch = (tab) => {
   }
 }
 
+// парсинг (преобразовании данных из Excel в данные для веб-системы) и отображению этих данных
+// Частично эта задача, насколько понимаю, может решаться вместе с предыдущей
+// Расчёты полученных данных частично реализованы. Без учёта расчётов, относящихся к разделу доклад
+// С данными из АПД и данными из Excel для "плана" уже работал, но, с учётом неопределённости на текущий момент способа интеграции со смежными системами
+
 function App() {
   const tab = useStore((state : StoreType) => state.tab)
   const filter = useStore((state : StoreType) => state.filter)
@@ -33,28 +38,28 @@ function App() {
     <Theme preset={presetGpnDefault} style={{height: '100%'}}>
       <Layout style={{  height: '100%'}} direction="row">
         {
-          md5(password) === hash ?
-            (<><Layout flex={filter ? 1 : 0} style={{height: '100%', background: '#dfedf6'}}>
-              {filter && <MultiSelect />}
-            </Layout>
+          // md5(password) === hash ?
+          (<><Layout flex={filter ? 1 : 0} style={{height: '100%', background: '#dfedf6'}}>
+            {filter && <MultiSelect />}
+          </Layout>
 
-            <Layout flex={7} style={{  height: '100%'}} direction="column">
-              <Layout flex={1} style={{background: '#ecf1f4', width: '100%', flex: 1, alignItems: 'center' }}>
-                <Header />
-              </Layout>
-              <Layout flex={13} style={{ width: '100%' }}>
-                {renderSwitch(tab)}
-              </Layout>
-            </Layout></>) :         
-            <Layout flex={1} style={{justifyContent: 'center', alignItems: 'center'}}>
-              <TextField
-                onChange={(value) => setPassword(value)}
-                value={password}
-                type="password"
-                placeholder="Введите пароль"
-                style={{width: 240, marginTop: -100}}
-              />
+          <Layout flex={7} style={{  height: '100%'}} direction="column">
+            <Layout flex={1} style={{background: '#ecf1f4', width: '100%', flex: 1, alignItems: 'center' }}>
+              <Header />
             </Layout>
+            <Layout flex={13} style={{ width: '100%' }}>
+              {renderSwitch(tab)}
+            </Layout>
+          </Layout></>)
+          // : <Layout flex={1} style={{justifyContent: 'center', alignItems: 'center'}}>
+          //   <TextField
+          //     onChange={(value) => setPassword(value)}
+          //     value={password}
+          //     type="password"
+          //     placeholder="Введите пароль"
+          //     style={{width: 240, marginTop: -100}}
+          //   />
+          // </Layout>
         }
       </Layout>
     </Theme>

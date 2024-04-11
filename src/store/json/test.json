@@ -6232,7 +6232,7 @@
       "PartitionSum": [[null,null,null,null]]
     },
     {
-      "Id": 27,
+      "Id": 28,
       "Name": "Перевод скважин в ППД(т/сут)",
       "PlanItems": [{}],
       "FactItems": [{}],
