@@ -1,58 +1,44 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { Line } from '@consta/charts/Line'
+import useDataStore, { DataStoreType } from '../../store/data'
 
-type Item = { Date: string; scales: number, country: string };
+type Item = { date: number; value: number, kind: string };
 
 const colorMap: { [key: string]: string } = {
   'Итого добыча': '#ad4800',
   'Потенциал простоя': '#924e7d',
 }
 
-const data: Item[] =  [
-  {
-    Date: '2010-01',
-    scales: 19998,
-    country: 'Итого добыча'
-  },
-  {
-    Date: '2011-02',
-    scales: 18560,
-    country: 'Потенциал простоя'
-  },
-  {
-    Date: '2009-01',
-    scales: 21898,
-    country: 'Итого добыча'
-  },
-  {
-    Date: '2009-02',
-    scales: 21750,
-    country: 'Потенциал простоя'
-  },
-]
-
-
 const Charts: React.FC = () => {
-  useEffect(()=>{
+  const getChart = useDataStore((state : DataStoreType) => state.PlanItems)[40]
+  const data: Item[] = []
+  
+  console.log(getChart)
+  for(const day in getChart) {
+    data.push({
+      date: Number(day),
+      value: getChart[day][0]['Эффект'], 
+      kind: 'Потенциал простоя' 
+    })
 
-  }, [])
+  }
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <Line
         data={data}
-        xField="Date"
-        yField="scales"
-        seriesField="country"
+        xField="date"
+        yField="value"
+        seriesField="kind"
         slider={{
           start: 0.1,
           end: 0.5,
         }}
         meta={{
-          Date: {alias: 'Дата'},
-          scales : {alias: 'Число'},
+          date: {alias: 'Дата'},
+          value : {alias: 'Число'},
         }}
-        lineStyle={({ country }) => ({stroke: colorMap[country]})}
+        lineStyle={({ kind }) => ({stroke: colorMap[kind]})}
       />
     </div>
   )

@@ -26,7 +26,6 @@ export type DataStoreType = {
 
   DailySumPlan: object;
   DailySumFact: object;
-
   setDailySum: (any) => void;
   setFactItems: (any) => void;
   setPlanItems: (any) => void;
@@ -96,6 +95,8 @@ function groupByDate(arr) {
 //   }, {})
 //   return temp
 // }
+
+
 
 const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
   data: null,

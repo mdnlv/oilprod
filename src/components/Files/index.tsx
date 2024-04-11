@@ -151,7 +151,6 @@ const Files: React.FC = () => {
               tempo[obj[key]] = parsingData[key] 
             } else {
               for (const i in parsingData[key]) {  
-                console.log(tempo[obj[key]][i])
                 tempo[obj[key]][i] 
                   ? tempo[obj[key]][i] = [...tempo[obj[key]][i], ...parsingData[key][i]] 
                   : tempo[obj[key]][i] = parsingData[key][i]
