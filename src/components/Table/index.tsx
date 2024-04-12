@@ -262,10 +262,10 @@ const Table: React.FC = () => {
         //   obj[`sumPlanChild-${field.Id}-0`] = sumPlan1[day+1].length + '\n' + sumPlan1[day +1].reduce((p,c) => p+c.OilRate, 0)
 
         if(factItems1 && factItems1[field.Id] && factItems1[field.Id][day+1])
-          obj[`sumFactChild-${field.Id}-0`] = factItems1[field.Id][day +1].length + '\n' + factItems1[field.Id][day +1].reduce((p,c) => p+Number(c['Эффект']), 0)
+          obj[`sumFactChild-${field.Id}-0`] = factItems1[field.Id][day +1].length + '\n' + factItems1[field.Id][day +1].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
 
         if(planItems1 && planItems1[field.Id] && planItems1[field.Id][day+1])
-          obj[`sumPlanChild-${field.Id}-0`] = planItems1[field.Id][day +1].length + '\n' + planItems1[field.Id][day +1].reduce((p,c) => p+Number(c['Эффект']), 0)
+          obj[`sumPlanChild-${field.Id}-0`] = planItems1[field.Id][day +1].length + '\n' + planItems1[field.Id][day +1].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
         // else {
         //   if(field.DailySum[day] && (field.DailySum[day][0] || field.DailySum[day][1])) 
         //     obj[`sumPlanChild-${field.Id}-0`] = (field.DailySum[day][0] ?? '') + '\n' + (field.DailySum[day][1] ?? '')
@@ -296,8 +296,8 @@ const Table: React.FC = () => {
           const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
           factItems1[itemCol.Id][key].map((item, i) => {
             setTimeout(() => {
-              rowNode.setDataValue(`fact0-${itemCol.Id}-${i}`, item['Местор.'] + '\n'+ item['N,N скважин'] + '\n' + Number(item['Эффект']))
-              factItems1[itemCol.Id] && factItems1[itemCol.Id][key] && rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`, factItems1[itemCol.Id][key].length + '\n' + factItems1[itemCol.Id][key].reduce((p,c) => p+Number(c['Эффект']), 0))
+              rowNode.setDataValue(`fact0-${itemCol.Id}-${i}`, item['Местор.'] + '\n'+ item['N,N скважин'] + '\n' + Math.round(Number(item['Эффект'])))
+              factItems1[itemCol.Id] && factItems1[itemCol.Id][key] && rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`, factItems1[itemCol.Id][key].length + '\n' + factItems1[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0))
             }, 200)
           })
         }
@@ -312,10 +312,10 @@ const Table: React.FC = () => {
               const n = item['N,N скважин'] ? item['N,N скважин'] : ''
 
               if(struct.find(item => item.id === itemCol.Id).total) {
-                rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + Number(item['Эффект']))
+                rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
               } else {
-                rowNode.setDataValue(`plan0-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + Number(item['Эффект']))
-                planItems1[itemCol.Id] && planItems1[itemCol.Id][key] && rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, planItems1[itemCol.Id][key].length + '\n' + planItems1[itemCol.Id][key].reduce((p,c) => p+Number(c['Эффект']), 0))
+                rowNode.setDataValue(`plan0-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
+                planItems1[itemCol.Id] && planItems1[itemCol.Id][key] && rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, planItems1[itemCol.Id][key].length + '\n' + planItems1[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0))
               }
             }, 200)
           })

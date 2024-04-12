@@ -53,7 +53,7 @@ function App() {
             </Layout></>)
             : <Layout flex={1} style={{justifyContent: 'center', alignItems: 'center'}}>
               <TextField
-                onChange={(value) => setPassword(value)}
+                onChange={(value) => setPassword(value ? value : '')}
                 value={password}
                 type="password"
                 placeholder="Введите пароль"
