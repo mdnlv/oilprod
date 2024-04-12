@@ -231,7 +231,7 @@ const Table: React.FC = () => {
           }, 
           {field: `sumFact-${item.Id}`, headerName: 'итого\nфакт', 
             children: [
-              {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].right : '#fff', borderRight: `${item.Id === 24 ? '6' : '3'}px solid #ccd9e0`, alignItems: 'flex-end', paddingBottom: 3 }}
+              {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].right : '#fff', borderRight: `${item.Id === 24 ? '5' : '3'}px solid #ccd9e0`, alignItems: 'flex-end', paddingBottom: 3 }}
             ]},
         ]})
     })]
@@ -278,6 +278,24 @@ const Table: React.FC = () => {
     temp.push({id: temp.length, day: 'ИТОГО:\nмер-тий'},{id: temp.length+1, day: 'Сум. прир.\nдеб. тн/сут.'},{id: temp.length+2, day: 'Накоп.\nдобыча, тн.'})
     setRowData(temp)
   }
+  
+  // Итого по основным, 
+  // Накопленная, 
+  
+  // Изменнение баланса, 
+  // Накопленный, 
+  
+  // Итого увеличение,
+  
+  // Итого остановки, 
+  // Накопленная по ост, 
+  
+  // Итого по ОТМ, 
+  
+  // Итого потерь,   
+
+  // Итого добыча (итого факт)
+  // Потенциал (итого факт)
   
   useEffect(()=>{
     sumUpdate()
