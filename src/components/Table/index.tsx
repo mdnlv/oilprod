@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, { memo, useEffect, useRef, useState} from 'react'
+import React, { memo, useEffect,  useRef, useState} from 'react'
 import { agGridAdapter } from '@consta/ag-grid-adapter/agGridAdapter'
 import { AgGridReact } from 'ag-grid-react'
 import moment from 'moment'
@@ -13,22 +13,6 @@ import useStore, {StoreType} from '../../store'
 import { Text } from '@consta/uikit/Text'
 import useDataStore, { DataStoreType } from '../../store/data'
 import { Button } from '@consta/uikit/Button'
-
-const defaultColDef = {
-  flex: 1,
-  minWidth: 60,
-  resizable: true,
-  suppressMovable: true,
-  fontSize: 8,
-  editable: true,
-  tooltipShowDelay: 10,
-  headerComponentParams: {
-    transform: 'uppercase',
-    view: 'brand',  
-    align: 'right',
-  },
-  cellStyle: { whiteSpace: 'pre' },
-}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cellRenderer = (params: any) => {
@@ -47,7 +31,22 @@ const Table: React.FC = () => {
   const planItems1 = useDataStore((state : DataStoreType) => state.PlanItems)
   const cellUpdate = useDataStore((state : DataStoreType) => state.cellUpdate)
 
-  
+  const defaultColDef = {
+    flex: 1,
+    minWidth: 60,
+    resizable: true,
+    suppressMovable: true,
+    fontSize: 8,
+    editable: true,
+    headerComponentParams: {
+      transform: 'uppercase',
+      view: 'brand',  
+      align: 'right',
+    },
+    cellStyle: { whiteSpace: 'pre' }
+  }
+
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cellEditor = memo((params: any) => {
     const [input0, setInput0] = useState('')
@@ -88,17 +87,17 @@ const Table: React.FC = () => {
             <Text size="xs" view="linkMinor" weight="semibold">ЗБС(т/сут)</Text>
             <Button size="xs" label="Скопировать" view="clear" iconLeft={IconClose} onlyIcon
           </div>*/}
-          <input placeholder="Название" value={input0} onChange={(e) => {setInput0(e.target.value)}} style={{marginBottom: 2}}/>
-          <input placeholder="Номер" value={input1} onChange={(e) => {setInput1(e.target.value)}} style={{marginBottom: 2}}/>
-          <input placeholder="Значение" value={input2} onChange={(e) => {setInput2(e.target.value)}} style={{marginBottom: 2}}/>
+          <input placeholder="Месторождение" value={input0} onChange={(e) => {setInput0(e.target.value)}} style={{marginBottom: 2}}/>
+          <input placeholder="Скважина" value={input1} onChange={(e) => {setInput1(e.target.value)}} style={{marginBottom: 2}}/>
+          <input placeholder="Qн" value={input2} onChange={(e) => {setInput2(e.target.value.replace(/[^\d-]|\b-/, '') )}} style={{marginBottom: 2}}/>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems:'baseline', marginTop: 6}}>
             {/*<Button size="xs" label="Скопировать" view="clear" iconLeft={IconCopy}/>
           <Button size="xs" label="Переместить" view="clear" iconLeft={IconOpenInNew} />*/}
             <Text size="xs" view="linkMinor" style={{marginBottom: 8}}>{params.data.day} февраля</Text>
             <Button size="xs" label="Сохранить" style={{marginLeft: 7}} onClick={() => {
               const colId =  params.colDef.field.slice((params.colDef.field.indexOf('-') + 1), params.colDef.field.lastIndexOf('-'))
-              const colIndex =  params.colDef.field.slice(params.colDef.field.lastIndexOf('-') +1)
-              const colType =  params.colDef.field.slice(0, 4)
+              const colIndex = params.colDef.field.slice(params.colDef.field.lastIndexOf('-') +1)
+              const colType = params.colDef.field.slice(0, 4)
 
               cellUpdate({
                 day: Number(params.data.day),
@@ -128,7 +127,7 @@ const Table: React.FC = () => {
     ...data.Partitions.map((item) => {
    
       const colors = {
-        'LightGray': '#fafafa',
+        'LightGray': '#f3f3f3 ',
         'LightBlue': {left:'rgb(223, 237, 246)', right: 'rgb(223, 237, 246)'},
         'LightGreen': {left: 'rgb(207, 248, 228)', right: 'rgb(207, 248, 228)'},
         'LightGreenRed': {left: 'rgb(207, 248, 228)', right: 'rgb(248, 215, 207)'}
@@ -223,16 +222,16 @@ const Table: React.FC = () => {
       //     ]})
       // }
 
-      return ({field: item.Id.toString(), headerName: item.Name, minWidth: 80, borderRight: '3px solid #ccd9e0',
+      return ({field: item.Id.toString(), headerName: item.Name, minWidth: 80, borderRight: '3px solid #ccd9e0', headerTooltip: item.Name,
         children: [...children,
           {field: `sumPlan-${item.Id}`, headerName: 'итого\nплан',
             children: [
-              {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].left : '#fff'}}
+              {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].left : '#fff', alignItems: 'flex-end', paddingBottom: 3 }}
             ]
           }, 
           {field: `sumFact-${item.Id}`, headerName: 'итого\nфакт', 
             children: [
-              {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].right : '#fff', borderRight: '3px solid #ccd9e0' }}
+              {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].right : '#fff', borderRight: `${item.Id === 24 ? '6' : '3'}px solid #ccd9e0`, alignItems: 'flex-end', paddingBottom: 3 }}
             ]},
         ]})
     })]
@@ -297,7 +296,7 @@ const Table: React.FC = () => {
           const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
           factItems1[itemCol.Id][key].map((item, i) => {
             setTimeout(() => {
-              rowNode.setDataValue(`fact0-${itemCol.Id}-${i}`, item['Местор.'] + '\n'+ item['N,N скважин'] + '\n' + item['Эффект'])
+              rowNode.setDataValue(`fact0-${itemCol.Id}-${i}`, item['Местор.'] + '\n'+ item['N,N скважин'] + '\n' + Number(item['Эффект']))
               factItems1[itemCol.Id] && factItems1[itemCol.Id][key] && rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`, factItems1[itemCol.Id][key].length + '\n' + factItems1[itemCol.Id][key].reduce((p,c) => p+Number(c['Эффект']), 0))
             }, 200)
           })
@@ -313,9 +312,9 @@ const Table: React.FC = () => {
               const n = item['N,N скважин'] ? item['N,N скважин'] : ''
 
               if(struct.find(item => item.id === itemCol.Id).total) {
-                rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + item['Эффект'])
+                rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + Number(item['Эффект']))
               } else {
-                rowNode.setDataValue(`plan0-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + item['Эффект'])
+                rowNode.setDataValue(`plan0-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + Number(item['Эффект']))
                 planItems1[itemCol.Id] && planItems1[itemCol.Id][key] && rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, planItems1[itemCol.Id][key].length + '\n' + planItems1[itemCol.Id][key].reduce((p,c) => p+Number(c['Эффект']), 0))
               }
             }, 200)
@@ -346,7 +345,9 @@ const Table: React.FC = () => {
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
         headerHeight={1}
-        enableCellChangeFlash = {true}
+        // enableCellChangeFlash = {true}
+        tooltipShowDelay={0}
+        tooltipHideDelay={2000}
         rowClassRules={{
           'border-top': (params) => params.data?.day === 'ИТОГО:\nмер-тий',
         }}

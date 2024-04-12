@@ -134,16 +134,16 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
         temp[data.colId][data.day].push({
           date: data.day,
           'Местор.': data.newPlaceName,
-          'N,N скважин': data.newWeight,
-          'Эффект': data.newPlaceNum
+          'N,N скважин': data.newPlaceNum,
+          'Эффект': data.newWeight
         })
       }
     } else {
       temp[data.colId][data.day] = [{
         date: data.day,
         'Местор.': data.newPlaceName,
-        'N,N скважин': data.newWeight,
-        'Эффект': data.newPlaceNum
+        'N,N скважин': data.newPlaceNum,
+        'Эффект': data.newWeight
       }]
     }
 
