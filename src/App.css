@@ -95,5 +95,10 @@
   padding: 12px !important;
   border-width: 1px;
   border-style: solid;
-  border-color: #545454 !;
+  border-color: #545454;
+}
+
+.ag-menu {
+  background-color: #f9f9f9 !important;
+  min-width: 160px !important;
 }

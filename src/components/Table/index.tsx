@@ -1,18 +1,16 @@
 /* eslint-disable react/display-name */
-import React, { memo, useEffect,  useRef, useState} from 'react'
+import React, {  useCallback, useEffect,  useRef, useState} from 'react'
 import { agGridAdapter } from '@consta/ag-grid-adapter/agGridAdapter'
 import { AgGridReact } from 'ag-grid-react'
 import moment from 'moment'
 import data from '../../store/json/test.json'
 import struct from '../../store/json/struct.json'
 import useStore, {StoreType} from '../../store'
-// import { Button } from '@consta/uikit/Button'
-// import { IconCopy } from '@consta/icons/IconCopy'
-// import { IconOpenInNew } from '@consta/icons/IconOpenInNew'
-// import { IconClose } from '@consta/icons/IconClose'
 import { Text } from '@consta/uikit/Text'
 import useDataStore, { DataStoreType } from '../../store/data'
 import { Button } from '@consta/uikit/Button'
+import 'ag-grid-enterprise'
+import { GetContextMenuItemsParams, MenuItemDef } from 'ag-grid-community'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cellRenderer = (params: any) => {
@@ -48,7 +46,7 @@ const Table: React.FC = () => {
 
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const cellEditor = memo((params: any) => {
+  const cellEditor = (params: any) => {
     const [input0, setInput0] = useState('')
     const [input1, setInput1] = useState('')
     const [input2, setInput2] = useState('')
@@ -69,10 +67,13 @@ const Table: React.FC = () => {
         ref={refContainer}
         style={{
           border: '1px solid grey',
-          backgroundColor: '#e6e6e6',
+          backgroundColor: '#f2f2f2',
           padding: 8,
           paddingBottom: 4,
+          marginTop: 3,
+          marginLeft: 3,
           display: 'inline-block',
+          borderRadius: 2,
           width: 180,
         }}
         tabIndex={1} // important - without this the key presses wont be caught
@@ -94,11 +95,10 @@ const Table: React.FC = () => {
             {/*<Button size="xs" label="Скопировать" view="clear" iconLeft={IconCopy}/>
           <Button size="xs" label="Переместить" view="clear" iconLeft={IconOpenInNew} />*/}
             <Text size="xs" view="linkMinor" style={{marginBottom: 8}}>{params.data.day} февраля</Text>
-            <Button size="xs" label="Сохранить" style={{marginLeft: 7}} onClick={() => {
+            <Button size="xs" label="Сохранить" style={{marginLeft: 7}} disabled={input0 === '' && input1 === '' && input2 === ''} onClick={() => {
               const colId =  params.colDef.field.slice((params.colDef.field.indexOf('-') + 1), params.colDef.field.lastIndexOf('-'))
               const colIndex = params.colDef.field.slice(params.colDef.field.lastIndexOf('-') +1)
               const colType = params.colDef.field.slice(0, 4)
-
               cellUpdate({
                 day: Number(params.data.day),
                 newPlaceName: input0,
@@ -108,7 +108,9 @@ const Table: React.FC = () => {
                 colIndex: Number(colIndex),
                 colType: colType
               })
-              
+
+              params.api.stopEditing()
+
               updateColumns()
               setTimeout(() => {
                 tableUpdate()
@@ -119,7 +121,7 @@ const Table: React.FC = () => {
         </div>
       </div>
     )
-  })
+  }
 
   const updateColumns = () => {
     const tempColumnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 80,
@@ -354,6 +356,40 @@ const Table: React.FC = () => {
     }, 100)
   }, [factItems1, planItems1])
 
+  
+  const getContextMenuItems = useCallback(
+    (params: GetContextMenuItemsParams): (string | MenuItemDef)[] => {
+      const result: (string | MenuItemDef)[] = [
+        {
+          name: 'Копировать',
+          action: () => {
+            console.log(params.value)
+          },
+          icon: '<img src="./assets/copy.png" />',
+        },
+        {
+          name: 'Вставить',
+          disabled: true,
+          action: () => {},
+          icon: '<img src="./assets/paste.png" />',
+        },
+        {
+          name: 'Вырезать',
+          action: () => {},
+          icon: '<img src="./assets/cut.png" />',
+        },
+        'separator',
+        {
+          name: 'Удалить',
+          action: () => {},
+          icon: '<img src="./assets/delete.png" />',
+        }
+      ]
+      return result
+    }, []
+  )
+
+
   return (
     <div className="ag-theme-quartz" style={{ height: '100%', width: '100%' }}>
       <AgGridReact
@@ -371,6 +407,8 @@ const Table: React.FC = () => {
         }}
         //enableCellChangeFlash={true}
         rowHeight={42}
+        allowContextMenuWithControlKey={true}
+        getContextMenuItems={getContextMenuItems}
       />
     </div>
   )
