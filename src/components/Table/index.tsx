@@ -219,12 +219,12 @@ const Table: React.FC = () => {
         children: [...children,
           {field: `sumPlan-${item.Id}`, headerName: 'итого\nплан',
             children: [
-              {field: `sumPlanChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].left : '#fff', alignItems: 'flex-end', paddingBottom: 3 }}
+              {field: `sumPlanChild-${item.Id}-0`, editable: false, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].left : '#fff', alignItems: 'flex-end', paddingBottom: 3 }}
             ]
           }, 
           {field: `sumFact-${item.Id}`, headerName: 'итого\nфакт', 
             children: [
-              {field: `sumFactChild-${item.Id}-0`, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].right : '#fff', borderRight: `${item.Id === 24 ? '5' : '3'}px solid #ccd9e0`, alignItems: 'flex-end', paddingBottom: 3 }}
+              {field: `sumFactChild-${item.Id}-0`, editable: false, headerName: '', cellStyle: { backgroundColor: item.Color ? colors[item.Color].right : '#fff', borderRight: `${item.Id === 24 ? '5' : '3'}px solid #ccd9e0`, alignItems: 'flex-end', paddingBottom: 3 }}
             ]},
         ]})
     })]
@@ -290,7 +290,6 @@ const Table: React.FC = () => {
   // Итого добыча (итого факт)
   // Потенциал (итого факт)
 
-
   // 1. Геологическое падение факт: нет механизма отображения
   // 2. Загрузка информации из файла "Свод отчетов СИП"
   // 3. Итоговые строчки и столбцы (мероприятия, сумм дебит, накопл добыча) не считаются: Итого по основным, Накопленная, Изменнение баланса, Накопленный, Итого увеличение, Итого остановки, Накопленная по ост, Итого по ОТМ, Итого потерь, Итого добыча, Потенциал (итого факт)
@@ -302,7 +301,7 @@ const Table: React.FC = () => {
   
   useEffect(()=>{
     sumUpdate()
-  },[factItems1, planItems1])
+  },[factItems1, planItems1, days])
 
   // Данные основных столбцов
   const tableUpdate = () => {
@@ -315,7 +314,7 @@ const Table: React.FC = () => {
       if(factItems1) {
         for (const key in factItems1[itemCol.Id]) {
           const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
-          factItems1[itemCol.Id][key].map((item, i) => {
+          Number(key) <= days && factItems1[itemCol.Id][key].map((item, i) => {
             setTimeout(() => {
               rowNode.setDataValue(`fact0-${itemCol.Id}-${i}`, item['Местор.'] + '\n'+ item['N,N скважин'] + '\n' + Math.round(Number(item['Эффект'])))
               factItems1[itemCol.Id] && factItems1[itemCol.Id][key] && rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`, factItems1[itemCol.Id][key].length + '\n' + factItems1[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0))
@@ -327,7 +326,7 @@ const Table: React.FC = () => {
       if(planItems1) {
         for (const key in planItems1[itemCol.Id]) {
           const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
-          planItems1[itemCol.Id][key].map((item, i) => {
+          Number(key) <= days && planItems1[itemCol.Id][key].map((item, i) => {
             setTimeout(() => {
               const m = item['Местор.'] ? item['Местор.'] : ''
               const n = item['N,N скважин'] ? item['N,N скважин'] : ''
@@ -355,14 +354,13 @@ const Table: React.FC = () => {
     setTimeout(() => {
       tableUpdate()
     }, 100)
-  }, [factItems1, planItems1])
-
+  }, [factItems1, planItems1, days])
   
   const getContextMenuItems = useCallback(
     (params: GetContextMenuItemsParams): (string | MenuItemDef)[] => {
-      const colId =  params.column.colId.slice((params.column.colId.indexOf('-') + 1), params.column.colId.lastIndexOf('-'))
-      const colIndex = params.column.colId.slice(params.column.colId.lastIndexOf('-') +1)
-      const colType = params.column.colId.slice(0, 4)
+      const colId =  params.column.getColId().slice((params.column.getColId().indexOf('-') + 1), params.column.getColId().lastIndexOf('-'))
+      const colIndex = params.column.getColId().slice(params.column.getColId().lastIndexOf('-') +1)
+      const colType = params.column.getColId().slice(0, 4)
 
       const result: (string | MenuItemDef)[] = [
         {
@@ -455,7 +453,6 @@ const Table: React.FC = () => {
       return result
     }, [clipboard]
   )
-
 
   return (
     <div className="ag-theme-quartz" style={{ height: '100%', width: '100%' }}>

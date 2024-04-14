@@ -110,12 +110,12 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
 
   setClipboard: (data) => set(() => {
     const temp = data.colType === 'plan' ? get().PlanItems : get().FactItems
-    console.log(data)
+    const day  = data.colType === 'plan' && String(data.day).length === 1 ? '0' + String(data.day) : String(data.day)
     return { clipboard: {
-      date: data.day,
-      'Местор.': temp[data.colId][data.day][data.colIndex]['Местор.'],
-      'N,N скважин': temp[data.colId][data.day][data.colIndex]['N,N скважин'], 
-      'Эффект': temp[data.colId][data.day][data.colIndex]['Эффект']
+      date: day,
+      'Местор.': temp[data.colId][day][data.colIndex]['Местор.'],
+      'N,N скважин': temp[data.colId][day][data.colIndex]['N,N скважин'], 
+      'Эффект': temp[data.colId][day][data.colIndex]['Эффект']
     } }
   }),
 
@@ -133,29 +133,30 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
 
   cellUpdate: (data) => set(() => {
     let temp = data.colType === 'plan' ? get().PlanItems : get().FactItems
+    const day  = data.colType === 'plan' && String(data.day).length === 1 ? '0' + String(data.day) : String(data.day)
     if(data.newPlaceName == null) {
-      temp[data.colId][data.day] = temp[data.colId][data.day].filter((_, index) => index !== data.colIndex)
-      if(temp[data.colId][data.day].length === 0) delete temp[data.colId][data.day]
+      temp[data.colId][day] = temp[data.colId][day].filter((_, index) => index !== data.colIndex)
+      if(temp[data.colId][day].length === 0) delete temp[data.colId][day]
     } else {   
       if(!temp) temp = {} 
       if(!temp[data.colId]) temp[data.colId + ''] = {}
       
-      if( temp[data.colId][data.day]) {
-        if(temp[data.colId][data.day][data.colIndex]) {
-          temp[data.colId][data.day][data.colIndex]['Местор.'] = data.newPlaceName
-          temp[data.colId][data.day][data.colIndex]['N,N скважин'] = data.newPlaceNum
-          temp[data.colId][data.day][data.colIndex]['Эффект'] = data.newWeight
+      if( temp[data.colId][day]) {
+        if(temp[data.colId][day][data.colIndex]) {
+          temp[data.colId][day][data.colIndex]['Местор.'] = data.newPlaceName
+          temp[data.colId][day][data.colIndex]['N,N скважин'] = data.newPlaceNum
+          temp[data.colId][day][data.colIndex]['Эффект'] = data.newWeight
         } else {
-          temp[data.colId][data.day].push({
-            date: data.day,
+          temp[data.colId][day].push({
+            date: day,
             'Местор.': data.newPlaceName,
             'N,N скважин': data.newPlaceNum,
             'Эффект': data.newWeight
           })
         }
       } else {
-        temp[data.colId][data.day] = [{
-          date: data.day,
+        temp[data.colId][day] = [{
+          date: day,
           'Местор.': data.newPlaceName,
           'N,N скважин': data.newPlaceNum,
           'Эффект': data.newWeight
