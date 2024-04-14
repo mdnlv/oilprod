@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, {  useCallback, useEffect,  useRef, useState} from 'react'
+import React, {  useCallback, useEffect, useRef, useState} from 'react'
 import { agGridAdapter } from '@consta/ag-grid-adapter/agGridAdapter'
 import { AgGridReact } from 'ag-grid-react'
 import moment from 'moment'
@@ -29,6 +29,9 @@ const Table: React.FC = () => {
   const planItems1 = useDataStore((state : DataStoreType) => state.PlanItems)
   const cellUpdate = useDataStore((state : DataStoreType) => state.cellUpdate)
 
+  const clipboard = useDataStore((state : DataStoreType) => state.clipboard)
+  const setClipboard = useDataStore((state : DataStoreType) => state.setClipboard)
+
   const defaultColDef = {
     flex: 1,
     minWidth: 60,
@@ -43,7 +46,6 @@ const Table: React.FC = () => {
     },
     cellStyle: { whiteSpace: 'pre' }
   }
-
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cellEditor = (params: any) => {
@@ -79,21 +81,10 @@ const Table: React.FC = () => {
         tabIndex={1} // important - without this the key presses wont be caught
       >
         <div style={{display: 'flex', flexDirection: 'column'}}>
-          {/*<div style={{
-            display: 'flex', 
-            flexDirection: 'row',
-
-            alignItems: 'flex-start'
-          }}>
-            <Text size="xs" view="linkMinor" weight="semibold">ЗБС(т/сут)</Text>
-            <Button size="xs" label="Скопировать" view="clear" iconLeft={IconClose} onlyIcon
-          </div>*/}
           <input placeholder="Месторождение" value={input0} onChange={(e) => {setInput0(e.target.value)}} style={{marginBottom: 2}}/>
           <input placeholder="Скважина" value={input1} onChange={(e) => {setInput1(e.target.value)}} style={{marginBottom: 2}}/>
           <input placeholder="Qн" value={input2} onChange={(e) => {setInput2(e.target.value.replace(/[^\d-]|\b-/, '') )}} style={{marginBottom: 2}}/>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems:'baseline', marginTop: 6}}>
-            {/*<Button size="xs" label="Скопировать" view="clear" iconLeft={IconCopy}/>
-          <Button size="xs" label="Переместить" view="clear" iconLeft={IconOpenInNew} />*/}
             <Text size="xs" view="linkMinor" style={{marginBottom: 8}}>{params.data.day} февраля</Text>
             <Button size="xs" label="Сохранить" style={{marginLeft: 7}} disabled={input0 === '' && input1 === '' && input2 === ''} onClick={() => {
               const colId =  params.colDef.field.slice((params.colDef.field.indexOf('-') + 1), params.colDef.field.lastIndexOf('-'))
@@ -298,6 +289,16 @@ const Table: React.FC = () => {
 
   // Итого добыча (итого факт)
   // Потенциал (итого факт)
+
+
+  // 1. Геологическое падение факт: нет механизма отображения
+  // 2. Загрузка информации из файла "Свод отчетов СИП"
+  // 3. Итоговые строчки и столбцы (мероприятия, сумм дебит, накопл добыча) не считаются: Итого по основным, Накопленная, Изменнение баланса, Накопленный, Итого увеличение, Итого остановки, Накопленная по ост, Итого по ОТМ, Итого потерь, Итого добыча, Потенциал (итого факт)
+  // 4. Не работает механизм  отображения месяцев с разным количеством дней: Строка "Итого мероприятий" содержит записи графика за 31-ое число
+  // 5. После удаления свкважины, итоговый столбец с количеством скважин и дебитом не меняется
+  // 6. Создать внизу поле для выноса "вылетевших" скважин. Должна быть возможность возврата таких скважин обратно в прогноз
+  // 7. Ячейка "Данные графика и прогноза добычи": как работает (изменений никаких не происходит)?
+  
   
   useEffect(()=>{
     sumUpdate()
@@ -359,34 +360,100 @@ const Table: React.FC = () => {
   
   const getContextMenuItems = useCallback(
     (params: GetContextMenuItemsParams): (string | MenuItemDef)[] => {
+      const colId =  params.column.colId.slice((params.column.colId.indexOf('-') + 1), params.column.colId.lastIndexOf('-'))
+      const colIndex = params.column.colId.slice(params.column.colId.lastIndexOf('-') +1)
+      const colType = params.column.colId.slice(0, 4)
+
       const result: (string | MenuItemDef)[] = [
         {
           name: 'Копировать',
+          disabled: params.value ? false : true,
           action: () => {
-            console.log(params.value)
+            setClipboard({
+              day: Number(params.node.data.day),
+              colId: Number(colId),
+              colIndex: Number(colIndex),
+              colType: colType
+            })
           },
           icon: '<img src="./assets/copy.png" />',
         },
         {
           name: 'Вставить',
-          disabled: true,
-          action: () => {},
+          disabled: clipboard ? false : true,
+          action: () => {
+            cellUpdate({
+              day: Number(params.node.data.day),
+              newPlaceName: clipboard['Местор.'],
+              newPlaceNum: clipboard['N,N скважин'],
+              newWeight: clipboard['Эффект'],
+              colId: Number(colId),
+              colIndex: Number(colIndex),
+              colType: colType
+            })
+            setTimeout(() => {
+              tableUpdate()
+            }, 100)
+          },
           icon: '<img src="./assets/paste.png" />',
         },
         {
           name: 'Вырезать',
-          action: () => {},
+          disabled: params.value ? false : true,
+
+          action: () => {
+            setClipboard({
+              day: Number(params.node.data.day),
+              colId: Number(colId),
+              colIndex: Number(colIndex),
+              colType: colType
+            })
+
+            cellUpdate({
+              day: Number(params.node.data.day),
+              newPlaceName: null,
+              newPlaceNum: null,
+              newWeight: null,
+              colId: Number(colId),
+              colIndex: Number(colIndex),
+              colType: colType
+            })
+
+            setTimeout(() => {
+              updateColumns()
+              tableUpdate()
+              //sumUpdate()
+            }, 200)
+          },
+
           icon: '<img src="./assets/cut.png" />',
         },
         'separator',
         {
           name: 'Удалить',
-          action: () => {},
+          disabled: params.value ? false : true,
+          action: () => {
+            cellUpdate({
+              day: Number(params.node.data.day),
+              newPlaceName: null,
+              newPlaceNum: null,
+              newWeight: null,
+              colId: Number(colId),
+              colIndex: Number(colIndex),
+              colType: colType
+            })
+
+            setTimeout(() => {
+              updateColumns()
+              tableUpdate()
+              //sumUpdate()
+            }, 200)
+          },
           icon: '<img src="./assets/delete.png" />',
         }
       ]
       return result
-    }, []
+    }, [clipboard]
   )
 
 
@@ -399,7 +466,6 @@ const Table: React.FC = () => {
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
         headerHeight={1}
-        // enableCellChangeFlash = {true}
         tooltipShowDelay={0}
         tooltipHideDelay={2000}
         rowClassRules={{
