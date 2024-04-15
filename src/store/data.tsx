@@ -18,11 +18,14 @@ export type DataStoreType = {
   } | null;
 
   PlanItems:  {
-    [id: number]: Array<Array<Cell>> ,
+    [id: number]: Array<Array<Cell>>
   } | null;
 
   clipboard: Cell;
   setClipboard: (any) => void;
+
+  sumItems: object | null;
+  setSumItems: (any) => void;
 
   DailySumPlan: object;
   DailySumFact: object;
@@ -83,26 +86,11 @@ function groupByDate(arr) {
   return temp
 }
 
-// function newGroupByDate(arr) {
-//   const temp = arr.reduce((acc, item) => {
-//     const date = item.date
-//     if (acc[date]) {
-//       acc[date].push(item)
-//     } else {
-//       acc[Number(date)] = [item]
-//     }
-//     return acc
-//   }, {})
-//   return temp
-// }
-
-
-
 const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
   data: null,
   FactItems: null,
   PlanItems: null,
-  SumItems: null,
+  sumItems: null,
   DailySumPlan: groupByDate(testData.Partitions[0].PlanItems),
   DailySumFact: groupByDate(testData.Partitions[0].FactItems),
 
@@ -167,9 +155,10 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
     return (data.colType === 'plan' ? { PlanItems: temp } : { FactItems: temp })
   }),
 
-  // addFactItems: (data) => set(() => {
-  //   return { FactItems: [...get().FactItems, newGroupByDate(data)]}
-  // }),
+  setSumItems: (data) => set(() => {
+    return { sumItems: data}
+  }),
+
 }), {enabled: true, name: 'DataStore'}))
 
 export default useDataStore

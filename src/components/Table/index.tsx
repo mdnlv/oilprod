@@ -14,7 +14,6 @@ import { GetContextMenuItemsParams, MenuItemDef } from 'ag-grid-community'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cellRenderer = (params: any) => {
-  //const mood = useMemo(() => imageForMood(props.value), [props.value])
   return <div style={{display: 'flex', flexDirection: 'column'}}>{params.value}</div>
 }
 
@@ -23,10 +22,10 @@ const Table: React.FC = () => {
   const days = moment(useStore((state : StoreType) => state.month)).daysInMonth()
   const [rowData, setRowData] = useState([])
   const [columnDefs, setColumnDefs] = useState([])
-  // const sumPlan1 = useDataStore((state : DataStoreType) => state.DailySumPlan)
-  //const setDailySum1 = useDataStore((state : DataStoreType) => state.setDailySum)
-  const factItems1 = useDataStore((state : DataStoreType) => state.FactItems)
-  const planItems1 = useDataStore((state : DataStoreType) => state.PlanItems)
+  const sumItems = useDataStore((state : DataStoreType) => state.sumItems)
+  const setSumItems = useDataStore((state : DataStoreType) => state.setSumItems)
+  const factItems = useDataStore((state : DataStoreType) => state.FactItems)
+  const planItems = useDataStore((state : DataStoreType) => state.PlanItems)
   const cellUpdate = useDataStore((state : DataStoreType) => state.cellUpdate)
 
   const clipboard = useDataStore((state : DataStoreType) => state.clipboard)
@@ -125,27 +124,16 @@ const Table: React.FC = () => {
         'LightGreen': {left: 'rgb(207, 248, 228)', right: 'rgb(207, 248, 228)'},
         'LightGreenRed': {left: 'rgb(207, 248, 228)', right: 'rgb(248, 215, 207)'}
       }
-    
-      // item.PlanItems.length > 0 && children.push({field: 'plan0', headerName: 'график', headerTooltip: 'график',
-      //   children: [
-      //     {field: `plan0-${index}-0`, headerName: '', cellRenderer: cellRenderer,
-      //       cellEditor: cellEditor,
-      //       cellEditorPopup: true}, 
-      //     {field: `plan0-${index}-1`, headerName: '', cellRenderer: cellRenderer,
-      //       cellEditor: cellEditor,
-      //       cellEditorPopup: true}
-      //   ]
-      // })
-      
+
       const children = []
 
       if(!struct.find(el => el.id == item.Id)?.total){
-        if(planItems1 && planItems1[item.Id]) {
+        if(planItems && planItems[item.Id]) {
           let temp = []
-          for (const i in planItems1[item.Id]) {
-            if(planItems1[item.Id][i].length > temp.length) temp = planItems1[item.Id][i]
+          for (const i in planItems[item.Id]) {
+            if(planItems[item.Id][i].length > temp.length) temp = planItems[item.Id][i]
           }
-          planItems1[item.Id] && children.push({field: 'plan0', headerName: 'план',
+          planItems[item.Id] && children.push({field: 'plan0', headerName: 'план',
             children: [...temp.map((_, i) =>
               ({field: `plan0-${item.Id}-${i}`, headerName: '', cellStyle: { backgroundColor: colors.LightGray },
                 cellRenderer: cellRenderer,
@@ -171,27 +159,26 @@ const Table: React.FC = () => {
           })
         }
 
-        if(factItems1 && factItems1[item.Id]) {
+        if(factItems && factItems[item.Id]) {
           let temp = []
-          for (const i in factItems1[item.Id]) {
-            if(factItems1[item.Id][i].length > temp.length) temp = factItems1[item.Id][i]
+          for (const i in factItems[item.Id]) {
+            if(factItems[item.Id][i].length > temp.length) temp = factItems[item.Id][i]
           }
     
-          factItems1[item.Id] && children.push({field: 'fact0', headerName: 'факт',
+          factItems[item.Id] && children.push({field: 'fact0', headerName: 'факт',
             children: [...temp.map((_, i) =>
               ({field: `fact0-${item.Id}-${i}`, headerName: '',
                 cellRenderer: cellRenderer,
                 cellEditor: cellEditor,
                 cellEditorPopup: true
-              })),
+              })
+            ),
             {field: `fact0-${item.Id}-${temp.length}`, headerName: '',
               cellRenderer: cellRenderer,
               cellEditor: cellEditor,
               cellEditorPopup: true
-            }
-            ] 
-          })
-        
+            }] 
+          })    
         } else {
           item.FactItems.length !== 0 && children.push({field: 'fact0', headerName: 'факт',
             children: [
@@ -204,16 +191,6 @@ const Table: React.FC = () => {
           })
         }
       }
-      // else {
-      //   item.FactItems.length > 0 && children.push({field: 'fact0', headerName: 'факт',
-      //     children: [
-      //       {field: `fact0-${item.Id}-0`, headerName: ''}, 
-      //       {field: `fact0-${item.Id}-1`, headerName: '',
-      //         cellRenderer: cellRenderer,
-      //         cellEditor: cellEditor,
-      //         cellEditorPopup: true}
-      //     ]})
-      // }
 
       return ({field: item.Id.toString(), headerName: item.Name, minWidth: 80, borderRight: '3px solid #ccd9e0', headerTooltip: item.Name,
         children: [...children,
@@ -234,7 +211,7 @@ const Table: React.FC = () => {
   // Заголовки столбцов
   useEffect(() => {
     updateColumns()
-  }, [factItems1, planItems1])
+  }, [factItems, planItems])
 
   const styleOptions = agGridAdapter({
     size: 's',
@@ -244,33 +221,59 @@ const Table: React.FC = () => {
   })
 
   // Данные итоговых столбцов
-
   const sumUpdate = () => {
-    const temp = [...Array(days)].map((_, day) => {
+    const sum = {}
+    const tempo = [...Array(days)].map((_, day) => {
       const obj: {id: number, day: string} = { id: day,  day: (day+1).toString() } 
         
       data.Partitions.map((field) => { 
-        // // console.log(factItems1)
-        // if(sumPlan1[day + 1]) 
-        //   obj[`sumPlanChild-${field.Id}-0`] = sumPlan1[day+1].length + '\n' + sumPlan1[day +1].reduce((p,c) => p+c.OilRate, 0)
+        if(factItems && factItems[field.Id] && factItems[field.Id][day+1]) {
+          const qf = factItems[field.Id][day +1].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+          obj[`sumFactChild-${field.Id}-0`] = `${factItems[field.Id][day +1].length}
+            \n${qf}`
+          
+          !sum[field.Id] ?  
+            sum[field.Id] = { 
+              fact : {
+                count: factItems[field.Id][day +1].length,
+                weight: qf
+              }
+            } : sum[field.Id]['fact'] = {
+              count: factItems[field.Id][day +1].length,
+              weight: qf
+            }
+        }
 
-        if(factItems1 && factItems1[field.Id] && factItems1[field.Id][day+1])
-          obj[`sumFactChild-${field.Id}-0`] = factItems1[field.Id][day +1].length + '\n' + factItems1[field.Id][day +1].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
-
-        if(planItems1 && planItems1[field.Id] && planItems1[field.Id][day+1])
-          obj[`sumPlanChild-${field.Id}-0`] = planItems1[field.Id][day +1].length + '\n' + planItems1[field.Id][day +1].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
-        // else {
-        //   if(field.DailySum[day] && (field.DailySum[day][0] || field.DailySum[day][1])) 
-        //     obj[`sumPlanChild-${field.Id}-0`] = (field.DailySum[day][0] ?? '') + '\n' + (field.DailySum[day][1] ?? '')
-        //   if(field.DailySum[day] && (field.DailySum[day][2] || field.DailySum[day][3]))
-        //     obj[`sumFactChild-${field.Id}-0`] = (field.DailySum[day][2] ?? '' )+ '\n' + (field.DailySum[day][3] ?? '')
-        // }
+        if(planItems && planItems[field.Id] && planItems[field.Id][day+1]) {
+          const qp = planItems[field.Id][day +1].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+          obj[`sumPlanChild-${field.Id}-0`] = `${planItems[field.Id][day +1].length}
+            \n${qp}`
+          !sum[field.Id] ?  
+            sum[field.Id] = { 
+              plan : {
+                count: planItems[field.Id][day +1].length,
+                weight: qp
+              }
+            } : sum[field.Id]['plan'] = {
+              count: planItems[field.Id][day +1].length,
+              weight: qp
+            }
+        }
       })
       return obj
     })
-    temp.push({id: temp.length, day: 'ИТОГО:\nмер-тий'},{id: temp.length+1, day: 'Сум. прир.\nдеб. тн/сут.'},{id: temp.length+2, day: 'Накоп.\nдобыча, тн.'})
-    setRowData(temp)
+    setSumItems(sum)
+    tempo.push(
+      {id: 51, day: 'ИТОГО:\nмер-тий'},
+      {id: 52, day: 'Сум. прир.\nдеб. тн/сут.'},
+      {id: 53, day: 'Накоп.\nдобыча, тн.'}
+    )
+    setRowData(tempo)
   }
+  
+  // 1. Геологическое падение факт: нет механизма отображения
+  // 2. Загрузка информации из файла "Свод отчетов СИП"
+  // 3. Итоговые строчки и столбцы (мероприятия, сумм дебит, накопл добыча) не считаются: 
   
   // Итого по основным, 
   // Накопленная, 
@@ -289,44 +292,31 @@ const Table: React.FC = () => {
 
   // Итого добыча (итого факт)
   // Потенциал (итого факт)
-
-  // 1. Геологическое падение факт: нет механизма отображения
-  // 2. Загрузка информации из файла "Свод отчетов СИП"
-  // 3. Итоговые строчки и столбцы (мероприятия, сумм дебит, накопл добыча) не считаются: Итого по основным, Накопленная, Изменнение баланса, Накопленный, Итого увеличение, Итого остановки, Накопленная по ост, Итого по ОТМ, Итого потерь, Итого добыча, Потенциал (итого факт)
-  // 4. Не работает механизм  отображения месяцев с разным количеством дней: Строка "Итого мероприятий" содержит записи графика за 31-ое число
-  // 5. После удаления свкважины, итоговый столбец с количеством скважин и дебитом не меняется
-  // 6. Создать внизу поле для выноса "вылетевших" скважин. Должна быть возможность возврата таких скважин обратно в прогноз
-  // 7. Ячейка "Данные графика и прогноза добычи": как работает (изменений никаких не происходит)?
-  
-  
-  useEffect(()=>{
-    sumUpdate()
-  },[factItems1, planItems1, days])
+ 
+  // 4. После удаления свкважины, итоговый столбец с количеством скважин и дебитом не меняется
+  // 5. Создать внизу поле для выноса "вылетевших" скважин. Должна быть возможность возврата таких скважин обратно в прогноз
+  // 6. Ячейка "Данные графика и прогноза добычи": как работает (изменений никаких не происходит)?
 
   // Данные основных столбцов
   const tableUpdate = () => {
     data.Partitions.map((itemCol) => {
-      // itemCol.PlanItems.map((itemRow) => {
-      //   const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
-      //   itemRow?.Name && rowNode.setDataValue(`plan0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
-      // })
-
-      if(factItems1) {
-        for (const key in factItems1[itemCol.Id]) {
+      if(factItems) {
+        for (const key in factItems[itemCol.Id]) {
           const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
-          Number(key) <= days && factItems1[itemCol.Id][key].map((item, i) => {
+          Number(key) <= days && factItems[itemCol.Id][key].map((item, i) => {
             setTimeout(() => {
               rowNode.setDataValue(`fact0-${itemCol.Id}-${i}`, item['Местор.'] + '\n'+ item['N,N скважин'] + '\n' + Math.round(Number(item['Эффект'])))
-              factItems1[itemCol.Id] && factItems1[itemCol.Id][key] && rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`, factItems1[itemCol.Id][key].length + '\n' + factItems1[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0))
+              factItems[itemCol.Id] && factItems[itemCol.Id][key] && 
+                rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`, factItems[itemCol.Id][key].length + '\n' + factItems[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0))
             }, 200)
           })
         }
       } 
 
-      if(planItems1) {
-        for (const key in planItems1[itemCol.Id]) {
+      if(planItems) {
+        for (const key in planItems[itemCol.Id]) {
           const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
-          Number(key) <= days && planItems1[itemCol.Id][key].map((item, i) => {
+          Number(key) <= days && planItems[itemCol.Id][key].map((item, i) => {
             setTimeout(() => {
               const m = item['Местор.'] ? item['Местор.'] : ''
               const n = item['N,N скважин'] ? item['N,N скважин'] : ''
@@ -335,27 +325,42 @@ const Table: React.FC = () => {
                 rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
               } else {
                 rowNode.setDataValue(`plan0-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
-                planItems1[itemCol.Id] && planItems1[itemCol.Id][key] && rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, planItems1[itemCol.Id][key].length + '\n' + planItems1[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0))
+                planItems[itemCol.Id] && planItems[itemCol.Id][key] && 
+                  rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, planItems[itemCol.Id][key].length + '\n' + planItems[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0))
               }
             }, 200)
           })
         }
-      } 
-      // else {
-      //   itemCol.FactItems.map((itemRow) => {
-      //     const rowNode = gridRef.current!.api.getRowNode(moment(itemRow?.Day).subtract(1, 'days').format('D'))!
-      //     itemRow?.Name && rowNode.setDataValue(`fact0-${itemCol.Id}-0`, itemRow?.Name.replace(/ /g, '\n') + '\n' + itemRow?.OilRate)
-      //   })
-      // }
+      }
+
+      if(sumItems) {
+        console.log()
+        const rowNodeCount = gridRef.current!.api.getRowNode(51)
+        const rowNodeWeight = gridRef.current!.api.getRowNode(52)
+        for (const key in sumItems) {
+          rowNodeCount.setDataValue(`sumPlanChild-${key}-0`, sumItems[key]['plan']['count'])
+          rowNodeWeight.setDataValue(`sumPlanChild-${key}-0`, sumItems[key]['plan']['weight'])
+          rowNodeCount.setDataValue(`sumFactChild-${key}-0`, sumItems[key]['fact']['count'])
+          rowNodeWeight.setDataValue(`sumFactChild-${key}-0`, sumItems[key]['fact']['weight'])
+        }
+      }     
+    
     })
   }
 
+  // useEffect(() => {
+
+
+  // }, [sumItems])
+  
   useEffect(() => {
+    sumUpdate()
     setTimeout(() => {
       tableUpdate()
     }, 100)
-  }, [factItems1, planItems1, days])
+  }, [factItems, planItems, days])
   
+
   const getContextMenuItems = useCallback(
     (params: GetContextMenuItemsParams): (string | MenuItemDef)[] => {
       const colId =  params.column.getColId().slice((params.column.getColId().indexOf('-') + 1), params.column.getColId().lastIndexOf('-'))
@@ -420,7 +425,6 @@ const Table: React.FC = () => {
             setTimeout(() => {
               updateColumns()
               tableUpdate()
-              //sumUpdate()
             }, 200)
           },
 
@@ -444,7 +448,6 @@ const Table: React.FC = () => {
             setTimeout(() => {
               updateColumns()
               tableUpdate()
-              //sumUpdate()
             }, 200)
           },
           icon: '<img src="./assets/delete.png" />',
