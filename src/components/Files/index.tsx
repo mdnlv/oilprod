@@ -181,6 +181,14 @@ const Files: React.FC = () => {
     justifyContent: 'space-between',
     alignItems: 'center',
   }}>
+    <FileField  id="FileFieldWithText3" inputRef={filePlan} onChange={importRgd}>
+      {(props) => <Attachment {...props} style={{ width: 122, marginRight: -20 }}
+        withPictogram
+        fileName="Загрузить РГД"
+        fileExtension={rgd}
+        size='xs'
+      />}
+    </FileField>
     <FileField id="FileFieldWithText1" inputRef={fileFact} onChange={importUsoi}>
       {(props) =>       
         <Attachment {...props} style={{ width: 122, marginRight: -8 }}
@@ -189,14 +197,6 @@ const Files: React.FC = () => {
           fileExtension={starts}
           size='xs'
         />}
-    </FileField>
-    <FileField  id="FileFieldWithText3" inputRef={filePlan} onChange={importRgd}>
-      {(props) => <Attachment {...props} style={{ width: 122, marginRight: -20 }}
-        withPictogram
-        fileName="Загрузить РГД"
-        fileExtension={rgd}
-        size='xs'
-      />}
     </FileField>
   </div>)
 }

@@ -22,7 +22,7 @@ const Table: React.FC = () => {
   const days = moment(useStore((state : StoreType) => state.month)).daysInMonth()
   const [rowData, setRowData] = useState([])
   const [columnDefs, setColumnDefs] = useState([])
-  const sumItems = useDataStore((state : DataStoreType) => state.sumItems)
+  // const sumItems = useDataStore((state : DataStoreType) => state.sumItems)
   // const setSumItems = useDataStore((state : DataStoreType) => state.setSumItems)
   const factItems = useDataStore((state : DataStoreType) => state.FactItems)
   const planItems = useDataStore((state : DataStoreType) => state.PlanItems)
@@ -104,7 +104,7 @@ const Table: React.FC = () => {
               updateColumns()
               setTimeout(() => {
                 tableUpdate()
-                //sumUpdate()
+                sumUpdate()
               }, 200)
             }} />
           </div>
@@ -234,49 +234,29 @@ const Table: React.FC = () => {
           const qf = factItems[field.Id][day +1].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
           obj[`sumFactChild-${field.Id}-0`] = `${cf}\n${qf}`
           
-
-          // !sum[field.Id] ?  
-          //   sum[field.Id] = { 
-          //     fact : {
-          //       count: factItems[field.Id][day +1].length,
-          //       weight: qf
-          //     }
-          //   } : sum[field.Id]['fact'] = {
-          //     count: factItems[field.Id][day +1].length,
-          //     weight: qf
-          //   }
           sumCount[`sumFactChild-${field.Id}-0`] = 
             (sumCount[`sumFactChild-${field.Id}-0`] ? sumCount[`sumFactChild-${field.Id}-0`] : 0) + cf
           sumWeight[`sumFactChild-${field.Id}-0`] = 
-            (sumWeight[`sumFactChild-${field.Id}-0`] ? sumWeight[`sumFactChild-${field.Id}-0`] : 0) + qf
-          
+            (sumWeight[`sumFactChild-${field.Id}-0`] ? sumWeight[`sumFactChild-${field.Id}-0`] : 0) + qf    
         }
 
+        
         if(planItems && planItems[field.Id] && planItems[field.Id][day+1]) {
           const cp = planItems[field.Id][day +1].length
           const qp = planItems[field.Id][day +1].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
           obj[`sumPlanChild-${field.Id}-0`] = `${cp}\n${qp}`
 
-          // !sum[field.Id] ?  
-          //   sum[field.Id] = { 
-          //     plan : {
-          //       count: planItems[field.Id][day +1].length,
-          //       weight: qp
-          //     }
-          //   } : sum[field.Id]['plan'] = {
-          //     count: planItems[field.Id][day +1].length,
-          //     weight: qp
-          //   }
           sumCount[`sumPlanChild-${field.Id}-0`] =
-            (sumCount[`sumPlanChild-${field.Id}-0`] ? sumCount[`sumPlanChild-${field.Id}-0`] : 0) + cp
+            (sumCount[`sumPlanChild-${field.Id}-0`] ? sumCount[`sumPlanChild-${field.Id}-0`] : 0) + (cp ? cp : 0)
+          
+          field.Id == 1 && console.log(cp)
           sumWeight[`sumPlanChild-${field.Id}-0`] = 
             (sumWeight[`sumPlanChild-${field.Id}-0`] ? sumWeight[`sumPlanChild-${field.Id}-0`] : 0) + qp
         }
-        console.log(sumCount)
       })
       return obj
     })
-    // setSumItems(sum)
+
     tempo.push(
       Object.assign({id: 51, day: 'ИТОГО:\nмер-тий'}, sumCount),
       Object.assign({id: 52, day: 'Сум. прир.\nдеб. тн/сут.'}, sumWeight),
@@ -314,6 +294,7 @@ const Table: React.FC = () => {
   // Данные основных столбцов
   const tableUpdate = () => {
     data.Partitions.map((itemCol) => {
+
       if(factItems) {
         for (const key in factItems[itemCol.Id]) {
           const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
@@ -347,32 +328,16 @@ const Table: React.FC = () => {
           })
         }
       }
-
-    
     })
   }
 
   useEffect(() => {
-
-    if(sumItems && gridRef.current) {
-      console.log(gridRef.current)
-      for (const key in sumItems) {
-        const rowNodeCount = gridRef.current!.api.getRowNode(2+ '')!
-        const rowNodeWeight = gridRef.current!.api.getRowNode(52+ '')!
-        rowNodeCount.setDataValue(`sumPlanChild-${key}-0`, sumItems[key]['plan']['count'])
-        rowNodeWeight.setDataValue(`sumPlanChild-${key}-0`, sumItems[key]['plan']['weight'])
-        rowNodeCount.setDataValue(`sumFactChild-${key}-0`, sumItems[key]['fact']['count'])
-        rowNodeWeight.setDataValue(`sumFactChild-${key}-0`, sumItems[key]['fact']['weight'])
-      }
-    }     
-
-  }, [sumItems])
-  
-  useEffect(() => {
     setTimeout(() => {
       sumUpdate()
+    }, 300)
+    setTimeout(() => {
       tableUpdate()
-    }, 100)
+    }, 1000)
   }, [factItems, planItems, days])
   
 
@@ -486,7 +451,6 @@ const Table: React.FC = () => {
         rowClassRules={{
           'border-top': (params) => params.data?.day === 'ИТОГО:\nмер-тий',
         }}
-        //enableCellChangeFlash={true}
         rowHeight={42}
         allowContextMenuWithControlKey={true}
         getContextMenuItems={getContextMenuItems}
