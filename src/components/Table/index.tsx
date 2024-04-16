@@ -22,8 +22,6 @@ const Table: React.FC = () => {
   const days = moment(useStore((state : StoreType) => state.month)).daysInMonth()
   const [rowData, setRowData] = useState([])
   const [columnDefs, setColumnDefs] = useState([])
-  // const sumItems = useDataStore((state : DataStoreType) => state.sumItems)
-  // const setSumItems = useDataStore((state : DataStoreType) => state.setSumItems)
   const factItems = useDataStore((state : DataStoreType) => state.FactItems)
   const planItems = useDataStore((state : DataStoreType) => state.PlanItems)
   const cellUpdate = useDataStore((state : DataStoreType) => state.cellUpdate)
@@ -104,7 +102,7 @@ const Table: React.FC = () => {
               updateColumns()
               setTimeout(() => {
                 tableUpdate()
-                sumUpdate()
+                //sumUpdate()
               }, 200)
             }} />
           </div>
@@ -222,93 +220,53 @@ const Table: React.FC = () => {
 
   // Данные итоговых столбцов
   const sumUpdate = () => {
-    const sumCount = {}
-    const sumWeight = {}
-
     const tempo = [...Array(days)].map((_, day) => {
-      const obj: {id: number, day: string} = { id: day,  day: (day+1).toString() } 
-        
-      data.Partitions.map((field) => { 
-        if(factItems && factItems[field.Id] && factItems[field.Id][day+1]) {
-          const cf = factItems[field.Id][day +1].length
-          const qf = factItems[field.Id][day +1].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
-          obj[`sumFactChild-${field.Id}-0`] = `${cf}\n${qf}`
-          
-          sumCount[`sumFactChild-${field.Id}-0`] = 
-            (sumCount[`sumFactChild-${field.Id}-0`] ? sumCount[`sumFactChild-${field.Id}-0`] : 0) + cf
-          sumWeight[`sumFactChild-${field.Id}-0`] = 
-            (sumWeight[`sumFactChild-${field.Id}-0`] ? sumWeight[`sumFactChild-${field.Id}-0`] : 0) + qf    
-        }
-
-        
-        if(planItems && planItems[field.Id] && planItems[field.Id][day+1]) {
-          const cp = planItems[field.Id][day +1].length
-          const qp = planItems[field.Id][day +1].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
-          obj[`sumPlanChild-${field.Id}-0`] = `${cp}\n${qp}`
-
-          sumCount[`sumPlanChild-${field.Id}-0`] =
-            (sumCount[`sumPlanChild-${field.Id}-0`] ? sumCount[`sumPlanChild-${field.Id}-0`] : 0) + (cp ? cp : 0)
-          
-          field.Id == 1 && console.log(cp)
-          sumWeight[`sumPlanChild-${field.Id}-0`] = 
-            (sumWeight[`sumPlanChild-${field.Id}-0`] ? sumWeight[`sumPlanChild-${field.Id}-0`] : 0) + qp
-        }
-      })
-      return obj
+      return { id: day,  day: (day+1).toString() } 
     })
 
     tempo.push(
-      Object.assign({id: 51, day: 'ИТОГО:\nмер-тий'}, sumCount),
-      Object.assign({id: 52, day: 'Сум. прир.\nдеб. тн/сут.'}, sumWeight),
-      {id: 53, day: 'Накоп.\nдобыча, тн.'}
+      {id: 32, day: 'ИТОГО:\nмер-тий'},
+      {id: 33, day: 'Сум. прир.\nдеб. тн/сут.'},
+      {id: 33, day: 'Накоп.\nдобыча, тн.'}
     )
     setRowData(tempo)
   }
-  
-  // 1. Геологическое падение факт: нет механизма отображения
-  // 2. Загрузка информации из файла "Свод отчетов СИП"
-  // 3. Итоговые строчки и столбцы (мероприятия, сумм дебит, накопл добыча) не считаются: 
-  
-  // Итого по основным, 
-  // Накопленная, 
-  
-  // Изменнение баланса, 
-  // Накопленный, 
-  
-  // Итого увеличение,
-  
-  // Итого остановки, 
-  // Накопленная по ост, 
-  
-  // Итого по ОТМ, 
-  
-  // Итого потерь,   
-
-  // Итого добыча (итого факт)
-  // Потенциал (итого факт)
- 
-  // 4. После удаления свкважины, итоговый столбец с количеством скважин и дебитом не меняется
-  // 5. Создать внизу поле для выноса "вылетевших" скважин. Должна быть возможность возврата таких скважин обратно в прогноз
-  // 6. Ячейка "Данные графика и прогноза добычи": как работает (изменений никаких не происходит)?
 
   // Данные основных столбцов
   const tableUpdate = () => {
+    const rowNodeCount = gridRef.current!.api.getRowNode(days + '')!
+    const rowNodeWeight = gridRef.current!.api.getRowNode(days + 1 + '')!
+    
     data.Partitions.map((itemCol) => {
-
       if(factItems) {
+        let sumCount = 0
+        let sumWeight = 0
         for (const key in factItems[itemCol.Id]) {
           const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
+          
           Number(key) <= days && factItems[itemCol.Id][key].map((item, i) => {
             setTimeout(() => {
               rowNode.setDataValue(`fact0-${itemCol.Id}-${i}`, item['Местор.'] + '\n'+ item['N,N скважин'] + '\n' + Math.round(Number(item['Эффект'])))
-              factItems[itemCol.Id] && factItems[itemCol.Id][key] && 
-                rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`, factItems[itemCol.Id][key].length + '\n' + factItems[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0))
-            }, 200)
+
+              if(factItems[itemCol.Id] && factItems[itemCol.Id][key]) {
+                const cf = factItems[itemCol.Id][key].length
+                const qf = factItems[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+
+                sumCount = sumCount + 1
+                sumWeight = sumWeight + Number(item['Эффект'])
+
+                rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`, cf + '\n' + qf)
+                rowNodeCount.setDataValue(`sumFactChild-${itemCol.Id}-0`, sumCount)
+                rowNodeWeight.setDataValue(`sumFactChild-${itemCol.Id}-0`, sumWeight)
+              }
+            }, 100)
           })
         }
       } 
 
       if(planItems) {
+        let sumCount = 0
+        let sumWeight = 0
         for (const key in planItems[itemCol.Id]) {
           const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
 
@@ -318,11 +276,27 @@ const Table: React.FC = () => {
               const n = item['N,N скважин'] ? item['N,N скважин'] : ''
 
               if(struct.find(item => item.id === itemCol.Id).total) {
+                sumCount = sumCount + 1
+                sumWeight = sumWeight + Number(item['Эффект'])
+                itemCol.Id === 40 && console.log(sumWeight)
+
                 rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
+                rowNodeCount.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumCount ^ 0) === sumCount ? sumCount : sumCount.toFixed(1))
+                rowNodeWeight.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumWeight ^ 0) === sumWeight ? sumWeight : sumWeight.toFixed(1))
               } else {
                 rowNode.setDataValue(`plan0-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
-                planItems[itemCol.Id] && planItems[itemCol.Id][key] && 
-                  rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, planItems[itemCol.Id][key].length + '\n' + planItems[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0))
+                if(planItems[itemCol.Id] && planItems[itemCol.Id][key]) {
+                  const cp = planItems[itemCol.Id][key].length
+                  const qp = planItems[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+
+                  sumCount = sumCount + 1
+                  sumWeight = sumWeight + Number(item['Эффект'])
+                  itemCol.Id === 40 && console.log(sumWeight)
+  
+                  rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, cp + '\n' + qp)
+                  rowNodeCount.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumCount ^ 0) === sumCount ? sumCount : sumCount.toFixed(1))
+                  rowNodeWeight.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumWeight ^ 0) === sumWeight ? sumWeight : sumWeight.toFixed(1))
+                }
               }
             }, 200)
           })
