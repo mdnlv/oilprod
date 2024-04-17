@@ -177,10 +177,10 @@ const Table: React.FC = () => {
               colIndex: Number(colIndex),
               colType: colType
             })
+            params.api.cutToClipboard()
 
-            tableUpdate()
             setTimeout(() => {
-              updateColumns()
+              tableUpdate()
             }, 200)
           },
 
@@ -200,10 +200,10 @@ const Table: React.FC = () => {
               colIndex: Number(colIndex),
               colType: colType
             })
-            // setTimeout(() => {
-            //   updateColumns()
-            //   tableUpdate()
-            // }, 200)
+            params.api.cutToClipboard()
+            setTimeout(() => {
+              tableUpdate()
+            }, 200)
           },
           icon: '<img src="./assets/delete.png" />',
         }
@@ -216,7 +216,6 @@ const Table: React.FC = () => {
     const tempo = [...Array(days)].map((_, day) => ({ id: day,  day: (day+1).toString() } ))
     tempo.push({id: 32, day: 'ИТОГО:\nмер-тий'}, {id: 33, day: 'Сум. прир.\nдеб. тн/сут.'}, {id: 33, day: 'Накоп.\nдобыча, тн.'})
     setRowData(tempo)
-
     updateColumns()
     setTimeout(() => {
       tableUpdate()
@@ -352,42 +351,47 @@ const Table: React.FC = () => {
         }
       } 
       
-      if(planItems) {
+      if(planItems && planItems[itemCol.Id]) {
         let sumCount = 0
         let sumWeight = 0
-        for (const key in planItems[itemCol.Id]) {
+
+        for(let i = 1; i <= days; i++) {
+          const key = String(i).length === 1 ? '0' + String(i) : String(i)
           const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
+          if(planItems[itemCol.Id][key]){
+            Number(key) <= days && planItems[itemCol.Id][key].map((item, i) => {
+              setTimeout(() => {
+                const m = item['Местор.'] ? item['Местор.'] : ''  
+                const n = item['N,N скважин'] ? item['N,N скважин'] : ''
 
-          Number(key) <= days && planItems[itemCol.Id][key].map((item, i) => {
-            setTimeout(() => {
-              const m = item['Местор.'] ? item['Местор.'] : ''
-              const n = item['N,N скважин'] ? item['N,N скважин'] : ''
-
-              if(struct.find(item => item.id === itemCol.Id).total) {
-                sumCount = sumCount + 1
-                sumWeight = sumWeight + Number(item['Эффект'])
-
-                rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
-                rowNodeCount.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumCount ^ 0) === sumCount ? sumCount : sumCount.toFixed(1))
-                rowNodeWeight.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumWeight ^ 0) === sumWeight ? sumWeight : sumWeight.toFixed(1))
-
-              } else {
-                rowNode.setDataValue(`plan0-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
-                if(planItems[itemCol.Id] && planItems[itemCol.Id][key]) {
-                  const cp = planItems[itemCol.Id][key].length
-                  const qp = planItems[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
-
+                if(struct.find(item => item.id === itemCol.Id).total) {
                   sumCount = sumCount + 1
                   sumWeight = sumWeight + Number(item['Эффект'])
-  
-                  rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, cp + '\n' + qp)
 
+                  rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
                   rowNodeCount.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumCount ^ 0) === sumCount ? sumCount : sumCount.toFixed(1))
                   rowNodeWeight.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumWeight ^ 0) === sumWeight ? sumWeight : sumWeight.toFixed(1))
+
+                } else {
+                  rowNode.setDataValue(`plan0-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
+                  if(planItems[itemCol.Id] && planItems[itemCol.Id][key]) {
+                    const cp = planItems[itemCol.Id][key].length
+                    const qp = planItems[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+
+                    sumCount = sumCount + 1
+                    sumWeight = sumWeight + Number(item['Эффект'])
+  
+                    rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, cp + '\n' + qp)
+
+                    rowNodeCount.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumCount ^ 0) === sumCount ? sumCount : sumCount.toFixed(1))
+                    rowNodeWeight.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumWeight ^ 0) === sumWeight ? sumWeight : sumWeight.toFixed(1))
+                  }
                 }
-              }
-            }, 100)
-          })
+              }, 100)
+            })
+          } else {
+            rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, '')
+          }
         }
       }
 
