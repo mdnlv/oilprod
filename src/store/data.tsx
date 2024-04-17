@@ -34,6 +34,7 @@ export type DataStoreType = {
   cellUpdate: (any) => void;
 
   column14: ()=> object;  
+  column21: ()=> object;  
 }
 
 export type Items = {
@@ -97,6 +98,37 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
         }
 
         if (get().PlanItems && get().PlanItems[index][pday]) {
+          plan.weight = plan.weight + get().PlanItems[index][pday].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+          plan.count = plan.count + get().PlanItems[index][pday].length
+        }
+      })
+
+      if(fact.count > 0 || plan.count > 0 || fact.weight > 0|| plan.weight > 0 ) obj[day] = {
+        fact: fact,
+        plan: plan
+      }
+    })
+
+    return obj
+  },
+  
+  column21: () => {
+    const indexes = [16, 4, 17, 18, 20]
+    const obj = {};
+    
+    [...Array(31)].map((_,i) => {
+      const day = i + 1
+      const pday = String(day).length === 1 ? '0' + String(day) : String(day)
+      const fact = {count: 0, weight: 0}
+      const plan = {count: 0, weight: 0}
+
+      indexes.map(index => {
+        if (get().FactItems && get().FactItems[index] && get().FactItems[index][day]) {
+          fact.weight = fact.weight + get().FactItems[index][day].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+          fact.count = fact.count + get().FactItems[index][day].length
+        }
+
+        if (get().PlanItems && get().PlanItems[index][pday] && get().PlanItems[index][pday]) {
           plan.weight = plan.weight + get().PlanItems[index][pday].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
           plan.count = plan.count + get().PlanItems[index][pday].length
         }
