@@ -1,7 +1,5 @@
-import moment from 'moment'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import testData from './json/test.json'
 
 type Cell = {
   date: string,
@@ -27,12 +25,15 @@ export type DataStoreType = {
   sumItems: object | null;
   setSumItems: (any) => void;
 
-  DailySumPlan: object;
-  DailySumFact: object;
-  setDailySum: (any) => void;
+  // DailySumPlan: object;
+  // DailySumFact: object;
+  // setDailySum: (any) => void;
+
   setFactItems: (any) => void;
   setPlanItems: (any) => void;
   cellUpdate: (any) => void;
+
+  column14: ()=> object;  
 }
 
 export type Items = {
@@ -73,26 +74,42 @@ export type OilType = {
   CompanyName: string
 }
 
-function groupByDate(arr) {
-  const temp = arr.reduce((acc, item) => {
-    const date = moment(item.Day).format('D')
-    if (acc[date]) {
-      acc[date].push(item)
-    } else {
-      acc[date] = [item]
-    }
-    return acc
-  }, {})
-  return temp
-}
-
 const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
   data: null,
   FactItems: null,
   PlanItems: null,
   sumItems: null,
-  DailySumPlan: groupByDate(testData.Partitions[0].PlanItems),
-  DailySumFact: groupByDate(testData.Partitions[0].FactItems),
+   
+  column14: () => {
+    const indexes = [1, 2, 5, 3]
+    const obj = {};
+    
+    [...Array(31)].map((_,i) => {
+      const day = i + 1
+      const pday = String(day).length === 1 ? '0' + String(day) : String(day)
+      const fact = {count: 0, weight: 0}
+      const plan = {count: 0, weight: 0}
+
+      indexes.map(index => {
+        if (get().FactItems && get().FactItems[index][day]) {
+          fact.weight = fact.weight + get().FactItems[index][day].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+          fact.count = fact.count + get().FactItems[index][day].length
+        }
+
+        if (get().PlanItems && get().PlanItems[index][pday]) {
+          plan.weight = plan.weight + get().PlanItems[index][pday].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+          plan.count = plan.count + get().PlanItems[index][pday].length
+        }
+      })
+
+      if(fact.count > 0 || plan.count > 0 || fact.weight > 0|| plan.weight > 0 ) obj[day] = {
+        fact: fact,
+        plan: plan
+      }
+    })
+
+    return obj
+  },
 
   clipboard: null,
 
@@ -105,10 +122,6 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
       'N,N скважин': temp[data.colId][day][data.colIndex]['N,N скважин'], 
       'Эффект': temp[data.colId][day][data.colIndex]['Эффект']
     } }
-  }),
-
-  setDailySum: (data) => set(() => {
-    return { DailySumPlan: groupByDate(data.PlanItems),  DailySumFact: groupByDate(data.FactItems) }
   }),
 
   setFactItems: (data) => set(() => {

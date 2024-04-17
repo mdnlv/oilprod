@@ -17,6 +17,28 @@ const cellRenderer = (params: any) => {
   return <div style={{display: 'flex', flexDirection: 'column'}}>{params.value}</div>
 }
 
+const defaultColDef = {
+  flex: 1,
+  minWidth: 60,
+  resizable: true,
+  suppressMovable: true,
+  fontSize: 8,
+  editable: true,
+  headerComponentParams: {
+    transform: 'uppercase',
+    view: 'brand',  
+    align: 'right',
+  },
+  cellStyle: { whiteSpace: 'pre' }
+}
+
+const styleOptions = agGridAdapter({
+  size: 's',
+  borderBetweenColumns: true,
+  borderBetweenRows: true,
+  headerView: 'clear',
+})
+  
 const Table: React.FC = () => {
   const gridRef = useRef(null)
   const days = moment(useStore((state : StoreType) => state.month)).daysInMonth()
@@ -25,24 +47,9 @@ const Table: React.FC = () => {
   const factItems = useDataStore((state : DataStoreType) => state.FactItems)
   const planItems = useDataStore((state : DataStoreType) => state.PlanItems)
   const cellUpdate = useDataStore((state : DataStoreType) => state.cellUpdate)
-
   const clipboard = useDataStore((state : DataStoreType) => state.clipboard)
   const setClipboard = useDataStore((state : DataStoreType) => state.setClipboard)
-
-  const defaultColDef = {
-    flex: 1,
-    minWidth: 60,
-    resizable: true,
-    suppressMovable: true,
-    fontSize: 8,
-    editable: true,
-    headerComponentParams: {
-      transform: 'uppercase',
-      view: 'brand',  
-      align: 'right',
-    },
-    cellStyle: { whiteSpace: 'pre' }
-  }
+  const column14 = useDataStore((state : DataStoreType) => state.column14)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cellEditor = (params: any) => {
@@ -98,11 +105,9 @@ const Table: React.FC = () => {
               })
 
               params.api.stopEditing()
-
               updateColumns()
               setTimeout(() => {
                 tableUpdate()
-                //sumUpdate()
               }, 200)
             }} />
           </div>
@@ -111,6 +116,113 @@ const Table: React.FC = () => {
     )
   }
 
+  const getContextMenuItems = useCallback(
+    (params: GetContextMenuItemsParams): (string | MenuItemDef)[] => {
+      const colId =  params.column.getColId().slice((params.column.getColId().indexOf('-') + 1), params.column.getColId().lastIndexOf('-'))
+      const colIndex = params.column.getColId().slice(params.column.getColId().lastIndexOf('-') +1)
+      const colType = params.column.getColId().slice(0, 4)
+
+      const result: (string | MenuItemDef)[] = [
+        {
+          name: 'Копировать',
+          disabled: params.value ? false : true,
+          action: () => {
+            setClipboard({
+              day: Number(params.node.data.day),
+              colId: Number(colId),
+              colIndex: Number(colIndex),
+              colType: colType
+            })
+          },
+          icon: '<img src="./assets/copy.png" />',
+        },
+        {
+          name: 'Вставить',
+          disabled: clipboard ? false : true,
+          action: () => {
+            cellUpdate({
+              day: Number(params.node.data.day),
+              newPlaceName: clipboard['Местор.'],
+              newPlaceNum: clipboard['N,N скважин'],
+              newWeight: clipboard['Эффект'],
+              colId: Number(colId),
+              colIndex: Number(colIndex),
+              colType: colType
+            })
+            setTimeout(() => {
+              tableUpdate()
+            }, 100)
+          },
+          icon: '<img src="./assets/paste.png" />',
+        },
+        {
+          name: 'Вырезать',
+          disabled: params.value ? false : true,
+
+          action: () => {
+            setClipboard({
+              day: Number(params.node.data.day),
+              colId: Number(colId),
+              colIndex: Number(colIndex),
+              colType: colType
+            })
+
+            cellUpdate({
+              day: Number(params.node.data.day),
+              newPlaceName: null,
+              newPlaceNum: null,
+              newWeight: null,
+              colId: Number(colId),
+              colIndex: Number(colIndex),
+              colType: colType
+            })
+
+            tableUpdate()
+            setTimeout(() => {
+              updateColumns()
+            }, 200)
+          },
+
+          icon: '<img src="./assets/cut.png" />',
+        },
+        'separator',
+        {
+          name: 'Удалить',
+          disabled: params.value ? false : true,
+          action: () => {
+            cellUpdate({
+              day: Number(params.node.data.day),
+              newPlaceName: null,
+              newPlaceNum: null,
+              newWeight: null,
+              colId: Number(colId),
+              colIndex: Number(colIndex),
+              colType: colType
+            })
+            // setTimeout(() => {
+            //   updateColumns()
+            //   tableUpdate()
+            // }, 200)
+          },
+          icon: '<img src="./assets/delete.png" />',
+        }
+      ]
+      return result
+    }, [clipboard]
+  )
+
+  useEffect(() => {
+    const tempo = [...Array(days)].map((_, day) => ({ id: day,  day: (day+1).toString() } ))
+    tempo.push({id: 32, day: 'ИТОГО:\nмер-тий'}, {id: 33, day: 'Сум. прир.\nдеб. тн/сут.'}, {id: 33, day: 'Накоп.\nдобыча, тн.'})
+    setRowData(tempo)
+
+    updateColumns()
+    setTimeout(() => {
+      tableUpdate()
+    }, 300)
+  }, [factItems, planItems, days])
+  
+  // Cтолбцы
   const updateColumns = () => {
     const tempColumnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 80,
       editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '3px solid #ccd9e0'  } }, 
@@ -206,33 +318,7 @@ const Table: React.FC = () => {
     setColumnDefs(tempColumnDefs)
   }
 
-  // Заголовки столбцов
-  useEffect(() => {
-    updateColumns()
-  }, [factItems, planItems])
-
-  const styleOptions = agGridAdapter({
-    size: 's',
-    borderBetweenColumns: true,
-    borderBetweenRows: true,
-    headerView: 'clear',
-  })
-
-  // Данные итоговых столбцов
-  const sumUpdate = () => {
-    const tempo = [...Array(days)].map((_, day) => {
-      return { id: day,  day: (day+1).toString() } 
-    })
-
-    tempo.push(
-      {id: 32, day: 'ИТОГО:\nмер-тий'},
-      {id: 33, day: 'Сум. прир.\nдеб. тн/сут.'},
-      {id: 33, day: 'Накоп.\nдобыча, тн.'}
-    )
-    setRowData(tempo)
-  }
-
-  // Данные основных столбцов
+  // Данные столбцов
   const tableUpdate = () => {
     const rowNodeCount = gridRef.current!.api.getRowNode(days + '')!
     const rowNodeWeight = gridRef.current!.api.getRowNode(days + 1 + '')!
@@ -256,6 +342,7 @@ const Table: React.FC = () => {
                 sumWeight = sumWeight + Number(item['Эффект'])
 
                 rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`, cf + '\n' + qf)
+
                 rowNodeCount.setDataValue(`sumFactChild-${itemCol.Id}-0`, sumCount)
                 rowNodeWeight.setDataValue(`sumFactChild-${itemCol.Id}-0`, sumWeight)
               }
@@ -263,7 +350,7 @@ const Table: React.FC = () => {
           })
         }
       } 
-
+      
       if(planItems) {
         let sumCount = 0
         let sumWeight = 0
@@ -278,7 +365,6 @@ const Table: React.FC = () => {
               if(struct.find(item => item.id === itemCol.Id).total) {
                 sumCount = sumCount + 1
                 sumWeight = sumWeight + Number(item['Эффект'])
-                itemCol.Id === 40 && console.log(sumWeight)
 
                 rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
                 rowNodeCount.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumCount ^ 0) === sumCount ? sumCount : sumCount.toFixed(1))
@@ -291,125 +377,48 @@ const Table: React.FC = () => {
 
                   sumCount = sumCount + 1
                   sumWeight = sumWeight + Number(item['Эффект'])
-                  itemCol.Id === 40 && console.log(sumWeight)
   
                   rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, cp + '\n' + qp)
+
                   rowNodeCount.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumCount ^ 0) === sumCount ? sumCount : sumCount.toFixed(1))
                   rowNodeWeight.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumWeight ^ 0) === sumWeight ? sumWeight : sumWeight.toFixed(1))
                 }
               }
-            }, 200)
+            }, 100)
           })
         }
       }
-    })
-  }
 
-  useEffect(() => {
-    setTimeout(() => {
-      sumUpdate()
-    }, 300)
-    setTimeout(() => {
-      tableUpdate()
-    }, 1000)
-  }, [factItems, planItems, days])
+      if(column14 && itemCol.Id == 14) {
+        const columns = column14()
+
+        setTimeout(() => {
+          let bufferFact = 0
+          let bufferPlan = 0
+
+          for(let key = 0; key <= days; key++) {
+            const rowNode = gridRef.current!.api.getRowNode(Number(key-1) + '')!
+
+            if(columns[key]) {
+              bufferFact += columns[key].fact.weight
+              bufferPlan += columns[key].plan.weight
   
+              if(Number(key) <= days) {
+                columns[key].fact.count > 0 && 
+                  rowNode.setDataValue('sumFactChild-14-0', '\n'+ columns[key].fact.count + '\n' + columns[key].fact.weight)
+                columns[key].plan.count > 0 && 
+                  rowNode.setDataValue('sumPlanChild-14-0', '\n'+ columns[key].plan.count + '\n' + columns[key].plan.weight)
+              }
+            }
 
-  const getContextMenuItems = useCallback(
-    (params: GetContextMenuItemsParams): (string | MenuItemDef)[] => {
-      const colId =  params.column.getColId().slice((params.column.getColId().indexOf('-') + 1), params.column.getColId().lastIndexOf('-'))
-      const colIndex = params.column.getColId().slice(params.column.getColId().lastIndexOf('-') +1)
-      const colType = params.column.getColId().slice(0, 4)
+            bufferFact > 0 && rowNode.setDataValue('sumFactChild-15-0', '\n\n' + bufferFact)
+            bufferPlan > 0 && rowNode.setDataValue('sumPlanChild-15-0', '\n\n'+ bufferPlan)
+          }
 
-      const result: (string | MenuItemDef)[] = [
-        {
-          name: 'Копировать',
-          disabled: params.value ? false : true,
-          action: () => {
-            setClipboard({
-              day: Number(params.node.data.day),
-              colId: Number(colId),
-              colIndex: Number(colIndex),
-              colType: colType
-            })
-          },
-          icon: '<img src="./assets/copy.png" />',
-        },
-        {
-          name: 'Вставить',
-          disabled: clipboard ? false : true,
-          action: () => {
-            cellUpdate({
-              day: Number(params.node.data.day),
-              newPlaceName: clipboard['Местор.'],
-              newPlaceNum: clipboard['N,N скважин'],
-              newWeight: clipboard['Эффект'],
-              colId: Number(colId),
-              colIndex: Number(colIndex),
-              colType: colType
-            })
-            setTimeout(() => {
-              tableUpdate()
-            }, 100)
-          },
-          icon: '<img src="./assets/paste.png" />',
-        },
-        {
-          name: 'Вырезать',
-          disabled: params.value ? false : true,
-
-          action: () => {
-            setClipboard({
-              day: Number(params.node.data.day),
-              colId: Number(colId),
-              colIndex: Number(colIndex),
-              colType: colType
-            })
-
-            cellUpdate({
-              day: Number(params.node.data.day),
-              newPlaceName: null,
-              newPlaceNum: null,
-              newWeight: null,
-              colId: Number(colId),
-              colIndex: Number(colIndex),
-              colType: colType
-            })
-
-            setTimeout(() => {
-              updateColumns()
-              tableUpdate()
-            }, 200)
-          },
-
-          icon: '<img src="./assets/cut.png" />',
-        },
-        'separator',
-        {
-          name: 'Удалить',
-          disabled: params.value ? false : true,
-          action: () => {
-            cellUpdate({
-              day: Number(params.node.data.day),
-              newPlaceName: null,
-              newPlaceNum: null,
-              newWeight: null,
-              colId: Number(colId),
-              colIndex: Number(colIndex),
-              colType: colType
-            })
-
-            setTimeout(() => {
-              updateColumns()
-              tableUpdate()
-            }, 200)
-          },
-          icon: '<img src="./assets/delete.png" />',
-        }
-      ]
-      return result
-    }, [clipboard]
-  )
+        }, 200)
+      }
+    })        
+  }
 
   return (
     <div className="ag-theme-quartz" style={{ height: '100%', width: '100%' }}>
