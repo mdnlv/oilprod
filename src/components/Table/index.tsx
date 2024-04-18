@@ -377,7 +377,13 @@ const Table: React.FC = () => {
                   sumWeight += Number(item['Эффект'])
 
                   rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
-                  if(itemCol.Id === 40 || itemCol.Id === 47 || itemCol.Id === 36) rowNodeAccum.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumWeight ^ 0) === sumWeight ? sumWeight : sumWeight.toFixed(1))
+                  if(itemCol.Id === 40 
+                    || itemCol.Id === 47 
+                    || itemCol.Id === 36 
+                    || itemCol.Id === 33
+                    || itemCol.Id === 31
+                    || itemCol.Id === 32
+                    || itemCol.Id === 41) rowNodeAccum.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumWeight ^ 0) === sumWeight ? sumWeight : sumWeight.toFixed(1))
                   else {
                     rowNodeCount.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumCount ^ 0) === sumCount ? sumCount : sumCount.toFixed(1))
                     rowNodeWeight.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumWeight ^ 0) === sumWeight ? sumWeight : sumWeight.toFixed(1))
