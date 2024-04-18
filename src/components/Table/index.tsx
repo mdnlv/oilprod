@@ -454,12 +454,12 @@ const Table: React.FC = () => {
           }
 
           const acPlan = accumPlan + bufferPlan
-          rowNodeCount.setDataValue('sumPlanChild-14-0', countPlan)
-          rowNodeWeight.setDataValue('sumPlanChild-14-0', bufferPlan)
-          rowNodeAccum.setDataValue('sumPlanChild-14-0',  (acPlan^ 0) === acPlan ? acPlan : acPlan.toFixed(1))
-          rowNodeCount.setDataValue('sumFactChild-14-0', countFact)
-          rowNodeWeight.setDataValue('sumFactChild-14-0', bufferFact)
-          rowNodeAccum.setDataValue('sumFactChild-14-0', accumFact)
+          countPlan > 0 && rowNodeCount.setDataValue('sumPlanChild-14-0', countPlan)
+          bufferPlan > 0 && rowNodeWeight.setDataValue('sumPlanChild-14-0', bufferPlan)
+          acPlan > 0 && rowNodeAccum.setDataValue('sumPlanChild-14-0',  (acPlan^ 0) === acPlan ? acPlan : acPlan.toFixed(1))
+          countFact > 0 && rowNodeCount.setDataValue('sumFactChild-14-0', countFact)
+          bufferFact > 0 && rowNodeWeight.setDataValue('sumFactChild-14-0', bufferFact)
+          accumFact > 0 && rowNodeAccum.setDataValue('sumFactChild-14-0', accumFact)
         }, 200)
       }
       
@@ -493,10 +493,10 @@ const Table: React.FC = () => {
             bufferPlan > 0 && rowNode.setDataValue('sumPlanChild-22-0', '\n\n'+ bufferPlan)
           }
 
-          rowNodeCount1.setDataValue('sumPlanChild-21-0', countPlan)
-          rowNodeWeight1.setDataValue('sumPlanChild-21-0', bufferPlan)
-          rowNodeCount1.setDataValue('sumFactChild-21-0', countFact)
-          rowNodeWeight1.setDataValue('sumFactChild-21-0', bufferFact)
+          countPlan > 0 && rowNodeCount1.setDataValue('sumPlanChild-21-0', countPlan)
+          bufferPlan > 0 && rowNodeWeight1.setDataValue('sumPlanChild-21-0', bufferPlan)
+          countFact > 0 && rowNodeCount1.setDataValue('sumFactChild-21-0', countFact)
+          bufferFact > 0 && rowNodeWeight1.setDataValue('sumFactChild-21-0', bufferFact)
         }, 200)
       }
 
@@ -530,10 +530,10 @@ const Table: React.FC = () => {
             bufferPlan > 0 && rowNode.setDataValue('sumPlanChild-30-0', '\n\n'+ bufferPlan)
           }
 
-          rowNodeCount1.setDataValue('sumPlanChild-29-0', countPlan)
-          rowNodeWeight1.setDataValue('sumPlanChild-29-0', bufferPlan)
-          rowNodeCount1.setDataValue('sumFactChild-29-0', countFact)
-          rowNodeWeight1.setDataValue('sumFactChild-29-0', bufferFact)
+          countPlan > 0 && rowNodeCount1.setDataValue('sumPlanChild-29-0', countPlan)
+          bufferPlan > 0 && rowNodeWeight1.setDataValue('sumPlanChild-29-0', bufferPlan)
+          countFact > 0 && rowNodeCount1.setDataValue('sumFactChild-29-0', countFact)
+          bufferFact > 0 && rowNodeWeight1.setDataValue('sumFactChild-29-0', bufferFact)
         }, 200)
       }
 
@@ -574,8 +574,8 @@ const Table: React.FC = () => {
           }
 
           setTimeout(() => {
-            rowNodeWeight.setDataValue('sumPlanChild-24-0', bufferPlan)
-            rowNodeWeight.setDataValue('sumFactChild-24-0', bufferFact)
+            bufferPlan > 0 && rowNodeWeight.setDataValue('sumPlanChild-24-0', bufferPlan)
+            bufferFact > 0 && rowNodeWeight.setDataValue('sumFactChild-24-0', bufferFact)
           }, 200)
         }, 200)
       }
