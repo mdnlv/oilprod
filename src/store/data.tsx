@@ -33,8 +33,10 @@ export type DataStoreType = {
   setPlanItems: (any) => void;
   cellUpdate: (any) => void;
 
-  column14: ()=> object;  
-  column21: ()=> object;  
+  column14: ()=> object;
+  column21: ()=> object;
+  column29: ()=> object;
+  column34: ()=> object;
 }
 
 export type Items = {
@@ -92,12 +94,12 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
       const plan = {count: 0, weight: 0}
 
       indexes.map(index => {
-        if (get().FactItems && get().FactItems[index][day]) {
+        if (get().FactItems && get().FactItems[index] && get().FactItems[index][day]) {
           fact.weight = fact.weight + get().FactItems[index][day].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
           fact.count = fact.count + get().FactItems[index][day].length
         }
 
-        if (get().PlanItems && get().PlanItems[index][pday]) {
+        if (get().PlanItems && get().PlanItems[index] && get().PlanItems[index][pday]) {
           plan.weight = plan.weight + get().PlanItems[index][pday].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
           plan.count = plan.count + get().PlanItems[index][pday].length
         }
@@ -128,7 +130,7 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
           fact.count = fact.count + get().FactItems[index][day].length
         }
 
-        if (get().PlanItems && get().PlanItems[index][pday] && get().PlanItems[index][pday]) {
+        if (get().PlanItems && get().PlanItems[index] && get().PlanItems[index][pday]) {
           plan.weight = plan.weight + get().PlanItems[index][pday].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
           plan.count = plan.count + get().PlanItems[index][pday].length
         }
@@ -142,6 +144,67 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
 
     return obj
   },
+
+  column29: () => {
+    const indexes = [25, 26, 27, 28]
+    const obj = {};
+    
+    [...Array(31)].map((_,i) => {
+      const day = i + 1
+      const pday = String(day).length === 1 ? '0' + String(day) : String(day)
+      const fact = {count: 0, weight: 0}
+      const plan = {count: 0, weight: 0}
+
+      indexes.map(index => {
+        if (get().FactItems && get().FactItems[index] && get().FactItems[index][day]) {
+          fact.weight = fact.weight + get().FactItems[index][day].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+          fact.count = fact.count + get().FactItems[index][day].length
+        }
+
+        if (get().PlanItems && get().PlanItems[index] && get().PlanItems[index][pday]) {
+          plan.weight = plan.weight + get().PlanItems[index][pday].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+          plan.count = plan.count + get().PlanItems[index][pday].length
+        }
+      })
+
+      if(fact.count > 0 || plan.count > 0 || fact.weight > 0|| plan.weight > 0 ) obj[day] = {
+        fact: fact,
+        plan: plan
+      }
+    })
+
+    return obj
+  },
+
+  column34: () => {
+    const indexes = [33, 31, 32, 41]
+    const obj = {};
+    
+    [...Array(31)].map((_,i) => {
+      const day = i + 1
+      const pday = String(day).length === 1 ? '0' + String(day) : String(day)
+      let fact = 0
+      let plan = 0
+
+      indexes.map(index => {
+        if (get().FactItems && get().FactItems[index] && get().FactItems[index][day]) {
+          fact = fact + Number(get().FactItems[index][day][0]['Эффект'])
+        }
+
+        if (get().PlanItems && get().PlanItems[index] && get().PlanItems[index][pday]) {
+          plan = plan + Number(get().PlanItems[index][pday][0]['Эффект'])
+        }
+      })
+
+      if( fact  > 0 || plan  > 0 ) obj[day] = {
+        fact: fact,
+        plan: plan
+      }
+    })
+
+    return obj
+  },
+
 
   clipboard: null,
 

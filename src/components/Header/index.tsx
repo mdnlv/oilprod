@@ -33,7 +33,7 @@ const Header: React.FC = () => {
         <div style={{width: 84, textAlign: 'center'}}>
           <Button label="Фильтр" view="ghost" iconRight={IconFilter} onlyIcon size="s" onClick={changeFilter}/>
         </div>
-        <Text size="s">Данные графика и прогноза добычи за:</Text>
+        <Text size="s">ВЫБРАТЬ МЕСЯЦ: </Text>
         <DatePicker
           style={{width: 63, margin: 10, marginLeft: 4 }} 
           type="month"
