@@ -65,7 +65,7 @@ export type OilType = {
 const useStore = create<StoreType>()(devtools((set, get) => ({
   data: null,
 
-  month: new Date(),
+  month: new Date('2024-01-12T23:50:21.817Z'),
   setMonth: (newMonth) => set(() => ({ month: newMonth })),
 
   ngpd: {
