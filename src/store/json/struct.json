@@ -146,11 +146,6 @@
     "total": true
   },
   {
-    "id": 37,
-    "name": "Итого потерь(т)",
-    "total": true
-  },
-  {
     "id": 38,
     "name": "Итого добыча(т)",
     "total": true
