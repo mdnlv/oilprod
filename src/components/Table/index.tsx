@@ -403,13 +403,15 @@ const Table: React.FC = () => {
                   rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, cp + '\n' + qp)
                   rowNodeCount.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumCount ^ 0) === sumCount ? sumCount : sumCount.toFixed(1))
                   rowNodeWeight.setDataValue(`sumPlanChild-${itemCol.Id}-0`, (sumWeight ^ 0) === sumWeight ? sumWeight : sumWeight.toFixed(1))
-                  rowNodeAccum.setDataValue(`sumPlanChild-${itemCol.Id}-0`, accum + sumWeight)
+
+                  itemCol.Id !== 16 && rowNodeAccum.setDataValue(`sumPlanChild-${itemCol.Id}-0`, accum + sumWeight)
                 }
               })
               accumBuffer = sumWeight
             } else {
               rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, '')
             }
+            itemCol.Id === 16 && rowNodeAccum.setDataValue(`sumPlanChild-${itemCol.Id}-0`, ((accum + sumWeight) ^ 0) === (accum + sumWeight) ? (accum + sumWeight) : (accum + sumWeight).toFixed(1))
             accum += accumBuffer
           }
         }, 200)
@@ -528,8 +530,6 @@ const Table: React.FC = () => {
 
             bufferFact > 0 && rowNode.setDataValue('sumFactChild-22-0', (bufferFact^ 0) === bufferFact ? bufferFact : bufferFact.toFixed(1))
             bufferPlan > 0 && rowNode.setDataValue('sumPlanChild-22-0', (bufferPlan^ 0) === bufferPlan ? bufferPlan : bufferPlan.toFixed(1))
-
-            console.log(key, bufferPlan)
           }
 
           const acPlan = accumPlan + bufferPlan
