@@ -126,12 +126,12 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
 
       indexes.map(index => {
         if (get().FactItems && get().FactItems[index] && get().FactItems[index][day]) {
-          fact.weight = fact.weight + get().FactItems[index][day].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+          fact.weight = fact.weight + get().FactItems[index][day].reduce((p,c) => p+Number(c['Эффект']), 0)
           fact.count = fact.count + get().FactItems[index][day].length
         }
 
         if (get().PlanItems && get().PlanItems[index] && get().PlanItems[index][pday]) {
-          plan.weight = plan.weight + get().PlanItems[index][pday].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+          plan.weight = plan.weight + get().PlanItems[index][pday].reduce((p,c) => p+Number(c['Эффект']), 0)
           plan.count = plan.count + get().PlanItems[index][pday].length
         }
       })
@@ -157,12 +157,12 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
 
       indexes.map(index => {
         if (get().FactItems && get().FactItems[index] && get().FactItems[index][day]) {
-          fact.weight = fact.weight + get().FactItems[index][day].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+          fact.weight = fact.weight + get().FactItems[index][day].reduce((p,c) => p+Number(c['Эффект']), 0)
           fact.count = fact.count + get().FactItems[index][day].length
         }
 
         if (get().PlanItems && get().PlanItems[index] && get().PlanItems[index][pday]) {
-          plan.weight = plan.weight + get().PlanItems[index][pday].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+          plan.weight = plan.weight + get().PlanItems[index][pday].reduce((p,c) => p+Number(c['Эффект']), 0)
           plan.count = plan.count + get().PlanItems[index][pday].length
         }
       })
