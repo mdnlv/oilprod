@@ -423,10 +423,6 @@ const Table: React.FC = () => {
       const Сolumn34 = column34()
 
       if(Column14 && itemCol.Id == 14) {
-        const rowNodeCount = gridRef.current!.api.getRowNode(days + '')!
-        const rowNodeWeight = gridRef.current!.api.getRowNode(days + 1 + '')!
-        const rowNodeAccum = gridRef.current!.api.getRowNode(days + 2 + '')!
-
         setTimeout(() => {
           let bufferFact = 0
           let bufferPlan = 0
@@ -484,10 +480,6 @@ const Table: React.FC = () => {
       }
       
       if(Сolumn21 && itemCol.Id == 21) {
-        const rowNodeCount = gridRef.current!.api.getRowNode(days + '')!
-        const rowNodeWeight = gridRef.current!.api.getRowNode(days + 1 + '')!
-        const rowNodeAccum = gridRef.current!.api.getRowNode(days + 2 + '')!
-
         setTimeout(() => {
           let bufferFact = 0
           let bufferPlan = 0
@@ -546,10 +538,6 @@ const Table: React.FC = () => {
       }
 
       if(Сolumn29 && itemCol.Id == 29) {
-        const rowNodeCount1 = gridRef.current!.api.getRowNode(days + '')!
-        const rowNodeWeight1 = gridRef.current!.api.getRowNode(days + 1 + '')!
-        const rowNodeAccum = gridRef.current!.api.getRowNode(days + 2 + '')!
-
         setTimeout(() => {
           let bufferFact = 0
           let bufferPlan = 0
@@ -595,11 +583,11 @@ const Table: React.FC = () => {
           }
 
           const acPlan = accumPlan + bufferPlan
-          countPlan > 0 && rowNodeCount1.setDataValue('sumPlanChild-29-0', countPlan)
-          bufferPlan > 0 && rowNodeWeight1.setDataValue('sumPlanChild-29-0', bufferPlan)
-          countFact > 0 && rowNodeCount1.setDataValue('sumFactChild-29-0', countFact)
+          countPlan > 0 && rowNodeCount.setDataValue('sumPlanChild-29-0', countPlan)
+          bufferPlan > 0 && rowNodeWeight.setDataValue('sumPlanChild-29-0', bufferPlan)
+          countFact > 0 && rowNodeCount.setDataValue('sumFactChild-29-0', countFact)
           acPlan > 0 && rowNodeAccum.setDataValue('sumPlanChild-29-0',  (acPlan^ 0) === acPlan ? acPlan : acPlan.toFixed(1))
-          bufferFact > 0 && rowNodeWeight1.setDataValue('sumFactChild-29-0', bufferFact)
+          bufferFact > 0 && rowNodeWeight.setDataValue('sumFactChild-29-0', bufferFact)
           accumFact > 0 && rowNodeAccum.setDataValue('sumFactChild-29-0', accumFact)
 
           bufferFact30 > 0 && rowNodeAccum.setDataValue('sumFactChild-30-0', bufferFact30)
@@ -608,7 +596,6 @@ const Table: React.FC = () => {
       }
 
       if(Сolumn34 && itemCol.Id == 34) {
-        const rowNodeAccum = gridRef.current!.api.getRowNode(days + 2 + '')!
         setTimeout(() => {
           let bufferFact = 0
           let bufferPlan = 0
@@ -633,7 +620,6 @@ const Table: React.FC = () => {
       }
 
       if(Сolumn21 && Column14 && itemCol.Id == 24) {
-        const rowNodeWeight = gridRef.current!.api.getRowNode(days + 1 + '')!
         setTimeout(() => {
           let bufferFact = 0
           let bufferPlan = 0
