@@ -347,8 +347,7 @@ const Table: React.FC = () => {
             rowNode.setDataValue(`sumFact-${itemCol.Id}-0`, cf + '\n' + qf)
             rowNodeCount.setDataValue(`sumFact-${itemCol.Id}-0`, sumCount)
             rowNodeWeight.setDataValue(`sumFact-${itemCol.Id}-0`, sumWeight)
-          }) 
-
+          })
         }
       } 
       
@@ -358,19 +357,21 @@ const Table: React.FC = () => {
         let accum = 0
         let accumBuffer = 0
 
-        for (const key in planItems[itemCol.Id]) {
+        for(let i = 1; i <= days; i++) {
+          const key = String(i).length === 1 ? '0' + String(i) : String(i)
           const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
 
-          Number(key) <= days && planItems[itemCol.Id][key].map((item, i) => {
-            const m = item['Местор.'] ? item['Местор.'] : ''  
-            const n = item['N,N скважин'] ? item['N,N скважин'] : ''
+          if(planItems[itemCol.Id][key]){
+            Number(key) <= days && planItems[itemCol.Id][key].map((item, i) => {
+              const m = item['Местор.'] ? item['Местор.'] : ''  
+              const n = item['N,N скважин'] ? item['N,N скважин'] : ''
                 
-            if(struct.find(item => item.id === itemCol.Id).total) {
-              sumCount++
-              sumWeight += Number(item['Эффект'])
+              if(struct.find(item => item.id === itemCol.Id).total) {
+                sumCount++
+                sumWeight += Number(item['Эффект'])
 
-              rowNode.setDataValue(`sumPlan-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
-              if ( itemCol.Id === 40 
+                rowNode.setDataValue(`sumPlan-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
+                if ( itemCol.Id === 40 
                     || itemCol.Id === 47 
                     || itemCol.Id === 36 
                     || itemCol.Id === 33
@@ -378,29 +379,32 @@ const Table: React.FC = () => {
                     || itemCol.Id === 32
                     || itemCol.Id === 41
                     || itemCol.Id === 23 ) rowNodeAccum.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumWeight))
-              else {
+                else {
+                  rowNodeCount.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumCount))
+                  rowNodeWeight.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumWeight))
+                }
+                if ( itemCol.Id === 40 ) rowNodeWeight.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumWeight / days))
+              } else {
+                rowNode.setDataValue(`plan-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
+                const cp = planItems[itemCol.Id][key].length
+                const qp = planItems[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+
+                sumCount++
+                sumWeight += Number(item['Эффект'])
+                itemCol.Id === 20 && console.log(sumWeight)
+                rowNode.setDataValue(`sumPlan-${itemCol.Id}-0`, cp + '\n' + qp)
                 rowNodeCount.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumCount))
                 rowNodeWeight.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumWeight))
+
+                //itemCol.Id !== 16 && 
+                rowNodeAccum.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(accum + sumWeight))
               }
-              if ( itemCol.Id === 40 ) rowNodeWeight.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumWeight / days))
-            } else {
-              rowNode.setDataValue(`plan-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
-              const cp = planItems[itemCol.Id][key].length
-              const qp = planItems[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
-
-              sumCount++
-              sumWeight += Number(item['Эффект'])
-
-              rowNode.setDataValue(`sumPlan-${itemCol.Id}-0`, cp + '\n' + qp)
-              rowNodeCount.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumCount))
-              rowNodeWeight.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumWeight))
-
-              itemCol.Id !== 16 && rowNodeAccum.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(accum + sumWeight))
-            }
-          })
+            })
+          }
           accumBuffer = sumWeight
 
-          itemCol.Id === 16 && rowNodeAccum.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(accum + sumWeight))
+          /*itemCol.Id === 16 && */
+          !struct.find(item => item.id === itemCol.Id).total && accum + sumWeight > 0 && rowNodeAccum.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(accum + sumWeight))
           accum += accumBuffer
         }
       }
@@ -453,10 +457,10 @@ const Table: React.FC = () => {
 
         const acPlan = accumPlan + bufferPlan
         countPlan > 0 && rowNodeCount.setDataValue(`sumPlan-${itemCol.Id}-0`, countPlan)
-        bufferPlan > 0 && rowNodeWeight.setDataValue(`sumPlan-${itemCol.Id}-0`, bufferPlan)
+        bufferPlan > 0 && rowNodeWeight.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(bufferPlan))
         acPlan > 0 && rowNodeAccum.setDataValue(`sumPlan-${itemCol.Id}-0`,  rr(acPlan))
         countFact > 0 && rowNodeCount.setDataValue(`sumFact-${itemCol.Id}-0`, countFact)
-        bufferFact > 0 && rowNodeWeight.setDataValue(`sumFact-${itemCol.Id}-0`, bufferFact)
+        bufferFact > 0 && rowNodeWeight.setDataValue(`sumFact-${itemCol.Id}-0`, rr(bufferFact))
         accumFact > 0 && rowNodeAccum.setDataValue(`sumFact-${itemCol.Id}-0`, rr(accumFact))
         bufferFactSum > 0 && rowNodeAccum.setDataValue(`sumFact-${itemCol.Id+1}-0`, rr(bufferFactSum))
         bufferPlanSum > 0 && rowNodeAccum.setDataValue(`sumPlan-${itemCol.Id+1}-0`, rr(bufferPlanSum))
