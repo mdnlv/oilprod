@@ -40,7 +40,7 @@ const styleOptions = agGridAdapter({
   headerView: 'clear',
 })
 
-const rround = (el: number) => {
+const rr = (el: number) => {
   const temp = ((el ^ 0) === el) ? el : Number(el.toFixed(1))
   return (String(temp).includes('.0')? Math.round(temp) : temp)
 }
@@ -225,7 +225,7 @@ const Table: React.FC = () => {
     updateColumns()
     setTimeout(() => {
       tableUpdate()
-    }, 300)
+    }, 100)
   }, [factItems, planItems, days])
   
   // Cтолбцы
@@ -249,20 +249,20 @@ const Table: React.FC = () => {
             for (const i in planItems[item.Id]) {
               if(planItems[item.Id][i].length > temp.length) temp = planItems[item.Id][i]
             }
-            planItems[item.Id] && children.push({field: 'plan0', headerName: 'план',
+            planItems[item.Id] && children.push({field: 'plan', headerName: 'план',
               children: [...temp.map((_, i) =>
-                ({field: `plan0-${item.Id}-${i}`, headerName: '', cellStyle: { backgroundColor: colors.LightGray },
+                ({field: `plan-${item.Id}-${i}`, headerName: '', cellStyle: { backgroundColor: colors.LightGray },
                   cellRenderer: cellRenderer, cellEditor: cellEditor, cellEditorPopup: true
                 })),
-              {field: `plan0-${item.Id}-${temp.length}`, headerName: '', cellStyle: { backgroundColor: colors.LightGray },
+              {field: `plan-${item.Id}-${temp.length}`, headerName: '', cellStyle: { backgroundColor: colors.LightGray },
                 cellRenderer: cellRenderer, cellEditor: cellEditor, cellEditorPopup: true
               }
               ] 
             })
           }  else {
-            item.PlanItems.length !== 0 && children.push({field: 'plan0', headerName: 'план',
+            item.PlanItems.length !== 0 && children.push({field: 'plan', headerName: 'план',
               children: [
-                {field: `plan0-${item.Id}-0`, headerName: '',  cellStyle: { backgroundColor: colors.LightGray },
+                {field: `plan-${item.Id}-0`, headerName: '',  cellStyle: { backgroundColor: colors.LightGray },
                   cellRenderer: cellRenderer, cellEditor: cellEditor, cellEditorPopup: true
                 }
               ] 
@@ -275,20 +275,20 @@ const Table: React.FC = () => {
               if(factItems[item.Id][i].length > temp.length) temp = factItems[item.Id][i]
             }
         
-            factItems[item.Id] && children.push({field: 'fact0', headerName: 'факт',
+            factItems[item.Id] && children.push({field: 'fact', headerName: 'факт',
               children: [...temp.map((_, i) =>
-                ({field: `fact0-${item.Id}-${i}`, headerName: '',
+                ({field: `fact-${item.Id}-${i}`, headerName: '',
                   cellRenderer: cellRenderer, cellEditor: cellEditor, cellEditorPopup: true
                 })
               ),
-              {field: `fact0-${item.Id}-${temp.length}`, headerName: '',
+              {field: `fact-${item.Id}-${temp.length}`, headerName: '',
                 cellRenderer: cellRenderer, cellEditor: cellEditor, cellEditorPopup: true
               }] 
             })    
           } else {
-            item.FactItems.length !== 0 && children.push({field: 'fact0', headerName: 'факт',
+            item.FactItems.length !== 0 && children.push({field: 'fact', headerName: 'факт',
               children: [
-                {field: `fact0-${item.Id}-0`, headerName: '',
+                {field: `fact-${item.Id}-0`, headerName: '',
                   cellRenderer: cellRenderer, cellEditor: cellEditor, cellEditorPopup: true
                 }
               ] 
@@ -301,14 +301,14 @@ const Table: React.FC = () => {
           children: [...children,
             {field: `sumPlan-${item.Id}`, headerName: 'итого\nплан',
               children: [
-                {field: `sumPlanChild-${item.Id}-0`, editable: false, headerName: '', cellStyle: { 
+                {field: `sumPlan-${item.Id}-0`, editable: false, headerName: '', cellStyle: { 
                   backgroundColor: item.Color ? colors[item.Color].left : '#fff', alignItems: 'flex-end', paddingBottom: 3 
                 }}
               ]
             }, 
             {field: `sumFact-${item.Id}`, headerName: 'итого\nфакт', 
               children: [
-                {field: `sumFactChild-${item.Id}-0`, editable: false, headerName: '', cellStyle: { 
+                {field: `sumFact-${item.Id}-0`, editable: false, headerName: '', cellStyle: { 
                   backgroundColor: item.Color ? colors[item.Color].right : '#fff', 
                   borderRight: `${(item.Id === 23 || item.Id === 24)? '5' : '3'}px solid #ccd9e0`, 
                   alignItems: 'flex-end', paddingBottom: 3 
@@ -336,7 +336,7 @@ const Table: React.FC = () => {
           
           Number(key) <= days && factItems[itemCol.Id][key].map((item, i) => {
             setTimeout(() => {
-              rowNode.setDataValue(`fact0-${itemCol.Id}-${i}`, item['Местор.'] + '\n'+ item['N,N скважин'] + '\n' + Math.round(Number(item['Эффект'])))
+              rowNode.setDataValue(`fact-${itemCol.Id}-${i}`, item['Местор.'] + '\n'+ item['N,N скважин'] + '\n' + Math.round(Number(item['Эффект'])))
 
               if(factItems[itemCol.Id][key]) {
                 const cf = factItems[itemCol.Id][key].length
@@ -345,9 +345,9 @@ const Table: React.FC = () => {
                 sumCount++
                 sumWeight += Number(item['Эффект'])
 
-                rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`, cf + '\n' + qf)
-                rowNodeCount.setDataValue(`sumFactChild-${itemCol.Id}-0`, sumCount)
-                rowNodeWeight.setDataValue(`sumFactChild-${itemCol.Id}-0`, sumWeight)
+                rowNode.setDataValue(`sumFact-${itemCol.Id}-0`, cf + '\n' + qf)
+                rowNodeCount.setDataValue(`sumFact-${itemCol.Id}-0`, sumCount)
+                rowNodeWeight.setDataValue(`sumFact-${itemCol.Id}-0`, sumWeight)
               }
             }, 100)
           })
@@ -355,63 +355,61 @@ const Table: React.FC = () => {
       } 
       
       if(planItems && planItems[itemCol.Id]) {
-        setTimeout(() => { 
-          let sumCount = 0
-          let sumWeight = 0
+        let sumCount = 0
+        let sumWeight = 0
 
-          let accum = 0
-          let accumBuffer = 0
+        let accum = 0
+        let accumBuffer = 0
 
-          for(let i = 1; i <= days; i++) {
-            const key = String(i).length === 1 ? '0' + String(i) : String(i)
-            const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
+        for(let i = 1; i <= days; i++) {
+          const key = String(i).length === 1 ? '0' + String(i) : String(i)
+          const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
 
-            if(planItems[itemCol.Id][key]){
-              Number(key) <= days && planItems[itemCol.Id][key].map((item, i) => {
-                const m = item['Местор.'] ? item['Местор.'] : ''  
-                const n = item['N,N скважин'] ? item['N,N скважин'] : ''
+          if(planItems[itemCol.Id][key]){
+            Number(key) <= days && planItems[itemCol.Id][key].map((item, i) => {
+              const m = item['Местор.'] ? item['Местор.'] : ''  
+              const n = item['N,N скважин'] ? item['N,N скважин'] : ''
                 
-                if(struct.find(item => item.id === itemCol.Id).total) {
-                  sumCount++
-                  sumWeight += Number(item['Эффект'])
+              if(struct.find(item => item.id === itemCol.Id).total) {
+                sumCount++
+                sumWeight += Number(item['Эффект'])
 
-                  rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
-                  if ( itemCol.Id === 40 
+                rowNode.setDataValue(`sumPlan-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
+                if ( itemCol.Id === 40 
                     || itemCol.Id === 47 
                     || itemCol.Id === 36 
                     || itemCol.Id === 33
                     || itemCol.Id === 31
                     || itemCol.Id === 32
                     || itemCol.Id === 41
-                    || itemCol.Id === 23 ) rowNodeAccum.setDataValue(`sumPlanChild-${itemCol.Id}-0`, rround(sumWeight))
-                  else {
-                    rowNodeCount.setDataValue(`sumPlanChild-${itemCol.Id}-0`, rround(sumCount))
-                    rowNodeWeight.setDataValue(`sumPlanChild-${itemCol.Id}-0`, rround(sumWeight))
-                  }
-                  if ( itemCol.Id === 40 ) rowNodeWeight.setDataValue(`sumPlanChild-${itemCol.Id}-0`, rround(sumWeight / days))
-                } else {
-                  rowNode.setDataValue(`plan0-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
-                  const cp = planItems[itemCol.Id][key].length
-                  const qp = planItems[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
-
-                  sumCount++
-                  sumWeight += Number(item['Эффект'])
-
-                  rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, cp + '\n' + qp)
-                  rowNodeCount.setDataValue(`sumPlanChild-${itemCol.Id}-0`, rround(sumCount))
-                  rowNodeWeight.setDataValue(`sumPlanChild-${itemCol.Id}-0`, rround(sumWeight))
-
-                  itemCol.Id !== 16 && rowNodeAccum.setDataValue(`sumPlanChild-${itemCol.Id}-0`, rround(accum + sumWeight))
+                    || itemCol.Id === 23 ) rowNodeAccum.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumWeight))
+                else {
+                  rowNodeCount.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumCount))
+                  rowNodeWeight.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumWeight))
                 }
-              })
-              accumBuffer = sumWeight
-            } else {
-              rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, '')
-            }
-            itemCol.Id === 16 && rowNodeAccum.setDataValue(`sumPlanChild-${itemCol.Id}-0`, rround(accum + sumWeight))
-            accum += accumBuffer
+                if ( itemCol.Id === 40 ) rowNodeWeight.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumWeight / days))
+              } else {
+                rowNode.setDataValue(`plan-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
+                const cp = planItems[itemCol.Id][key].length
+                const qp = planItems[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+
+                sumCount++
+                sumWeight += Number(item['Эффект'])
+
+                rowNode.setDataValue(`sumPlan-${itemCol.Id}-0`, cp + '\n' + qp)
+                rowNodeCount.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumCount))
+                rowNodeWeight.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumWeight))
+
+                itemCol.Id !== 16 && rowNodeAccum.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(accum + sumWeight))
+              }
+            })
+            accumBuffer = sumWeight
+          } else {
+            rowNode.setDataValue(`sumPlan-${itemCol.Id}-0`, '')
           }
-        }, 200)
+          itemCol.Id === 16 && rowNodeAccum.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(accum + sumWeight))
+          accum += accumBuffer
+        }
       }
 
       const Column = {
@@ -422,109 +420,98 @@ const Table: React.FC = () => {
       }
 
       if(Column[itemCol.Id] && (itemCol.Id == 14 || itemCol.Id == 21 || itemCol.Id == 29)) {
-        setTimeout(() => {
-          let bufferFact = 0
-          let bufferPlan = 0
-          let countFact = 0
-          let countPlan = 0
+        let bufferFact = 0
+        let bufferPlan = 0
+        let countFact = 0
+        let countPlan = 0
+        let accumFact = 0
+        let accumPlan = 0
+        let accumFactBuffer = 0
+        let accumPlanBuffer = 0
+        let bufferFactSum = 0
+        let bufferPlanSum = 0
 
-          let accumFact = 0
-          let accumPlan = 0
-          let accumFactBuffer = 0
-          let accumPlanBuffer = 0
+        for(let key = 0; key <= days; key++) {
+          const rowNode = gridRef.current!.api.getRowNode(Number(key-1) + '')!
+          accumFact += accumFactBuffer
+          accumPlan += accumPlanBuffer
 
-          let bufferFactSum = 0
-          let bufferPlanSum = 0
+          if(Column[itemCol.Id][key]) {
+            bufferFact += Column[itemCol.Id][key].fact.w
+            bufferPlan += Column[itemCol.Id][key].plan.w
+            countFact += Column[itemCol.Id][key].fact.c
+            countPlan += Column[itemCol.Id][key].plan.c
+            accumFactBuffer += Column[itemCol.Id][key].fact.w
+            accumPlanBuffer += Column[itemCol.Id][key].plan.w
 
-          for(let key = 0; key <= days; key++) {
-            const rowNode = gridRef.current!.api.getRowNode(Number(key-1) + '')!
-            accumFact += accumFactBuffer
-            accumPlan += accumPlanBuffer
-
-            if(Column[itemCol.Id][key]) {
-              bufferFact += Column[itemCol.Id][key].fact.weight
-              bufferPlan += Column[itemCol.Id][key].plan.weight
-              countFact += Column[itemCol.Id][key].fact.count
-              countPlan += Column[itemCol.Id][key].plan.count
-
-              accumFactBuffer += Column[itemCol.Id][key].fact.weight
-              accumPlanBuffer += Column[itemCol.Id][key].plan.weight
-
-              if(Number(key) <= days) {
-                Column[itemCol.Id][key].fact.count > 0 && 
-                  rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`, '\n'+ Column[itemCol.Id][key].fact.count + '\n' + Column[itemCol.Id][key].fact.weight)
-                Column[itemCol.Id][key].plan.count > 0 && 
-                  rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, '\n'+ Column[itemCol.Id][key].plan.count + '\n' + rround(Column[itemCol.Id][key].plan.weight))
-              }
+            if(Number(key) <= days) {
+              Column[itemCol.Id][key].fact.c > 0 && 
+                  rowNode.setDataValue(`sumFact-${itemCol.Id}-0`, '\n'+ Column[itemCol.Id][key].fact.c + '\n' + rr(Column[itemCol.Id][key].fact.w))
+              Column[itemCol.Id][key].plan.c > 0 && 
+                  rowNode.setDataValue(`sumPlan-${itemCol.Id}-0`, '\n'+ Column[itemCol.Id][key].plan.c + '\n' + rr(Column[itemCol.Id][key].plan.w))
             }
-
-            bufferFactSum += bufferFact
-            bufferPlanSum += bufferPlan
-
-            bufferFact > 0 && rowNode.setDataValue(`sumFactChild-${itemCol.Id+1}-0`, '\n\n' + rround(bufferFact))
-            bufferPlan > 0 && rowNode.setDataValue(`sumPlanChild-${itemCol.Id+1}-0`, '\n\n'+ rround(bufferPlan))
           }
 
-          const acPlan = accumPlan + bufferPlan
-          countPlan > 0 && rowNodeCount.setDataValue(`sumPlanChild-${itemCol.Id}-0`, countPlan)
-          bufferPlan > 0 && rowNodeWeight.setDataValue(`sumPlanChild-${itemCol.Id}-0`, bufferPlan)
-          acPlan > 0 && rowNodeAccum.setDataValue(`sumPlanChild-${itemCol.Id}-0`,  rround(acPlan))
-          countFact > 0 && rowNodeCount.setDataValue(`sumFactChild-${itemCol.Id}-0`, countFact)
-          bufferFact > 0 && rowNodeWeight.setDataValue(`sumFactChild-${itemCol.Id}-0`, bufferFact)
-          accumFact > 0 && rowNodeAccum.setDataValue(`sumFactChild-${itemCol.Id}-0`, accumFact)
+          bufferFactSum += bufferFact
+          bufferPlanSum += bufferPlan
+          bufferFact > 0 && rowNode.setDataValue(`sumFact-${itemCol.Id+1}-0`, '\n\n' + rr(bufferFact))
+          bufferPlan > 0 && rowNode.setDataValue(`sumPlan-${itemCol.Id+1}-0`, '\n\n'+ rr(bufferPlan))
+        }
 
-          bufferFactSum > 0 && rowNodeAccum.setDataValue(`sumFactChild-${itemCol.Id+1}-0`, rround(bufferFactSum))
-          bufferPlanSum > 0 && rowNodeAccum.setDataValue(`sumPlanChild-${itemCol.Id+1}-0`, rround(bufferPlanSum))
-        }, 200)
+        const acPlan = accumPlan + bufferPlan
+        countPlan > 0 && rowNodeCount.setDataValue(`sumPlan-${itemCol.Id}-0`, countPlan)
+        bufferPlan > 0 && rowNodeWeight.setDataValue(`sumPlan-${itemCol.Id}-0`, bufferPlan)
+        acPlan > 0 && rowNodeAccum.setDataValue(`sumPlan-${itemCol.Id}-0`,  rr(acPlan))
+        countFact > 0 && rowNodeCount.setDataValue(`sumFact-${itemCol.Id}-0`, countFact)
+        bufferFact > 0 && rowNodeWeight.setDataValue(`sumFact-${itemCol.Id}-0`, bufferFact)
+        accumFact > 0 && rowNodeAccum.setDataValue(`sumFact-${itemCol.Id}-0`, rr(accumFact))
+        bufferFactSum > 0 && rowNodeAccum.setDataValue(`sumFact-${itemCol.Id+1}-0`, rr(bufferFactSum))
+        bufferPlanSum > 0 && rowNodeAccum.setDataValue(`sumPlan-${itemCol.Id+1}-0`, rr(bufferPlanSum))
       }
 
       if(Column[itemCol.Id] && itemCol.Id == 34) {
-        setTimeout(() => {
-          let bufferFact = 0
-          let bufferPlan = 0
+        let bufferFact = 0
+        let bufferPlan = 0
 
-          for(let key = 0; key <= days; key++) {
-            const rowNode = gridRef.current!.api.getRowNode(Number(key-1) + '')!
-            if(Column[itemCol.Id][key]) {
-              bufferFact += Column[itemCol.Id][key].fact
-              bufferPlan += Column[itemCol.Id][key].plan
-              if(Number(key) <= days) {
-                Column[itemCol.Id][key].fact > 0 && 
-                  rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`,  Column[itemCol.Id][key].fact)
-                Column[itemCol.Id][key].plan > 0 && 
-                  rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, rround(Column[itemCol.Id][key].plan))
-              }
+        for(let key = 0; key <= days; key++) {
+          const rowNode = gridRef.current!.api.getRowNode(Number(key-1) + '')!
+          if(Column[itemCol.Id][key]) {
+            bufferFact += Column[itemCol.Id][key].fact
+            bufferPlan += Column[itemCol.Id][key].plan
+            if(Number(key) <= days) {
+              Column[itemCol.Id][key].fact > 0 && 
+                  rowNode.setDataValue(`sumFact-${itemCol.Id}-0`,  Column[itemCol.Id][key].fact)
+              Column[itemCol.Id][key].plan > 0 && 
+                  rowNode.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(Column[itemCol.Id][key].plan))
             }
-
-            bufferFact > 0 && rowNodeAccum.setDataValue(`sumFactChild-${itemCol.Id}-0`, bufferFact)
-            bufferPlan > 0 && rowNodeAccum.setDataValue(`sumPlanChild-${itemCol.Id}-0`, rround(bufferPlan))
           }
-        }, 200)
+
+          bufferFact > 0 && rowNodeAccum.setDataValue(`sumFact-${itemCol.Id}-0`, bufferFact)
+          bufferPlan > 0 && rowNodeAccum.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(bufferPlan))
+        }
       }
 
       if(Column[itemCol.Id] && Column[14] && itemCol.Id == 24) {
-        setTimeout(() => {
-          let bufferFact = 0
-          let bufferPlan = 0
-          for(let key = 1; key <= days; key++) {
-            const rowNode = gridRef.current!.api.getRowNode(Number(key-1) + '')!
-            const fact =  (Column[14][key] ? Column[14][key].fact.weight : 0) + (Column[itemCol.Id][key] ? Column[itemCol.Id][key]?.fact.weight : 0) 
+        let bufferFact = 0
+        let bufferPlan = 0
+        for(let key = 1; key <= days; key++) {
+          const rowNode = gridRef.current!.api.getRowNode(Number(key-1) + '')!
+          const fact =  (Column[14][key] ? Column[14][key].fact.w : 0) + (Column[itemCol.Id][key] ? Column[itemCol.Id][key]?.fact.w : 0) 
               + (factItems && factItems[23] && factItems[23][key] ? Number(factItems[23][key][0]['Эффект']) : 0)
 
-            const plan = (Column[14][key] ? Column[14][key]?.plan.weight  : 0)  +  (Column[itemCol.Id][key] ?  Column[itemCol.Id][key]?.plan.weight : 0)
+          const plan = (Column[14][key] ? Column[14][key]?.plan.w  : 0)  +  (Column[itemCol.Id][key] ?  Column[itemCol.Id][key]?.plan.w : 0)
              + (planItems && planItems[23][String(key).length === 1 ? '0' + String(key) : String(key)] ? Number(planItems[23][String(key).length === 1 ? '0' + String(key) : String(key)][0]['Эффект']) : 0)
             
-            bufferFact += fact
-            bufferPlan += plan
+          bufferFact += fact
+          bufferPlan += plan
 
-            fact > 0 && rowNode.setDataValue(`sumFactChild-${itemCol.Id}-0`, fact)
-            plan > 0 && rowNode.setDataValue(`sumPlanChild-${itemCol.Id}-0`, plan)
-          }
+          fact > 0 && rowNode.setDataValue(`sumFact-${itemCol.Id}-0`, fact)
+          plan > 0 && rowNode.setDataValue(`sumPlan-${itemCol.Id}-0`, plan)
+        }
 
-          setTimeout(() => {
-            bufferPlan > 0 && rowNodeWeight.setDataValue(`sumPlanChild-${itemCol.Id}-0`, bufferPlan)
-            bufferFact > 0 && rowNodeWeight.setDataValue(`sumFactChild-${itemCol.Id}-0`, bufferFact)
-          }, 200)
+        setTimeout(() => {
+          bufferPlan > 0 && rowNodeWeight.setDataValue(`sumPlan-${itemCol.Id}-0`, bufferPlan)
+          bufferFact > 0 && rowNodeWeight.setDataValue(`sumFact-${itemCol.Id}-0`, bufferFact)
         }, 200)
       }
     })        

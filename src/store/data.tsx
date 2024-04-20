@@ -84,22 +84,22 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
     [...Array(31)].map((_,i) => {
       const day = i + 1
       const pday = String(day).length === 1 ? '0' + String(day) : String(day)
-      const fact = {count: 0, weight: 0}
-      const plan = {count: 0, weight: 0}
+      const fact = {c: 0, w: 0}
+      const plan = {c: 0, w: 0}
 
       indexes.map(index => {
         if (get().FactItems && get().FactItems[index] && get().FactItems[index][day]) {
-          fact.weight = fact.weight + get().FactItems[index][day].reduce((p,c) => p+Number(c['Эффект']), 0)
-          fact.count = fact.count + get().FactItems[index][day].length
+          fact.w = fact.w + get().FactItems[index][day].reduce((p,c) => p+Number(c['Эффект']), 0)
+          fact.c = fact.c + get().FactItems[index][day].length
         }
 
         if (get().PlanItems && get().PlanItems[index] && get().PlanItems[index][pday]) {
-          plan.weight = plan.weight + get().PlanItems[index][pday].reduce((p,c) => p+Number(c['Эффект']), 0)
-          plan.count = plan.count + get().PlanItems[index][pday].length
+          plan.w = plan.w + get().PlanItems[index][pday].reduce((p,c) => p+Number(c['Эффект']), 0)
+          plan.c = plan.c + get().PlanItems[index][pday].length
         }
       })
 
-      if(fact.count > 0 || plan.count > 0 || fact.weight > 0|| plan.weight > 0 ) obj[day] = {
+      if(fact.c > 0 || plan.c > 0 || fact.w > 0|| plan.w > 0 ) obj[day] = {
         fact: fact,
         plan: plan
       }
@@ -150,13 +150,9 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
     } }
   }),
 
-  setFactItems: (data) => set(() => {
-    return { FactItems: data }
-  }),
+  setFactItems: (data) => set(() => ({ FactItems: data })),
 
-  setPlanItems: (data) => set(() => {
-    return { PlanItems: data }
-  }),
+  setPlanItems: (data) => set(() => ({ PlanItems: data })),
 
   cellUpdate: (data) => set(() => {
     let temp = data.colType === 'plan' ? get().PlanItems : get().FactItems
@@ -194,9 +190,7 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
     return (data.colType === 'plan' ? { PlanItems: temp } : { FactItems: temp })
   }),
 
-  setSumItems: (data) => set(() => {
-    return { sumItems: data}
-  }),
+  setSumItems: (data) => set(() => ({ sumItems: data })),
 
 }), {enabled: true, name: 'DataStore'}))
 
