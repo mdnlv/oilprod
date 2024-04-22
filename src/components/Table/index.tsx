@@ -336,17 +336,40 @@ const Table: React.FC = () => {
           const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
 
           Number(key) <= days && factItems[itemCol.Id][key].map((item, i) => {
-            rowNode.setDataValue(`fact-${itemCol.Id}-${i}`, item['Местор.'] + '\n'+ item['N,N скважин'] + '\n' + Math.round(Number(item['Эффект'])))
+            const m = item['Местор.'] ? item['Местор.'] : ''  
+            const n = item['N,N скважин'] ? item['N,N скважин'] : ''
+            if(struct.find(item => item.id === itemCol.Id).total) {
+              // sumCount++
+              // sumWeight += Number(item['Эффект'])
 
-            const cf = factItems[itemCol.Id][key].length
-            const qf = factItems[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+              rowNode.setDataValue(`sumFact-${itemCol.Id}-0`,  m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
+              // if ( itemCol.Id === 40 
+              //     || itemCol.Id === 47 
+              //     || itemCol.Id === 36 
+              //     || itemCol.Id === 33
+              //     || itemCol.Id === 31
+              //     || itemCol.Id === 32
+              //     || itemCol.Id === 41
+              //     || itemCol.Id === 23 ) rowNodeAccum.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumWeight))
+              // else {
+              //   rowNodeCount.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumCount))
+              //   rowNodeWeight.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumWeight))
+              // }
+              // if ( itemCol.Id === 40 ) rowNodeWeight.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumWeight / days))
+            } else {
+              rowNode.setDataValue(`fact-${itemCol.Id}-${i}`, item['Местор.'] + '\n'+ item['N,N скважин'] + '\n' + Math.round(Number(item['Эффект'])))
 
-            sumCount++
-            sumWeight += Number(item['Эффект'])
+              const cf = factItems[itemCol.Id][key].length
+              const qf = factItems[itemCol.Id][key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
 
-            rowNode.setDataValue(`sumFact-${itemCol.Id}-0`, cf + '\n' + qf)
-            rowNodeCount.setDataValue(`sumFact-${itemCol.Id}-0`, sumCount)
-            rowNodeWeight.setDataValue(`sumFact-${itemCol.Id}-0`, sumWeight)
+              sumCount++
+              sumWeight += Number(item['Эффект'])
+
+              rowNode.setDataValue(`sumFact-${itemCol.Id}-0`, cf + '\n' + qf)
+              rowNodeCount.setDataValue(`sumFact-${itemCol.Id}-0`, sumCount)
+              rowNodeWeight.setDataValue(`sumFact-${itemCol.Id}-0`, sumWeight)
+            }
+
           })
         }
       } 

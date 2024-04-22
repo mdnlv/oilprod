@@ -4,6 +4,8 @@ import { read } from 'xlsx'
 import useDataStore, { DataStoreType } from '../../store/data'
 import { Attachment } from '@consta/uikit/Attachment'
 import parsingXLSX from './script'
+import moment from 'moment'
+import useStore, { StoreType } from '../../store'
 
 const obj = {
   'Ввод новых скважин': 1,
@@ -58,13 +60,19 @@ function getKeyByValueStrong(object, value) {
   })
 }
 
+function getAllKey(object) {
+  return Object.keys(object).filter(key => {
+    return (key[0] === 'H' && key !== 'H8' && key !== 'H9') ? true : false
+  })
+} 
+
 function newGroupByDate(arr) {
   const temp = arr.reduce((acc, item) => {
     const date = item.date
     if (acc[date]) {
       acc[date].push(item)
     } else {
-      acc[Number(date)] = [item]
+      acc[date] = [item]
     }
     return acc
   }, {})
@@ -78,6 +86,7 @@ const Files: React.FC = () => {
   const [rgd, setRgd] = useState('')
   const fileFact = useRef(null)
   const filePlan = useRef(null)
+  const days = moment(useStore((state : StoreType) => state.month)).daysInMonth()
 
   // Факт
   const importUsoi = () => {
@@ -131,7 +140,24 @@ const Files: React.FC = () => {
           'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+item.slice(1)].w.replace('^',''), 
           'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+item.slice(1)].w
         })))
-  
+
+        //Остановки
+        const keys5 = getAllKey(wb.Sheets['Остановки скважин АО ГПН-ННГ'])
+        fact[25] = newGroupByDate(keys5.map(item => ({
+          date: wb.Sheets['Остановки скважин АО ГПН-ННГ']['G'+item.slice(1)].w.substr(0, 2),
+          'Местор.': wb.Sheets['Остановки скважин АО ГПН-ННГ']['H'+item.slice(1)].w,
+          'N,N скважин': wb.Sheets['Остановки скважин АО ГПН-ННГ']['I'+item.slice(1)].w.replace('^',''), 
+          'Эффект': wb.Sheets['Остановки скважин АО ГПН-ННГ']['M'+item.slice(1)].w
+        })))
+
+        //КЦ МЭ
+        fact[44] = {}
+        fact[46] = {}
+        for(let i = 1;  i <= days; i++) {
+          fact[44][String(i).length === 1 ? '0' + String(i) : String(i)] = [{'Эффект': wb.Sheets['Сводка по изм. нал-ия нефти З+В']['C'+ (i+7)].v}]
+          fact[46][String(i).length === 1 ? '0' + String(i) : String(i)] = [{'Эффект': wb.Sheets['Сводка по изм. нал-ия нефти З+В']['D'+ (i+7)].v}]
+        }
+
         setFactItems(fact)
         setStarts('xls')
       }
