@@ -42,7 +42,7 @@ const styleOptions = agGridAdapter({
 
 const rr = (el: number) => {
   const temp = ((el ^ 0) === el) ? el : Number(el.toFixed(1))
-  return (String(temp).includes('.0')? Math.round(temp) : temp)
+  return (String(temp).includes('.0')? String(Math.round(temp)) : String(temp))
 }
   
 const Table: React.FC = () => {
@@ -414,7 +414,6 @@ const Table: React.FC = () => {
 
                 sumCount++
                 sumWeight += Number(item['Эффект'])
-                itemCol.Id === 20 && console.log(sumWeight)
                 rowNode.setDataValue(`sumPlan-${itemCol.Id}-0`, cp + '\n' + qp)
                 rowNodeCount.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumCount))
                 rowNodeWeight.setDataValue(`sumPlan-${itemCol.Id}-0`, rr(sumWeight))
