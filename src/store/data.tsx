@@ -141,7 +141,7 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
 
   setClipboard: (data) => set(() => {
     const temp = data.colType === 'plan' ? get().PlanItems : get().FactItems
-    const day  = data.colType === 'plan' && String(data.day).length === 1 ? '0' + String(data.day) : String(data.day)
+    const day  = String(data.day).length === 1 ? '0' + String(data.day) : String(data.day)
     return { clipboard: {
       date: day,
       'Местор.': temp[data.colId][day][data.colIndex]['Местор.'],
@@ -156,11 +156,10 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
 
   cellUpdate: (data) => set(() => {
     let temp = data.colType === 'plan' ? get().PlanItems : get().FactItems
-    // data.colType === 'plan' &&
     const day  =  String(data.day).length === 1 ? '0' + String(data.day) : String(data.day)
     if(data.newPlaceName == null) {
-      temp[data.colId][day] = temp[data.colId][day].filter((_, index) => index !== data.colIndex)
-      if(temp[data.colId][day].length === 0) delete temp[data.colId][day]
+      temp[data.colId][day] = temp[data.colId][day].filter((_, index) => index !== data.colIndex, [])
+      //if(temp[data.colId][day].length === 0) delete temp[data.colId][day]
     } else {   
       if(!temp) temp = {} 
       if(!temp[data.colId]) temp[data.colId + ''] = {}

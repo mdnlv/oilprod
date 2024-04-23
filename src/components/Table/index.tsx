@@ -207,9 +207,9 @@ const Table: React.FC = () => {
               colType: colType
             })
             params.api.cutToClipboard()
-            //setTimeout(() => {
-            tableUpdate()
-            //}, 200)
+            setTimeout(() => {
+              tableUpdate()
+            }, 100)
           },
           icon: '<img src="./assets/delete.png" />',
         }
@@ -334,6 +334,7 @@ const Table: React.FC = () => {
       const key = String(i).length === 1 ? '0' + String(i) : String(i)
       const rowNode = gridRef.current!.api.getRowNode(Number(key)-1 + '')!
       if(items[key]){
+        rowNode.setDataValue(`sum${hType}-${itemCol.Id}-0`, '')
         Number(key) <= days && items[key].map((item, i) => {
           const m = item['Местор.'] ? item['Местор.'] : ''  
           const n = item['N,N скважин'] ? item['N,N скважин'] : ''
@@ -358,15 +359,12 @@ const Table: React.FC = () => {
             }
             if ( itemCol.Id === 40 ) rw.setDataValue(`sum${hType}-${itemCol.Id}-0`, rr(sumWeight / days))
           } else {
-            
-
             rowNode.setDataValue(`${type}-${itemCol.Id}-${i}`, item['Местор.'] + '\n'+ item['N,N скважин'] + '\n' + Math.round(Number(item['Эффект'])))
             const cf = items[key].length
             const qf = items[key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
-            itemCol.Id === 2 && console.log(cf, qf)
             sumCount++
             sumWeight += Number(item['Эффект'])
-            rowNode.setDataValue(`sum${hType}-${itemCol.Id}-0`, cf + '\n' + qf)
+            rowNode.setDataValue(`sum${hType}-${itemCol.Id}-0`, cf + '\n' + qf) 
             rc.setDataValue(`sum${hType}-${itemCol.Id}-0`, sumCount)
             rw.setDataValue(`sum${hType}-${itemCol.Id}-0`, sumWeight)
             ra.setDataValue(`sum${hType}-${itemCol.Id}-0`, rr(accum + sumWeight))
