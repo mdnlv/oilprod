@@ -215,7 +215,7 @@ const Table: React.FC = () => {
         }
       ]
       return result
-    }, [clipboard]
+    }, [factItems, planItems, clipboard]
   )
 
   useEffect(() => {

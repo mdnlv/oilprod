@@ -38,6 +38,8 @@ const obj = {
 
 const nameColList = Object.keys(obj)
 
+
+// Для запусков
 function getKeyByValue(object, value) {
   return Object.keys(object).filter(key => {
     for(const i of value) {
@@ -48,6 +50,7 @@ function getKeyByValue(object, value) {
     return false
   })
 }
+
 
 function getKeyByValueStrong(object, value) {
   return Object.keys(object).filter(key => {
@@ -60,11 +63,27 @@ function getKeyByValueStrong(object, value) {
   })
 }
 
+// Для остановок
 function getAllKey(object) {
   return Object.keys(object).filter(key => {
     return (key[0] === 'H' && key !== 'H8' && key !== 'H9') ? true : false
   })
 } 
+
+// Прочие потери 
+function getPP(object) {
+  const strNum = Number(object['!ref'].split(':')[1].match(/[0-9/.]+/)[0])
+  const temp = {}
+  for (let i = 10; i < strNum; i++) {
+    if(object['P'+i]) {
+      temp[object['P'+i].w.substr(0, 2)] 
+        ? temp[object['P'+i].w.substr(0, 2)][0]['Эффект'] += object['AG'+i].v
+        :  temp[object['P'+i].w.substr(0, 2)] = [{'Эффект': object['AG'+i].v}]
+    }
+  }
+  return temp
+} 
+
 
 function newGroupByDate(arr) {
   const temp = arr.reduce((acc, item) => {
@@ -153,10 +172,15 @@ const Files: React.FC = () => {
         //КЦ МЭ
         fact[44] = {}
         fact[46] = {}
+
         for(let i = 1;  i <= days; i++) {
           fact[44][String(i).length === 1 ? '0' + String(i) : String(i)] = [{'Эффект': wb.Sheets['Сводка по изм. нал-ия нефти З+В']['C'+ (i+7)].v}]
           fact[46][String(i).length === 1 ? '0' + String(i) : String(i)] = [{'Эффект': wb.Sheets['Сводка по изм. нал-ия нефти З+В']['D'+ (i+7)].v}]
         }
+
+        //Остановки
+        const keys6 = wb.Sheets['ВСП ЦИТС']
+        fact[47] = getPP(keys6)
 
         setFactItems(fact)
         setStarts('xls')
