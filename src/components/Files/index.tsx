@@ -84,7 +84,6 @@ function getPP(object) {
   return temp
 } 
 
-
 function newGroupByDate(arr) {
   const temp = arr.reduce((acc, item) => {
     const date = item.date
@@ -181,6 +180,15 @@ const Files: React.FC = () => {
         //Остановки
         const keys6 = wb.Sheets['ВСП ЦИТС']
         fact[47] = getPP(keys6)
+
+        // Сокращение ПП
+        const keys7 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['ИЗ ПРОСТ'])
+        fact[20] = newGroupByDate(keys7.map(item => ({
+          date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+item.slice(2)].w.substr(0, 2),
+          'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+item.slice(2)].w,
+          'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+item.slice(2)].w.replace('^',''), 
+          'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+item.slice(2)].w
+        })))
 
         setFactItems(fact)
         setStarts('xls')

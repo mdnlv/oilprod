@@ -156,7 +156,8 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
 
   cellUpdate: (data) => set(() => {
     let temp = data.colType === 'plan' ? get().PlanItems : get().FactItems
-    const day  = data.colType === 'plan' && String(data.day).length === 1 ? '0' + String(data.day) : String(data.day)
+    // data.colType === 'plan' &&
+    const day  =  String(data.day).length === 1 ? '0' + String(data.day) : String(data.day)
     if(data.newPlaceName == null) {
       temp[data.colId][day] = temp[data.colId][day].filter((_, index) => index !== data.colIndex)
       if(temp[data.colId][day].length === 0) delete temp[data.colId][day]

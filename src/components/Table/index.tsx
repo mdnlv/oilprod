@@ -207,9 +207,9 @@ const Table: React.FC = () => {
               colType: colType
             })
             params.api.cutToClipboard()
-            setTimeout(() => {
-              tableUpdate()
-            }, 200)
+            //setTimeout(() => {
+            tableUpdate()
+            //}, 200)
           },
           icon: '<img src="./assets/delete.png" />',
         }
@@ -358,10 +358,12 @@ const Table: React.FC = () => {
             }
             if ( itemCol.Id === 40 ) rw.setDataValue(`sum${hType}-${itemCol.Id}-0`, rr(sumWeight / days))
           } else {
+            
+
             rowNode.setDataValue(`${type}-${itemCol.Id}-${i}`, item['Местор.'] + '\n'+ item['N,N скважин'] + '\n' + Math.round(Number(item['Эффект'])))
             const cf = items[key].length
             const qf = items[key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
-
+            itemCol.Id === 2 && console.log(cf, qf)
             sumCount++
             sumWeight += Number(item['Эффект'])
             rowNode.setDataValue(`sum${hType}-${itemCol.Id}-0`, cf + '\n' + qf)
@@ -382,8 +384,8 @@ const Table: React.FC = () => {
     const rowNodeCount = gridRef.current!.api.getRowNode(days + '')!
     const rowNodeWeight = gridRef.current!.api.getRowNode(days + 1 + '')!
     const rowNodeAccum = gridRef.current!.api.getRowNode(days + 2 + '')!
-    
     data.Partitions.map((itemCol) => {
+      
       factItems && factItems[itemCol.Id] &&
         parsData(factItems[itemCol.Id], itemCol, 'fact', rowNodeCount, rowNodeWeight, rowNodeAccum)
       
