@@ -359,7 +359,7 @@ const Table: React.FC = () => {
             }
             if ( itemCol.Id === 40 ) rw.setDataValue(`sum${hType}-${itemCol.Id}-0`, rr(sumWeight / days))
           } else {
-            rowNode.setDataValue(`${type}-${itemCol.Id}-${i}`, item['Местор.'] + '\n'+ item['N,N скважин'] + '\n' + Math.round(Number(item['Эффект'])))
+            rowNode.setDataValue(`${type}-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
             const cf = items[key].length
             const qf = items[key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
             sumCount++

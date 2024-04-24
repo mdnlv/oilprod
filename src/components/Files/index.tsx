@@ -120,6 +120,10 @@ const Files: React.FC = () => {
         const wb = read(dataFile, { type: 'binary' })
         
         const fact = {}
+
+
+
+
         // ВНС
         const keys1 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['Ввод новых'])
         fact[1] = newGroupByDate(keys1.map(item => ({
@@ -128,6 +132,11 @@ const Files: React.FC = () => {
           'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+item.slice(1)].w.replace('^',''), 
           'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+item.slice(1)].w
         })))
+
+
+
+
+
   
         // ЗБС
         const keys2 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['Зарезка'])
@@ -150,7 +159,7 @@ const Files: React.FC = () => {
           'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+item.slice(1)].w
         })))
   
-        //Возврат
+        // Возврат
         const keys4 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['Возврат', 'Перевод на', 'Приобщение пласта'])
         fact[3] = newGroupByDate(keys4.map(item => ({
           date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+item.slice(1)].w.substr(0, 2),
@@ -158,6 +167,21 @@ const Files: React.FC = () => {
           'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+item.slice(1)].w.replace('^',''), 
           'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+item.slice(1)].w
         })))
+
+
+        // Сокращение ПП
+        const keys7 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['ИЗ ПРОСТ'])
+        fact[20] = newGroupByDate(keys7.map(item => ({
+          date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+item.slice(2)].w.substr(0, 2),
+          'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+item.slice(2)].w,
+          'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+item.slice(2)].w.replace('^',''), 
+          'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+item.slice(2)].w
+        }))) 
+        
+        
+        // Вывлд из БД
+
+
 
         //Остановки
         const keys5 = getAllKey(wb.Sheets['Остановки скважин АО ГПН-ННГ'])
@@ -181,14 +205,7 @@ const Files: React.FC = () => {
         const keys6 = wb.Sheets['ВСП ЦИТС']
         fact[47] = getPP(keys6)
 
-        // Сокращение ПП
-        const keys7 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['ИЗ ПРОСТ'])
-        fact[20] = newGroupByDate(keys7.map(item => ({
-          date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+item.slice(2)].w.substr(0, 2),
-          'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+item.slice(2)].w,
-          'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+item.slice(2)].w.replace('^',''), 
-          'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+item.slice(2)].w
-        })))
+
 
         setFactItems(fact)
         setStarts('xls')
