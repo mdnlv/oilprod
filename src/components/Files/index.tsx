@@ -23,7 +23,7 @@ const obj = {
   'Геол. снижение,  т/сут': 36,
   'Итого (с ВСП)': 47,
   'Потенциал по графику': 40,
-  //'Нараст.  по потенциалу': 22,
+  // 'Нараст.  по потенциалу': 22,
   'Исследования, т/сут': 33,
   'Откл. Эл.Эн., т/сут': 31,
   'УЭТ, т/сут': 32,
@@ -36,6 +36,13 @@ const obj = {
   // Прочие потери (Итого с ВСП) ->> Итого потерь
 }
 
+const events = {
+  2: ['Зарезка'],
+  5: ['Гидроразрыв'],
+  3: ['Возврат', 'Перевод на', 'Приобщение пласта'],
+  1: ['Ввод новых'],
+  0: ['ГРП']
+}
 
 const nameColList = Object.keys(obj)
 
@@ -74,10 +81,28 @@ function getPP(object) {
   const strNum = Number(object['!ref'].split(':')[1].match(/[0-9/.]+/)[0])
   const temp = {}
   for (let i = 10; i < strNum; i++) {
+    console.log()
     if(object['P'+i]) {
       temp[object['P'+i].w.substr(0, 2)] 
         ? temp[object['P'+i].w.substr(0, 2)][0]['Эффект'] += object['AG'+i].v
         :  temp[object['P'+i].w.substr(0, 2)] = [{'Эффект': object['AG'+i].v}]
+    }
+  }
+  return temp
+} 
+
+// Коррект
+function getCorrect(object) {
+  console.log(object['!ref'].split(':')[1].match(/[0-9/.]+/)[0])
+  const strNum = Number(object['!ref'].split(':')[1].match(/[0-9/.]+/)[0])
+  const temp = {}
+  
+  for (let i = 10; i < strNum; i++) {
+    if(object['AS'+i] && object['AS'+i].v !== '') {
+      console.log(object['AS'+i])
+      // temp[object['P'+i].w.substr(0, 2)] 
+      //   ? temp[object['P'+i].w.substr(0, 2)][0]['Эффект'] += object['AG'+i].v
+      //   :  temp[object['P'+i].w.substr(0, 2)] = [{'Эффект': object['AG'+i].v}]
     }
   }
   return temp
@@ -129,6 +154,10 @@ const Files: React.FC = () => {
 
         // Возврат
         const keys4 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['Возврат', 'Перевод на', 'Приобщение пласта'])
+
+        // Корректировки ГРП
+        const keysCorrect = wb.Sheets['Запуски-Остановки ДДНГ-МЭР']
+        const tCorrect = getCorrect(keysCorrect)
 
         const gtmKeys = [...keys2, ...keys3, ...keys4].map(i => i.slice(1))
         const t2 = []
@@ -190,8 +219,7 @@ const Files: React.FC = () => {
         for(const el of keys8) {
           const wGrp = wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
           if(!(gtmKeys.indexOf(el.slice(2)) > -1)) {
-            if(wGrp > 0)
-            {           
+            if(wGrp > 0) {           
               if(!(keys2.indexOf(el.slice(2)) > -1)) {
                 t2.push({
                   date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
