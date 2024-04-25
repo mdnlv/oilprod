@@ -140,29 +140,34 @@ const Files: React.FC = () => {
         // Сокращение ПП
         const keys7 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['ИЗ ПРОСТ'])
         for(const el of keys7) {
+          const wGrp = wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
           if(!(gtmKeys.indexOf(el.slice(2)) > -1)) {
-            if(!(keys2.indexOf(el.slice(2)) > -1)) {
-              t2.push({
-                date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
-                'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
-                'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
-                'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
-              })
-            } else if((keys3.indexOf(el.slice(2)) > -1)) {
-              t5.push({
-                date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
-                'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
-                'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
-                'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
-              })
-            } else if (!(keys4.indexOf(el.slice(2)) > -1)) {
-              t3.push({
-                date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
-                'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
-                'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
-                'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
-              })
+            if(wGrp > 0)
+            {
+              if(!(keys2.indexOf(el.slice(2)) > -1)) {
+                t2.push({
+                  date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+                  'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+                  'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                  'Эффект': wGrp
+                })
+              } else if((keys3.indexOf(el.slice(2)) > -1)) {
+                t5.push({
+                  date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+                  'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+                  'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                  'Эффект': wGrp
+                })
+              } else if (!(keys4.indexOf(el.slice(2)) > -1)) {
+                t3.push({
+                  date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+                  'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+                  'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                  'Эффект': wGrp
+                })
+              }
             }
+
             t20.push({
               date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
               'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
@@ -183,28 +188,32 @@ const Files: React.FC = () => {
         const keys8 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], 
           ['ИЗ Б/ПР.ЛЕТ', 'ИЗ ОСВОЕНИЯ ТЕК.ГОДА', 'ИЗ ПЪЕЗОМЕТРА', 'ИЗ ТЕК.БЕЗД'])
         for(const el of keys8) {
+          const wGrp = wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
           if(!(gtmKeys.indexOf(el.slice(2)) > -1)) {
-            if(!(keys2.indexOf(el.slice(2)) > -1)) {
-              t2.push({
-                date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
-                'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
-                'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
-                'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
-              })
-            } else if((keys3.indexOf(el.slice(2)) > -1)) {
-              t5.push({
-                date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
-                'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
-                'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
-                'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
-              })
-            } else if (!(keys4.indexOf(el.slice(2)) > -1)) {
-              t3.push({
-                date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
-                'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
-                'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
-                'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
-              })
+            if(wGrp > 0)
+            {           
+              if(!(keys2.indexOf(el.slice(2)) > -1)) {
+                t2.push({
+                  date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+                  'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+                  'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                  'Эффект': wGrp
+                })
+              } else if((keys3.indexOf(el.slice(2)) > -1)) {
+                t5.push({
+                  date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+                  'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+                  'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                  'Эффект': wGrp
+                })
+              } else if (!(keys4.indexOf(el.slice(2)) > -1)) {
+                t3.push({
+                  date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+                  'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+                  'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                  'Эффект': wGrp
+                })
+              }
             }
 
             t17.push({
