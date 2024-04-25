@@ -36,8 +36,8 @@ const obj = {
   // Прочие потери (Итого с ВСП) ->> Итого потерь
 }
 
-const nameColList = Object.keys(obj)
 
+const nameColList = Object.keys(obj)
 
 // Для запусков
 function getKeyByValue(object, value) {
@@ -50,7 +50,6 @@ function getKeyByValue(object, value) {
     return false
   })
 }
-
 
 function getKeyByValueStrong(object, value) {
   return Object.keys(object).filter(key => {
@@ -118,11 +117,117 @@ const Files: React.FC = () => {
       reader.onload = (event) => {
         const dataFile = event.target.result
         const wb = read(dataFile, { type: 'binary' })
-        
         const fact = {}
 
+        // ЗБС
+        const keys2 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['Зарезка'])
 
+        // ГРП
+        const keys3_1 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['Гидроразрыв'])
+        const keys3_2 = getKeyByValueStrong(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['ГРП'])
+        const keys3 = [...keys3_1, ...keys3_2]
 
+        // Возврат
+        const keys4 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['Возврат', 'Перевод на', 'Приобщение пласта'])
+
+        const gtmKeys = [...keys2, ...keys3, ...keys4].map(i => i.slice(1))
+        const t2 = []
+        const t5 = []
+        const t3 = []
+        const t17 = []
+        const t20 = []
+
+        // Сокращение ПП
+        const keys7 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['ИЗ ПРОСТ'])
+        for(const el of keys7) {
+          if(!(gtmKeys.indexOf(el.slice(2)) > -1)) {
+            if(!(keys2.indexOf(el.slice(2)) > -1)) {
+              t2.push({
+                date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+                'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+                'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
+              })
+            } else if((keys3.indexOf(el.slice(2)) > -1)) {
+              t5.push({
+                date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+                'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+                'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
+              })
+            } else if (!(keys4.indexOf(el.slice(2)) > -1)) {
+              t3.push({
+                date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+                'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+                'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
+              })
+            }
+            t20.push({
+              date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+              'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+              'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+              'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
+            })
+          } else {
+            t20.push({
+              date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+              'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+              'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+              'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w
+            })
+          }
+        }
+
+        // Вывод из БД
+        const keys8 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], 
+          ['ИЗ Б/ПР.ЛЕТ', 'ИЗ ОСВОЕНИЯ ТЕК.ГОДА', 'ИЗ ПЪЕЗОМЕТРА', 'ИЗ ТЕК.БЕЗД'])
+        for(const el of keys8) {
+          if(!(gtmKeys.indexOf(el.slice(2)) > -1)) {
+            if(!(keys2.indexOf(el.slice(2)) > -1)) {
+              t2.push({
+                date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+                'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+                'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
+              })
+            } else if((keys3.indexOf(el.slice(2)) > -1)) {
+              t5.push({
+                date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+                'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+                'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
+              })
+            } else if (!(keys4.indexOf(el.slice(2)) > -1)) {
+              t3.push({
+                date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+                'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+                'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
+              })
+            }
+
+            t17.push({
+              date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+              'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+              'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+              'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
+            })
+          } else {
+            t17.push({
+              date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
+              'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+              'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+              'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w
+            })
+          }
+        }
+
+        fact[17] = newGroupByDate(t17)
+        fact[20] = newGroupByDate(t20)
+        fact[2] = newGroupByDate(t2)
+        fact[5] = newGroupByDate(t5)
+        fact[3] = newGroupByDate(t3)
 
         // ВНС
         const keys1 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['Ввод новых'])
@@ -133,57 +238,7 @@ const Files: React.FC = () => {
           'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+item.slice(1)].w
         })))
 
-
-
-
-
-  
-        // ЗБС
-        const keys2 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['Зарезка'])
-        fact[2] = newGroupByDate(keys2.map(item => ({
-          date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+item.slice(1)].w.substr(0, 2),
-          'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+item.slice(1)].w,
-          'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+item.slice(1)].w.replace('^',''), 
-          'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+item.slice(1)].w
-        })))
-  
-        // ГРП
-        const keys3_1 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['Гидроразрыв'])
-        const keys3_2 = getKeyByValueStrong(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['ГРП'])
-  
-        const keys3 = [...keys3_1, ...keys3_2]
-        fact[5] = newGroupByDate(keys3.map(item => ({
-          date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+item.slice(1)].w.substr(0, 2),
-          'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+item.slice(1)].w,
-          'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+item.slice(1)].w.replace('^',''), 
-          'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+item.slice(1)].w
-        })))
-  
-        // Возврат
-        const keys4 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['Возврат', 'Перевод на', 'Приобщение пласта'])
-        fact[3] = newGroupByDate(keys4.map(item => ({
-          date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+item.slice(1)].w.substr(0, 2),
-          'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+item.slice(1)].w,
-          'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+item.slice(1)].w.replace('^',''), 
-          'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+item.slice(1)].w
-        })))
-
-
-        // Сокращение ПП
-        const keys7 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['ИЗ ПРОСТ'])
-        fact[20] = newGroupByDate(keys7.map(item => ({
-          date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+item.slice(2)].w.substr(0, 2),
-          'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+item.slice(2)].w,
-          'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+item.slice(2)].w.replace('^',''), 
-          'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+item.slice(2)].w
-        }))) 
-        
-        
-        // Вывлд из БД
-
-
-
-        //Остановки
+        // Рост потенциала простоя
         const keys5 = getAllKey(wb.Sheets['Остановки скважин АО ГПН-ННГ'])
         fact[25] = newGroupByDate(keys5.map(item => ({
           date: wb.Sheets['Остановки скважин АО ГПН-ННГ']['G'+item.slice(1)].w.substr(0, 2),
@@ -192,20 +247,17 @@ const Files: React.FC = () => {
           'Эффект': wb.Sheets['Остановки скважин АО ГПН-ННГ']['M'+item.slice(1)].w
         })))
 
-        //КЦ МЭ
+        // КЦ МЭ
         fact[44] = {}
         fact[46] = {}
-
         for(let i = 1;  i <= days; i++) {
           fact[44][String(i).length === 1 ? '0' + String(i) : String(i)] = [{'Эффект': wb.Sheets['Сводка по изм. нал-ия нефти З+В']['C'+ (i+7)].v}]
           fact[46][String(i).length === 1 ? '0' + String(i) : String(i)] = [{'Эффект': wb.Sheets['Сводка по изм. нал-ия нефти З+В']['D'+ (i+7)].v}]
         }
 
-        //Остановки
+        // Прочие потери
         const keys6 = wb.Sheets['ВСП ЦИТС']
         fact[47] = getPP(keys6)
-
-
 
         setFactItems(fact)
         setStarts('xls')
