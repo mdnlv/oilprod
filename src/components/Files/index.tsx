@@ -92,21 +92,42 @@ function getPP(object) {
 } 
 
 // Корректировка
-// function getCorrect(object) {
-//   console.log(object['!ref'].split(':')[1].match(/[0-9/.]+/)[0])
-//   const strNum = Number(object['!ref'].split(':')[1].match(/[0-9/.]+/)[0])
-//   const temp = {}
-  
-//   for (let i = 10; i < strNum; i++) {
-//     if(object['AS'+i] && object['AS'+i].v !== '') {
-//       console.log(object['AS'+i])
-//       // temp[object['P'+i].w.substr(0, 2)] 
-//       //   ? temp[object['P'+i].w.substr(0, 2)][0]['Эффект'] += object['AG'+i].v
-//       //   :  temp[object['P'+i].w.substr(0, 2)] = [{'Эффект': object['AG'+i].v}]
-//     }
-//   }
-//   return temp
-// } 
+function getCorrect(object) {
+  const strNum = Number(object['!ref'].split(':')[1].match(/[0-9/.]+/)[0])
+  const temp = []
+  const j = []
+
+  const findJ = (x: number, k: number) => {      
+    if(object['AE'+x].v !== '') j.push({index: x, q: k})
+    else {
+      x--
+      findJ(x, k)
+    }
+  }
+
+  for (let i = 10; i < strNum-10; i++) {
+    if(object['AS'+i] && object['AZ'+i].v !== '' && object['AZ'+i].v > 0) findJ(i, object['AZ'+i].v)
+  }
+
+  j.map(item => {
+    temp.push({
+      dayCorrect: object['AS'+item.index].v.slice(0,2), 
+      qCorrect: item.q, 
+      event: object['AP'+item.index].v, 
+      qStart: object['AH'+item.index].v, 
+      dayStart: object['AE'+item.index].v.slice(0,2), 
+      place: object['Z'+item.index].v
+    })
+  })
+
+  // console.log(object['AS'+i].v.slice(0,2), object['AZ'+i].v, object['AP'+i].v, object['AP'+i].v, object['AE'+i].v.slice(0,2), object['Z'+i].v)
+  // temp[object['P'+i].w.substr(0, 2)] 
+  //   ? temp[object['P'+i].w.substr(0, 2)][0]['Эффект'] += object['AG'+i].v
+  //   :  temp[object['P'+i].w.substr(0, 2)] = [{'Эффект': object['AG'+i].v}]
+
+  console.log(temp)
+  return temp
+} 
 
 function newGroupByDate(arr) {
   const temp = arr.reduce((acc, item) => {
@@ -153,13 +174,14 @@ const Files: React.FC = () => {
           3: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], events[3]), // Возврат
           25: getAllKey(wb.Sheets['Остановки скважин АО ГПН-ННГ']),             // Рост потенциала простоя
           47: wb.Sheets['ВСП ЦИТС'],                                            // Прочие потери
-          //'correct': wb.Sheets['Запуски-Остановки ДДНГ-МЭР'],                    // Корректировки ГРП
+          'correct': wb.Sheets['Запуски-Остановки ДДНГ-МЭР'],                   // Корректировки ГРП
           20: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['ИЗ ПРОСТ']),   // Сокращение ПП
           17: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['ИЗ Б/ПР.ЛЕТ', 'ИЗ ОСВОЕНИЯ ТЕК.ГОДА', 'ИЗ ПЪЕЗОМЕТРА', 'ИЗ ТЕК.БЕЗД']), // Вывод из БД
           16: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], events[16]), // Оптимизация
         }
 
-        //const tCorrect = getCorrect(keys['correct'])
+        const tCorrect = getCorrect(keys['correct'])
+        console.log(tCorrect)
         const gtmKeys = [...keys[2], ...keys[5], ...keys[3]].map(i => i.slice(1))
 
         const optKeys = keys[16].map(i => i.slice(1))
@@ -167,14 +189,12 @@ const Files: React.FC = () => {
         const forBf = [...gtmKeys, ...optKeys, ...strtKeys]
         const t = {2:[], 5:[], 3:[], 17:[], 20:[], 18:[], 16:[]}
 
-
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const vichet = (x: number) => {
           for(const el of keys[x]) {
             const wGrp = wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
             if((forBf.indexOf(el.slice(2)) > -1)) {
               if(wGrp > 0) {
-                console.log(wGrp)
                 if((keys[2].map(i => i.slice(1)).indexOf(el.slice(2)) > -1)) {
                   t[2].push({
                     date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
@@ -247,16 +267,13 @@ const Files: React.FC = () => {
         fact[5] = newGroupByDate(t[5])
         fact[3] = newGroupByDate(t[3])
         fact[18] = newGroupByDate(t[18])
-
         fact[16] = newGroupByDate(t[16])
-
         fact[1] = newGroupByDate(keys[1].map(item => ({
           date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+item.slice(1)].w.substr(0, 2),
           'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+item.slice(1)].w,
           'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+item.slice(1)].w.replace('^',''), 
           'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+item.slice(1)].w
         })))
-
         fact[25] = newGroupByDate(keys[25].map(item => ({
           date: wb.Sheets['Остановки скважин АО ГПН-ННГ']['G'+item.slice(1)].w.substr(0, 2),
           'Местор.': wb.Sheets['Остановки скважин АО ГПН-ННГ']['H'+item.slice(1)].w,
