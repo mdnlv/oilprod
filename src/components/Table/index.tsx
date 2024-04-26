@@ -15,7 +15,8 @@ import { GetContextMenuItemsParams, MenuItemDef } from 'ag-grid-community'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cellRenderer = (params: any) => {
-  return <div style={{display: 'flex', flexDirection: 'column'}}>{params.value}</div>
+  return <div style={ {display: 'flex', flexDirection: 'column', margin: -50, padding: 50
+  }}>{params.value}</div>
 }
 
 const defaultColDef = {
