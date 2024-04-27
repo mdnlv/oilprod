@@ -15,8 +15,18 @@ import { GetContextMenuItemsParams, MenuItemDef } from 'ag-grid-community'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cellRenderer = (params: any) => {
-  return <div style={ {display: 'flex', flexDirection: 'column', margin: -50, padding: 50
-  }}>{params.value}</div>
+  console.log(params.value)  
+  const cor = (params.value && params.value.indexOf('cor') > -1) ? params.value.slice(3) : params.value
+  return <div style={
+    {
+      display: 'flex', 
+      flexDirection: 'column', 
+      margin: -50, 
+      padding: 50,
+      backgroundColor: (params.value && params.value.indexOf('cor') > -1) ? '#e9dca1' : 'inherit'
+    }}>
+    {cor}
+  </div>
 }
 
 const defaultColDef = {
@@ -361,11 +371,13 @@ const Table: React.FC = () => {
             if ( itemCol.Id === 40 ) rw.setDataValue(`sum${hType}-${itemCol.Id}-0`, rr(sumWeight / days))
           } else {
             rowNode.setDataValue(`${type}-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
-            const cf = items[key].length
-            const qf = items[key].reduce((p,c) => p+Math.round(Number(c['Эффект'])), 0)
+            let cf = items[key].length
+            rowNode.setDataValue(`${type}-${itemCol.Id}-${cf}`, '')
+            const qf = items[key].reduce((p,c) => (c['Местор.']?.indexOf('cor') <0 ? p+Math.round(Number(c['Эффект'])) : cf--), 0)
             sumCount++
             sumWeight += Number(item['Эффект'])
-            rowNode.setDataValue(`sum${hType}-${itemCol.Id}-0`, cf + '\n' + qf) 
+            cf > 0 && rowNode.setDataValue(`sum${hType}-${itemCol.Id}-0`, cf + '\n' + qf)
+
             rc.setDataValue(`sum${hType}-${itemCol.Id}-0`, sumCount)
             rw.setDataValue(`sum${hType}-${itemCol.Id}-0`, sumWeight)
             ra.setDataValue(`sum${hType}-${itemCol.Id}-0`, rr(accum + sumWeight))

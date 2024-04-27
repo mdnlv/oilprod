@@ -45,6 +45,11 @@ const events = {
   16: ['Оптимизация'],
 }
 
+const prims = {
+  17: ['ИЗ Б/ПР.ЛЕТ', 'ИЗ ОСВОЕНИЯ ТЕК.ГОДА', 'ИЗ ПЪЕЗОМЕТРА', 'ИЗ ТЕК.БЕЗД'],
+  18: ['ИЗ ПРОСТ'],
+}
+
 const nameColList = Object.keys(obj)
 
 // Для запусков
@@ -105,29 +110,37 @@ function getCorrect(object) {
     }
   }
 
-  for (let i = 10; i < strNum-10; i++) {
+  for (let i = 10; i < strNum-10; i++)
     if(object['AS'+i] && object['AZ'+i].v !== '' && object['AZ'+i].v > 0) findJ(i, object['AZ'+i].v)
-  }
 
   j.map(item => {
+    const colId = () => {
+      let temp = null
+      for(const elI of Object.keys(events)) {
+        for(const elJ of events[elI]) {
+          if((object['AP'+item.index].v.indexOf(elJ) > -1 && elI !== '0') || (object['AP'+item.index].v === elJ && elI === '0')) 
+            temp = elI
+        }
+      }      
+      if(!temp)
+        if(prims[17].indexOf(object['AR'+item.index].v) > -1) return 17 
+        else if (prims[18].indexOf(object['AR'+item.index].v) > -1) return 18 
+      return temp
+    } 
+
     temp.push({
       dayCorrect: object['AS'+item.index].v.slice(0,2), 
       qCorrect: item.q, 
-      event: object['AP'+item.index].v, 
       qStart: object['AH'+item.index].v, 
       dayStart: object['AE'+item.index].v.slice(0,2), 
-      place: object['Z'+item.index].v
+      placeNum: object['Z'+item.index].v,
+      placeName: object['Y'+item.index].v,
+      colId: Number(colId())
     })
   })
-
-  // console.log(object['AS'+i].v.slice(0,2), object['AZ'+i].v, object['AP'+i].v, object['AP'+i].v, object['AE'+i].v.slice(0,2), object['Z'+i].v)
-  // temp[object['P'+i].w.substr(0, 2)] 
-  //   ? temp[object['P'+i].w.substr(0, 2)][0]['Эффект'] += object['AG'+i].v
-  //   :  temp[object['P'+i].w.substr(0, 2)] = [{'Эффект': object['AG'+i].v}]
-
-  console.log(temp)
   return temp
 } 
+
 
 function newGroupByDate(arr) {
   const temp = arr.reduce((acc, item) => {
@@ -145,6 +158,7 @@ function newGroupByDate(arr) {
 const Files: React.FC = () => {
   const setFactItems = useDataStore((state : DataStoreType) => state.setFactItems)
   const setPlanItems = useDataStore((state : DataStoreType) => state.setPlanItems)
+  const cellCorrect = useDataStore((state : DataStoreType) => state.cellCorrect)
   const [starts, setStarts] = useState('')
   const [rgd, setRgd] = useState('')
   const fileFact = useRef(null)
@@ -175,13 +189,12 @@ const Files: React.FC = () => {
           25: getAllKey(wb.Sheets['Остановки скважин АО ГПН-ННГ']),             // Рост потенциала простоя
           47: wb.Sheets['ВСП ЦИТС'],                                            // Прочие потери
           'correct': wb.Sheets['Запуски-Остановки ДДНГ-МЭР'],                   // Корректировки ГРП
-          20: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['ИЗ ПРОСТ']),   // Сокращение ПП
-          17: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], ['ИЗ Б/ПР.ЛЕТ', 'ИЗ ОСВОЕНИЯ ТЕК.ГОДА', 'ИЗ ПЪЕЗОМЕТРА', 'ИЗ ТЕК.БЕЗД']), // Вывод из БД
+          20: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], prims[18]),   // Сокращение ПП
+          17: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], prims[17]), // Вывод из БД
           16: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], events[16]), // Оптимизация
         }
 
-        const tCorrect = getCorrect(keys['correct'])
-        console.log(tCorrect)
+        
         const gtmKeys = [...keys[2], ...keys[5], ...keys[3]].map(i => i.slice(1))
 
         const optKeys = keys[16].map(i => i.slice(1))
@@ -274,12 +287,14 @@ const Files: React.FC = () => {
           'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+item.slice(1)].w.replace('^',''), 
           'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+item.slice(1)].w
         })))
-        fact[25] = newGroupByDate(keys[25].map(item => ({
-          date: wb.Sheets['Остановки скважин АО ГПН-ННГ']['G'+item.slice(1)].w.substr(0, 2),
-          'Местор.': wb.Sheets['Остановки скважин АО ГПН-ННГ']['H'+item.slice(1)].w,
-          'N,N скважин': wb.Sheets['Остановки скважин АО ГПН-ННГ']['I'+item.slice(1)].w.replace('^',''), 
-          'Эффект': wb.Sheets['Остановки скважин АО ГПН-ННГ']['M'+item.slice(1)].w
-        })))
+        fact[25] = newGroupByDate(keys[25].map(item => 
+          // wb.Sheets['Остановки скважин АО ГПН-ННГ']['M'+item.slice(1)].w && 
+          ({
+            date: wb.Sheets['Остановки скважин АО ГПН-ННГ']['G'+item.slice(1)].w.substr(0, 2),
+            'Местор.': wb.Sheets['Остановки скважин АО ГПН-ННГ']['H'+item.slice(1)].w,
+            'N,N скважин': wb.Sheets['Остановки скважин АО ГПН-ННГ']['I'+item.slice(1)].w.replace('^',''), 
+            'Эффект': wb.Sheets['Остановки скважин АО ГПН-ННГ']['M'+item.slice(1)].w
+          })))
 
         fact[44] = {}
         fact[46] = {}
@@ -290,6 +305,10 @@ const Files: React.FC = () => {
         fact[47] = getPP(keys[47])
 
         setFactItems(fact)
+        setTimeout(() => {
+          cellCorrect(getCorrect(keys['correct']))
+        }, 100)
+
         setStarts('xls')
       }
     })() 

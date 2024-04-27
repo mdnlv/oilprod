@@ -28,6 +28,7 @@ export type DataStoreType = {
   setFactItems: (any) => void;
   setPlanItems: (any) => void;
   cellUpdate: (any) => void;
+  cellCorrect: (any) => void;
 
   column: (any) => object;
 
@@ -188,6 +189,64 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
     }
 
     return (data.colType === 'plan' ? { PlanItems: temp } : { FactItems: temp })
+  }),
+
+  cellCorrect: (data) => set(() => {
+    const original = get().FactItems
+
+    console.log(original)
+    original && data.map(item => {
+      //const dayStart = String(item.dayStart).length === 1 ? '0' + String(item.dayStart) : String(item.dayStart)
+      const dayCorrect = String(item.dayCorrect).length === 1 ? '0' + String(item.dayCorrect) : String(item.dayCorrect)
+      if(original && original[item.colId] && original[item.colId][dayCorrect])
+        console.log(1, original[item.colId][dayCorrect])
+        // original[item.colId][dayCorrect].push({
+        //   date: dayCorrect,
+        //   'Местор.': item.placeName,
+        //   'N,N скважин': item.placeNum,
+        //   'Эффект': item.qCorrect
+        // })
+      else {
+        console.log(2, original[item.colId][dayCorrect])
+        original[item.colId][dayCorrect] = [{
+          date: dayCorrect,
+          'Местор.': 'cor' + item.placeName,
+          'N,N скважин': item.placeNum,
+          'Эффект': item.qCorrect
+        }]
+      }
+    })
+    
+    // if(data.newPlaceName == null) {
+    //   temp[data.colId][day] = temp[data.colId][day].filter((_, index) => index !== data.colIndex, [])
+    //   //if(temp[data.colId][day].length === 0) delete temp[data.colId][day]
+    // } else {   
+    //   if(!temp) temp = {} 
+    //   if(!temp[data.colId]) temp[data.colId + ''] = {}
+      
+    //   if( temp[data.colId][day]) {
+    //     if(temp[data.colId][day][data.colIndex]) {
+    //       temp[data.colId][day][data.colIndex]['Местор.'] = data.newPlaceName
+    //       temp[data.colId][day][data.colIndex]['N,N скважин'] = data.newPlaceNum
+    //       temp[data.colId][day][data.colIndex]['Эффект'] = data.newWeight
+    //     } else {
+    //       temp[data.colId][day].push({
+    //         date: day,
+    //         'Местор.': data.newPlaceName,
+    //         'N,N скважин': data.newPlaceNum,
+    //         'Эффект': data.newWeight
+    //       })
+    //     }
+    //   } else {
+    //     temp[data.colId][day] = [{
+    //       date: day,
+    //       'Местор.': data.newPlaceName,
+    //       'N,N скважин': data.newPlaceNum,
+    //       'Эффект': data.newWeight
+    //     }]
+    //   }
+    // }    
+    return ({ FactItems: original })
   }),
 
   setSumItems: (data) => set(() => ({ sumItems: data })),
