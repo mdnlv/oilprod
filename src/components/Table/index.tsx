@@ -23,11 +23,14 @@ const cellRenderer = (params: any) => {
       flexDirection: 'column', 
       margin: -50, 
       padding: 50,
-      backgroundColor: (params.value && params.value.indexOf('cor') > -1) ? '#e9dca1' : 'inherit'
+      backgroundColor: (params.value && params.value.indexOf('cor') > -1) ? '#d3c7e2' : 'inherit'
     }}>
     {cor}
   </div>
 }
+
+// При разделении не считать количество: должно считаться в ГТМ, Оптимизации, в работе на БФ
+// не должно считаться в Вывод из БД, Сокращзении (но отметить желым цветом)  - 
 
 const defaultColDef = {
   flex: 1,
