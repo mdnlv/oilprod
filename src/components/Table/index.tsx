@@ -30,7 +30,9 @@ const cellRenderer = (params: any) => {
 }
 
 // При разделении не считать количество: должно считаться в ГТМ, Оптимизации, в работе на БФ
-// не должно считаться в Вывод из БД, Сокращзении (но отметить желым цветом)  - 
+// не должно считаться в Вывод из БД, Сокращении (но отметить желым цветом)
+
+// корректировка вычесть из 
 
 const defaultColDef = {
   flex: 1,
@@ -106,7 +108,12 @@ const Table: React.FC = () => {
         tabIndex={1} // important - without this the key presses wont be caught
       >
         <div style={{display: 'flex', flexDirection: 'column'}}>
-          <input placeholder="Месторождение" value={input0} onChange={(e) => {setInput0(e.target.value)}} style={{marginBottom: 2}}/>
+          <input 
+            placeholder="Месторождение" 
+            value={input0.indexOf('cor') > -1 ? input0.slice(3) : input0} 
+            onChange={(e) => {setInput0(input0.indexOf('cor') > -1 ? 'cor' + e.target.value : e.target.value)}} 
+            style={{marginBottom: 2}}
+          />
           <input placeholder="Скважина" value={input1} onChange={(e) => {setInput1(e.target.value)}} style={{marginBottom: 2}}/>
           <input placeholder="Qн" value={input2} onChange={(e) => {setInput2(e.target.value.replace(/[^\d-]|\b-/, '') )}} style={{marginBottom: 2}}/>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems:'baseline', marginTop: 6}}>

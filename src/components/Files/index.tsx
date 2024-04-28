@@ -139,8 +139,7 @@ function getCorrect(object) {
     })
   })
   return temp
-} 
-
+}
 
 function newGroupByDate(arr) {
   const temp = arr.reduce((acc, item) => {
