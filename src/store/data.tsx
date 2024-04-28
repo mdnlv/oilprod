@@ -193,19 +193,16 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
 
   cellCorrect: (data) => set(() => {
     const original = get().FactItems
-
-    console.log(original)
     original && data.map(item => {
-      //const dayStart = String(item.dayStart).length === 1 ? '0' + String(item.dayStart) : String(item.dayStart)
+      const dayStart = String(item.dayStart).length === 1 ? '0' + String(item.dayStart) : String(item.dayStart)
       const dayCorrect = String(item.dayCorrect).length === 1 ? '0' + String(item.dayCorrect) : String(item.dayCorrect)
-      if(original && original[item.colId] && original[item.colId][dayCorrect])
-        console.log(1, original[item.colId][dayCorrect])
-        // original[item.colId][dayCorrect].push({
-        //   date: dayCorrect,
-        //   'Местор.': item.placeName,
-        //   'N,N скважин': item.placeNum,
-        //   'Эффект': item.qCorrect
-        // })
+      if(original && original[item.colId] && original[item.colId][dayCorrect]) 
+        console.log({
+          date: dayCorrect,
+          'Местор.': item.placeName,
+          'N,N скважин': item.placeNum,
+          'Эффект': item.qCorrect
+        }, original[item.colId][dayCorrect])
       else {
         original[item.colId][dayCorrect] = [{
           date: dayCorrect,
@@ -214,6 +211,11 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
           'Эффект': item.qCorrect
         }]
       }
+
+      original && original[item.colId] && original[item.colId][dayStart] && 
+        original[item.colId][dayStart].map((el, i) => {
+          if(el['N,N скважин'] === item.placeNum) original[item.colId][dayStart][i]['N,N скважин'] = item.qStart
+        })
     })
     return ({ FactItems: original })
   }),

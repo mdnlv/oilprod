@@ -250,7 +250,8 @@ const Files: React.FC = () => {
                   'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w
                 })     
               } else {
-                wGrp !== 0 && t[18].push({
+                Math.round(Number(wGrp)) !== 0 && 
+                t[18].push({
                   date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
                   'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
                   'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 

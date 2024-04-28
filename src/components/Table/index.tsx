@@ -15,7 +15,6 @@ import { GetContextMenuItemsParams, MenuItemDef } from 'ag-grid-community'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cellRenderer = (params: any) => {
-  console.log(params.value)  
   const res = (params.value && (params.value.indexOf('cor') > -1 || params.value.indexOf('dec') > -1)) 
     ? params.value.slice(3)
     : params.value
@@ -393,7 +392,7 @@ const Table: React.FC = () => {
             cf > 0 && rowNode.setDataValue(`sum${hType}-${itemCol.Id}-0`, cf + '\n' + qf)
 
             rc.setDataValue(`sum${hType}-${itemCol.Id}-0`, sumCount)
-            rw.setDataValue(`sum${hType}-${itemCol.Id}-0`, sumWeight)
+            rw.setDataValue(`sum${hType}-${itemCol.Id}-0`, rr(sumWeight))
             ra.setDataValue(`sum${hType}-${itemCol.Id}-0`, rr(accum + sumWeight))
           }
         })
