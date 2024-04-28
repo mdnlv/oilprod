@@ -193,9 +193,7 @@ const Files: React.FC = () => {
           16: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], events[16]), // Оптимизация
         }
 
-        
         const gtmKeys = [...keys[2], ...keys[5], ...keys[3]].map(i => i.slice(1))
-
         const optKeys = keys[16].map(i => i.slice(1))
         const strtKeys = keys[1].map(i => i.slice(1))
         const forBf = [...gtmKeys, ...optKeys, ...strtKeys]
@@ -239,7 +237,7 @@ const Files: React.FC = () => {
               }
               wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w && t[x].push({
                 date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
-                'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
+                'Местор.': 'dec' + wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
                 'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
                 'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
               })

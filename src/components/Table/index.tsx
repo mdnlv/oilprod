@@ -16,23 +16,24 @@ import { GetContextMenuItemsParams, MenuItemDef } from 'ag-grid-community'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cellRenderer = (params: any) => {
   console.log(params.value)  
-  const cor = (params.value && params.value.indexOf('cor') > -1) ? params.value.slice(3) : params.value
+  const res = (params.value && (params.value.indexOf('cor') > -1 || params.value.indexOf('dec') > -1)) 
+    ? params.value.slice(3)
+    : params.value
   return <div style={
     {
       display: 'flex', 
       flexDirection: 'column', 
       margin: -50, 
       padding: 50,
-      backgroundColor: (params.value && params.value.indexOf('cor') > -1) ? '#d3c7e2' : 'inherit'
+      backgroundColor: (() => {
+        if(params.value && params.value.indexOf('cor') > -1) return '#d3c7e2' 
+        else if(params.value && params.value.indexOf('dec') > -1) return '#f8f7c7'
+        else return 'inherit'
+      })()
     }}>
-    {cor}
+    {res}
   </div>
 }
-
-// При разделении не считать количество: должно считаться в ГТМ, Оптимизации, в работе на БФ
-// не должно считаться в Вывод из БД, Сокращении (но отметить желым цветом)
-
-// корректировка вычесть из 
 
 const defaultColDef = {
   flex: 1,
@@ -110,8 +111,10 @@ const Table: React.FC = () => {
         <div style={{display: 'flex', flexDirection: 'column'}}>
           <input 
             placeholder="Месторождение" 
-            value={input0.indexOf('cor') > -1 ? input0.slice(3) : input0} 
-            onChange={(e) => {setInput0(input0.indexOf('cor') > -1 ? 'cor' + e.target.value : e.target.value)}} 
+            value={(input0.indexOf('cor') > -1 || input0.indexOf('dec')> -1)? input0.slice(3) : input0} 
+            onChange={e => {setInput0((input0.indexOf('cor') > -1 || input0.indexOf('dec')> -1)
+              ? input0.slice(0,3) + e.target.value 
+              : e.target.value)}} 
             style={{marginBottom: 2}}
           />
           <input placeholder="Скважина" value={input1} onChange={(e) => {setInput1(e.target.value)}} style={{marginBottom: 2}}/>
@@ -383,7 +386,8 @@ const Table: React.FC = () => {
             rowNode.setDataValue(`${type}-${itemCol.Id}-${i}`, m + '\n'+ n + '\n' + Math.round(Number(item['Эффект'])))
             let cf = items[key].length
             rowNode.setDataValue(`${type}-${itemCol.Id}-${cf}`, '')
-            const qf = items[key].reduce((p,c) => (c['Местор.']?.indexOf('cor') <0 ? p+Math.round(Number(c['Эффект'])) : cf--), 0)
+            const qf = items[key].reduce((p,c) => ((c['Местор.']?.indexOf('cor') <0 && c['Местор.']?.indexOf('dec') < 0) 
+              ? p+Math.round(Number(c['Эффект'])) : cf--), 0)
             sumCount++
             sumWeight += Number(item['Эффект'])
             cf > 0 && rowNode.setDataValue(`sum${hType}-${itemCol.Id}-0`, cf + '\n' + qf)

@@ -207,7 +207,6 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
         //   'Эффект': item.qCorrect
         // })
       else {
-        console.log(2, original[item.colId][dayCorrect])
         original[item.colId][dayCorrect] = [{
           date: dayCorrect,
           'Местор.': 'cor' + item.placeName,
@@ -216,36 +215,6 @@ const useDataStore = create<DataStoreType>()(devtools((set, get) => ({
         }]
       }
     })
-    
-    // if(data.newPlaceName == null) {
-    //   temp[data.colId][day] = temp[data.colId][day].filter((_, index) => index !== data.colIndex, [])
-    //   //if(temp[data.colId][day].length === 0) delete temp[data.colId][day]
-    // } else {   
-    //   if(!temp) temp = {} 
-    //   if(!temp[data.colId]) temp[data.colId + ''] = {}
-      
-    //   if( temp[data.colId][day]) {
-    //     if(temp[data.colId][day][data.colIndex]) {
-    //       temp[data.colId][day][data.colIndex]['Местор.'] = data.newPlaceName
-    //       temp[data.colId][day][data.colIndex]['N,N скважин'] = data.newPlaceNum
-    //       temp[data.colId][day][data.colIndex]['Эффект'] = data.newWeight
-    //     } else {
-    //       temp[data.colId][day].push({
-    //         date: day,
-    //         'Местор.': data.newPlaceName,
-    //         'N,N скважин': data.newPlaceNum,
-    //         'Эффект': data.newWeight
-    //       })
-    //     }
-    //   } else {
-    //     temp[data.colId][day] = [{
-    //       date: day,
-    //       'Местор.': data.newPlaceName,
-    //       'N,N скважин': data.newPlaceNum,
-    //       'Эффект': data.newWeight
-    //     }]
-    //   }
-    // }    
     return ({ FactItems: original })
   }),
 
