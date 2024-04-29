@@ -33,7 +33,7 @@ const Header: React.FC = () => {
     <div style={{display: 'flex', flexDirection: 'row'}}>
       <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: 8}}>
         <div style={{width: 84, textAlign: 'center'}}>
-          <img src={logo} style={{height: 44, marginTop: 6, marginBottom: -4, marginLeft: -4}}/>
+          <img src={logo} style={{height: 44, marginTop: -4, marginLeft: -4}}/>
         </div>
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: 20, marginLeft: -4}}>
           <Db />
