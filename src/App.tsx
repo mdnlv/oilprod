@@ -8,6 +8,8 @@ import Header from './components/Header'
 import Charts from './components/Charts'
 import Report from './components/Report'
 import MultiSelect from './components/MultiSelect'
+import SaveModal from './components/Db/SaveModal'
+import OpenModal from './components/Db/OpenModal'
 
 const renderSwitch = (tab) => {
   switch(tab) {
@@ -31,12 +33,13 @@ function App() {
 
   return (
     <Theme preset={presetGpnDefault} style={{height: '100%'}}>
-      <Layout style={{  height: '100%'}} direction="row">
+      <Layout style={{height: '100%'}} direction="row">
         <Layout flex={filter ? 1 : 0} style={{height: '100%', background: '#dfedf6'}}>
           {filter && <MultiSelect />}
         </Layout>
-
         <Layout flex={7} style={{  height: '100%'}} direction="column">
+          <SaveModal />
+          <OpenModal />
           <Layout flex={1} style={{background: '#ecf1f4', width: '100%', flex: 1, alignItems: 'center' }}>
             <Header />
           </Layout>

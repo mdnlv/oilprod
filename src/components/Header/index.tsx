@@ -7,6 +7,7 @@ import { FieldGroup } from '@consta/uikit/FieldGroup'
 import { IconFilter } from '@consta/icons/IconFilter'
 import { Text } from '@consta/uikit/Text'
 import Files from '../Files'
+import Db from '../Db'
 
 const Header: React.FC = () => {
   const month = useStore((state : StoreType) => state.month)
@@ -29,10 +30,15 @@ const Header: React.FC = () => {
     alignItems: 'center',
   }}>
     <div style={{display: 'flex', flexDirection: 'row'}}>
-      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: 40}}>
+      <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: 8}}>
+
         <div style={{width: 84, textAlign: 'center'}}>
           <Button label="Фильтр" view="ghost" iconRight={IconFilter} onlyIcon size="s" onClick={changeFilter}/>
+
         </div>
+        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: 20}}>
+          <Db />
+        </div>        
         <Text size="s">Данные графика и прогноза добычи за:</Text>
         <DatePicker
           style={{width: 63, margin: 10, marginLeft: 4 }} 
@@ -43,7 +49,9 @@ const Header: React.FC = () => {
           form="brick"
         />
       </div>
+
     </div>
+
     <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
       <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
         <Files />

@@ -22,6 +22,11 @@ export type StoreType = {
 
   filter: boolean;
   changeFilter: () => void;
+
+  openModal: boolean;
+  changeOpenModal: () => void;
+  saveModal: boolean;
+  changeSaveModal: () => void;
 }
 
 export type Items = {
@@ -79,6 +84,11 @@ const useStore = create<StoreType>()(devtools((set, get) => ({
 
   filter: false,
   changeFilter: () => set({filter: !get().filter}),
+
+  openModal: false,
+  changeOpenModal: () => set({openModal: !get().openModal}),
+  saveModal: false,
+  changeSaveModal: () => set({saveModal: !get().saveModal}),
 }), {enabled: true, name: 'MyStore'}))
 
 export default useStore
