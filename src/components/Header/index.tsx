@@ -8,6 +8,7 @@ import { FieldGroup } from '@consta/uikit/FieldGroup'
 import { Text } from '@consta/uikit/Text'
 import Files from '../Files'
 import Db from '../Db'
+import logo from '../../assets/logo.png'
 
 const Header: React.FC = () => {
   const month = useStore((state : StoreType) => state.month)
@@ -31,10 +32,10 @@ const Header: React.FC = () => {
   }}>
     <div style={{display: 'flex', flexDirection: 'row'}}>
       <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: 8}}>
-        {/* <div style={{width: 84, textAlign: 'center'}}>
-          <Button label="Фильтр" view="ghost" iconRight={IconFilter} onlyIcon size="s" onClick={changeFilter}/>
-        </div> */}
-        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: 20, marginLeft: 80}}>
+        <div style={{width: 84, textAlign: 'center'}}>
+          <img src={logo} style={{height: 44, marginTop: 6, marginBottom: -4, marginLeft: -4}}/>
+        </div>
+        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: 20, marginLeft: -4}}>
           <Db />
         </div>        
         <Text size="s">Данные графика и прогноза добычи за:</Text>
