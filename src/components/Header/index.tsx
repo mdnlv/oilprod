@@ -4,7 +4,7 @@ import { Button } from '@consta/uikit/Button'
 import { Select } from '@consta/uikit/Select'
 import useStore, {StoreType} from '../../store'
 import { FieldGroup } from '@consta/uikit/FieldGroup'
-import { IconFilter } from '@consta/icons/IconFilter'
+// import { IconFilter } from '@consta/icons/IconFilter'
 import { Text } from '@consta/uikit/Text'
 import Files from '../Files'
 import Db from '../Db'
@@ -20,7 +20,7 @@ const Header: React.FC = () => {
   const changeTab = useStore((state : StoreType) => state.changeTab)
 
   // const filter = useStore((state : StoreType) => state.filter)
-  const changeFilter = useStore((state : StoreType) => state.changeFilter)
+  // const changeFilter = useStore((state : StoreType) => state.changeFilter)
 
   return (<div style={{
     display: 'flex', 
@@ -31,12 +31,10 @@ const Header: React.FC = () => {
   }}>
     <div style={{display: 'flex', flexDirection: 'row'}}>
       <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: 8}}>
-
-        <div style={{width: 84, textAlign: 'center'}}>
+        {/* <div style={{width: 84, textAlign: 'center'}}>
           <Button label="Фильтр" view="ghost" iconRight={IconFilter} onlyIcon size="s" onClick={changeFilter}/>
-
-        </div>
-        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: 20}}>
+        </div> */}
+        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: 20, marginLeft: 80}}>
           <Db />
         </div>        
         <Text size="s">Данные графика и прогноза добычи за:</Text>

@@ -5,13 +5,11 @@ import { Modal } from '@consta/uikit/Modal'
 import { Text } from '@consta/uikit/Text'
 import moment from 'moment'
 import { Layout } from '@consta/uikit/Layout'
-import { DatePicker } from '@consta/uikit/DatePicker'
 
 const SaveModal: React.FC = () => {
   const changeSaveModal = useStore((state : StoreType) => state.changeSaveModal)
   const saveModal = useStore((state : StoreType) => state.saveModal)
   const month = useStore((state : StoreType) => state.month)
-  const setMonth = useStore((state : StoreType) => state.setMonth)
 
   return (
     <Modal
@@ -29,17 +27,11 @@ const SaveModal: React.FC = () => {
           <Text as="p" size="s" view="secondary" lineHeight="m">
           Месяц: 
           </Text>        
-          <DatePicker
-            style={{width: 83, marginLeft: 24 }} 
-            type="month"
-            value={month}
-            onChange={setMonth}
-            size="xs"
-            form="brick"
-          />     
+          <Text as="p" size="s" view="secondary" lineHeight="m" style={{marginLeft: 4 }} >{moment(month).format('MM.YYYY')}</Text>
         </Layout>
         <Layout style={{  height: '100%'}} direction="row">
-          <Text as="p" size="s" view="secondary" lineHeight="m">Название: </Text>      
+          <Text as="p" size="s" view="secondary" lineHeight="m">Название: </Text>
+
           <input style={{width: 120, marginLeft: 4 }} />
         </Layout>
         <Layout style={{  height: '100%'}} direction="row">

@@ -12,6 +12,7 @@ import useDataStore, { DataStoreType } from '../../store/data'
 import { Button } from '@consta/uikit/Button'
 import 'ag-grid-enterprise'
 import { GetContextMenuItemsParams, MenuItemDef } from 'ag-grid-community'
+import { IconFilter } from '@consta/icons/IconFilter'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cellRenderer = (params: any) => {
@@ -73,6 +74,7 @@ const Table: React.FC = () => {
   const setClipboard = useDataStore((state : DataStoreType) => state.setClipboard)
   const column34 = useDataStore((state : DataStoreType) => state.column34)
   const column = useDataStore((state : DataStoreType) => state.column)
+  const changeFilter = useStore((state : StoreType) => state.changeFilter)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cellEditor = (params: any) => {
@@ -253,7 +255,10 @@ const Table: React.FC = () => {
   
   // Cтолбцы
   const updateColumns = () => {
-    const tempColumnDefs: Array<object> = [{field: 'day', headerName: '', pinned: 'left', fontSize: 8, width: 80,
+    const tempColumnDefs: Array<object> = [{field: 'day', headerName: '', 
+      headerComponent: ()=> <Button label="Фильтр" view="clear" iconRight={IconFilter} onlyIcon size="s" onClick={changeFilter}
+        style={{marginLeft: 12, padding:4, marginRight: 2, marginBottom: 2, marginTop: 4}}/>, 
+      pinned: 'left', fontSize: 8, width: 80,
       editable: false, cellStyle: { backgroundColor: '#ecf1f4', borderRight: '3px solid #ccd9e0'  } }, 
     ...data.Partitions.map((item) => { 
       if(item.Id !== 24) {
