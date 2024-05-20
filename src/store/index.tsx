@@ -74,7 +74,7 @@ const useStore = create<StoreType>()(devtools((set, get) => ({
   setMonth: (newMonth) => set(() => ({ month: newMonth })),
 
   ngpd: {
-    label: 'Без НГПД',
+    label: 'Без НГДП',
     id: 'no',
   },
   setNgpd: (newNgpd) => set(() => ({ ngpd: newNgpd })),

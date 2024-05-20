@@ -4,7 +4,6 @@ import { Button } from '@consta/uikit/Button'
 import { Select } from '@consta/uikit/Select'
 import useStore, {StoreType} from '../../store'
 import { FieldGroup } from '@consta/uikit/FieldGroup'
-// import { IconFilter } from '@consta/icons/IconFilter'
 import { Text } from '@consta/uikit/Text'
 import Files from '../Files'
 import Db from '../Db'
@@ -19,9 +18,6 @@ const Header: React.FC = () => {
   
   const tab = useStore((state : StoreType) => state.tab)
   const changeTab = useStore((state : StoreType) => state.changeTab)
-
-  // const filter = useStore((state : StoreType) => state.filter)
-  // const changeFilter = useStore((state : StoreType) => state.changeFilter)
 
   return (<div style={{
     display: 'flex', 
@@ -58,8 +54,8 @@ const Header: React.FC = () => {
       <Select
         placeholder="Выберите значение"
         items={[
-          { label: 'Без НГПД', id: 'no' },
-          { label: 'НГПД', id: 'yes' },
+          { label: 'Без НГДП', id: 'no' },
+          { label: 'НГДП', id: 'yes' },
           { label: 'Все', id: 'all' },
         ]}
         value={ngpd}
