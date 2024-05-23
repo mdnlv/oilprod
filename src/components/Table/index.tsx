@@ -75,6 +75,8 @@ const Table: React.FC = () => {
   const column34 = useDataStore((state : DataStoreType) => state.column34)
   const column = useDataStore((state : DataStoreType) => state.column)
   const changeFilter = useStore((state : StoreType) => state.changeFilter)
+  // const apd = useStore((state : StoreType) => state.apd)
+  // const [data, setData] = useState({Partitions: []})
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cellEditor = (params: any) => {
@@ -242,6 +244,15 @@ const Table: React.FC = () => {
       return result
     }, [factItems, planItems, clipboard]
   )
+
+  // useEffect(()=> {
+  //   fetch('http://10.8.2.199:82/Zelenka/2024-05-01/5')
+  //     .then(response=>response.json())
+  //     .then(json => {
+  //       setData(json)
+  //       console.log(json)
+  //     })
+  // }, [])
 
   useEffect(() => {
     const tempo = [...Array(days)].map((_, day) => ({ id: day,  day: (day+1).toString() } ))

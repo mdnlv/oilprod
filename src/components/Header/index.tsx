@@ -8,6 +8,7 @@ import { Text } from '@consta/uikit/Text'
 import Files from '../Files'
 import Db from '../Db'
 import logo from '../../assets/logo.png'
+import { Switch } from '@consta/uikit/Switch'
 
 const Header: React.FC = () => {
   const month = useStore((state : StoreType) => state.month)
@@ -18,6 +19,9 @@ const Header: React.FC = () => {
   
   const tab = useStore((state : StoreType) => state.tab)
   const changeTab = useStore((state : StoreType) => state.changeTab)
+
+  const apd = useStore((state : StoreType) => state.apd)
+  const changeApd = useStore((state : StoreType) => state.changeApd)
 
   return (<div style={{
     display: 'flex', 
@@ -44,13 +48,13 @@ const Header: React.FC = () => {
           form="brick"
         />
       </div>
-
     </div>
 
     <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
       <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
         <Files />
       </div>
+      <Switch view="primary" label="АПД" checked={apd} size="s" onChange={changeApd}/>
       <Select
         placeholder="Выберите значение"
         items={[

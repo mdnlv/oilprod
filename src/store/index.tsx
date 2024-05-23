@@ -23,6 +23,10 @@ export type StoreType = {
   filter: boolean;
   changeFilter: () => void;
 
+  apd: boolean;
+  changeApd: () => void;
+
+
   openModal: boolean;
   changeOpenModal: () => void;
   saveModal: boolean;
@@ -84,6 +88,9 @@ const useStore = create<StoreType>()(devtools((set, get) => ({
 
   filter: false,
   changeFilter: () => set({filter: !get().filter}),
+
+  apd: false,
+  changeApd: () => set({apd: !get().apd}),
 
   openModal: false,
   changeOpenModal: () => set({openModal: !get().openModal}),

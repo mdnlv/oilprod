@@ -46,7 +46,7 @@ const events = {
 }
 
 const prims = {
-  17: ['ИЗ Б/ПР.ЛЕТ', 'ИЗ ОСВОЕНИЯ ТЕК.ГОДА', 'ИЗ ПЪЕЗОМЕТРА', 'ИЗ ТЕК.БЕЗД'],
+  17: ['ИЗ Б/ПР.ЛЕТ', 'ИЗ ОСВОЕНИЯ ТЕК.ГОДА', 'ИЗ ПЪЕЗОМЕТРА', 'ИЗ ТЕК.БЕЗД', 'ИЗ КОНСЕРВАЦИИ'],
   18: ['ИЗ ПРОСТ'],
 }
 
@@ -96,6 +96,22 @@ function getPP(object) {
   return temp
 } 
 
+// Перевод в ППД
+function getPPD(object) {
+  console.log(object)
+  const strNum = Number(object['!ref'].split(':')[1].match(/[0-9/.]+/)[0])
+  const temp = {}
+  for (let i = 10; i < strNum+1; i++) {
+    if(object['U'+i]) {
+      console.log(object['U'+i])
+      // temp[object['P'+i].w.substr(0, 2)] 
+      //   ? temp[object['P'+i].w.substr(0, 2)][0]['Эффект'] += object['AG'+i].v
+      //   :  temp[object['P'+i].w.substr(0, 2)] = [{'Эффект': object['AG'+i].v}]
+    }
+  }
+  return temp
+} 
+
 // Корректировка
 function getCorrect(object) {
   const strNum = Number(object['!ref'].split(':')[1].match(/[0-9/.]+/)[0])
@@ -129,10 +145,10 @@ function getCorrect(object) {
     } 
 
     temp.push({
-      dayCorrect: object['AS'+item.index].v.slice(0,2), 
+      dayCorrect: object['AS'+item.index].v.slice(1,2), 
       qCorrect: item.q, 
       qStart: object['AH'+item.index].v, 
-      dayStart: object['AE'+item.index].v.slice(0,2), 
+      dayStart: object['AE'+item.index].v.slice(1,2), 
       placeNum: object['Z'+item.index].v,
       placeName: object['Y'+item.index].v,
       colId: Number(colId())
@@ -186,6 +202,7 @@ const Files: React.FC = () => {
           5: [...keys5_1, ...keys5_2],                                         // ГРП
           3: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], events[3]), // Возврат
           25: getAllKey(wb.Sheets['Остановки скважин АО ГПН-ННГ']),             // Рост потенциала простоя
+          28: wb.Sheets['Выход из простоя'],                                    // Перевод в ППД
           47: wb.Sheets['ВСП ЦИТС'],                                            // Прочие потери
           'correct': wb.Sheets['Запуски-Остановки ДДНГ-МЭР'],                   // Корректировки ГРП
           20: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], prims[18]),   // Сокращение ПП
@@ -202,66 +219,66 @@ const Files: React.FC = () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const vichet = (x: number) => {
           for(const el of keys[x]) {
-            const wGrp = wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
-            if((forBf.indexOf(el.slice(2)) > -1)) {
+            const wGrp = wb.Sheets['Запуски скважин АО ГПН-ННГ']['S'+el.slice(1)].w - wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(1)].w
+            if((forBf.indexOf(el.slice(1)) > -1)) {
               if(wGrp > 0) {
-                if((keys[2].map(i => i.slice(1)).indexOf(el.slice(2)) > -1)) {
+                if((keys[2].map(i => i.slice(1)).indexOf(el.slice(1)) > -1)) {
                   t[2].push({
-                    date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
-                    'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
-                    'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                    date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(1)].w.substr(0, 2),
+                    'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(1)].w,
+                    'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(1)].w.replace('^',''), 
                     'Эффект': wGrp
                   })
-                } else if((keys[5].map(i => i.slice(1)).indexOf(el.slice(2)) > -1)) {
+                } else if((keys[5].map(i => i.slice(1)).indexOf(el.slice(1)) > -1)) {
                   t[5].push({
-                    date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
-                    'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
-                    'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                    date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(1)].w.substr(0, 2),
+                    'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(1)].w,
+                    'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(1)].w.replace('^',''), 
                     'Эффект': wGrp
                   })
-                } else if ((keys[3].map(i => i.slice(1)).indexOf(el.slice(2)) > -1)) {
+                } else if ((keys[3].map(i => i.slice(1)).indexOf(el.slice(1)) > -1)) {
                   t[3].push({
-                    date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
-                    'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
-                    'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                    date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(1)].w.substr(0, 2),
+                    'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(1)].w,
+                    'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(1)].w.replace('^',''), 
                     'Эффект': wGrp
                   })
-                } else if ((keys[16].map(i => i.slice(1)).indexOf(el.slice(2)) > -1)) {
+                } else if ((keys[16].map(i => i.slice(1)).indexOf(el.slice(1)) > -1)) {
                   t[16].push({
-                    date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
-                    'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
-                    'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                    date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(1)].w.substr(0, 2),
+                    'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(1)].w,
+                    'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(1)].w.replace('^',''), 
                     'Эффект': wGrp
                   })
                 }
               }
-              wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w && t[x].push({
-                date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
-                'Местор.': 'dec' + wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
-                'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
-                'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
+              wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(1)].w && t[x].push({
+                date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(1)].w.substr(0, 2),
+                'Местор.': 'dec' + wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(1)].w,
+                'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(1)].w.replace('^',''), 
+                'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(1)].w
               })
             } else {
               if(x === 17) {
                 t[x].push({
-                  date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
-                  'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
-                  'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
-                  'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+el.slice(2)].w
+                  date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(1)].w.substr(0, 2),
+                  'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(1)].w,
+                  'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(1)].w.replace('^',''), 
+                  'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['S'+el.slice(1)].w
                 })     
               } else {
                 Math.round(Number(wGrp)) !== 0 && 
                 t[18].push({
-                  date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
-                  'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
-                  'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
+                  date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(1)].w.substr(0, 2),
+                  'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(1)].w,
+                  'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(1)].w.replace('^',''), 
                   'Эффект': wGrp
                 })        
                 t[x].push({
-                  date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(2)].w.substr(0, 2),
-                  'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(2)].w,
-                  'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(2)].w.replace('^',''), 
-                  'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(2)].w
+                  date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+el.slice(1)].w.substr(0, 2),
+                  'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+el.slice(1)].w,
+                  'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+el.slice(1)].w.replace('^',''), 
+                  'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['M'+el.slice(1)].w
                 })                
               }
 
@@ -283,7 +300,7 @@ const Files: React.FC = () => {
           date: wb.Sheets['Запуски скважин АО ГПН-ННГ']['F'+item.slice(1)].w.substr(0, 2),
           'Местор.': wb.Sheets['Запуски скважин АО ГПН-ННГ']['G'+item.slice(1)].w,
           'N,N скважин': wb.Sheets['Запуски скважин АО ГПН-ННГ']['H'+item.slice(1)].w.replace('^',''), 
-          'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['U'+item.slice(1)].w
+          'Эффект': wb.Sheets['Запуски скважин АО ГПН-ННГ']['S'+item.slice(1)].w
         })))
         fact[25] = newGroupByDate(keys[25].map(item => 
           // wb.Sheets['Остановки скважин АО ГПН-ННГ']['M'+item.slice(1)].w && 
@@ -294,6 +311,7 @@ const Files: React.FC = () => {
             'Эффект': wb.Sheets['Остановки скважин АО ГПН-ННГ']['M'+item.slice(1)].w
           })))
 
+        fact[28] = getPPD(keys[28])
         fact[44] = {}
         fact[46] = {}
         for(let i = 1;  i <= days; i++) {
