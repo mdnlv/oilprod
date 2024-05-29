@@ -97,20 +97,28 @@ function getPP(object) {
 } 
 
 // Перевод в ППД
+
 function getPPD(object) {
-  console.log(object)
   const strNum = Number(object['!ref'].split(':')[1].match(/[0-9/.]+/)[0])
   const temp = {}
-  for (let i = 10; i < strNum+1; i++) {
+  for (let i = 17; i < strNum+1; i++) {
     if(object['U'+i]) {
-      console.log(object['U'+i])
-      // temp[object['P'+i].w.substr(0, 2)] 
-      //   ? temp[object['P'+i].w.substr(0, 2)][0]['Эффект'] += object['AG'+i].v
-      //   :  temp[object['P'+i].w.substr(0, 2)] = [{'Эффект': object['AG'+i].v}]
+      temp[moment(object['P'+i].w).format('D')] 
+        ? temp[moment(object['P'+i].w).format('D')].push({
+          'Местор.': object['L'+i].v,
+          'N,N скважин': object['O'+i].v, 
+          'Эффект': object['U'+i].v
+        })
+        : temp[moment(object['P'+i].w).format('D')] = [{
+          'Местор.': object['L'+i].v,
+          'N,N скважин': object['O'+i].v, 
+          'Эффект': object['U'+i].v
+        }]
     }
   }
   return temp
 } 
+
 
 // Корректировка
 function getCorrect(object) {
@@ -170,6 +178,19 @@ function newGroupByDate(arr) {
   return temp
 }
 
+function adding(obj1, obj2) {
+  const obj = Object.assign({}, obj1)
+  for (const key in obj2) {
+    obj2[key].map(item => {
+      obj[Number(String(key).length == 1 ? String(key) + '0' : String(key))] ?
+        obj[Number(String(key).length == 1 ? String(key) + '0' : String(key))].push(item)
+        : obj[Number(String(key).length == 1 ? String(key) + '0' : String(key))] = [item]
+    })
+  }
+  return obj
+}
+
+
 const Files: React.FC = () => {
   const setFactItems = useDataStore((state : DataStoreType) => state.setFactItems)
   const setPlanItems = useDataStore((state : DataStoreType) => state.setPlanItems)
@@ -197,16 +218,16 @@ const Files: React.FC = () => {
         const keys5_1 = getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], events[5]) 
         const keys5_2 = getKeyByValueStrong(wb.Sheets['Запуски скважин АО ГПН-ННГ'], events[0])     
         const keys = {
-          1: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], events[1]), // ВНС
-          2: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], events[2]), // ЗБС
+          1: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], events[1]),// ВНС
+          2: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], events[2]),// ЗБС
           5: [...keys5_1, ...keys5_2],                                         // ГРП
           3: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], events[3]), // Возврат
           25: getAllKey(wb.Sheets['Остановки скважин АО ГПН-ННГ']),             // Рост потенциала простоя
           28: wb.Sheets['Выход из простоя'],                                    // Перевод в ППД
           47: wb.Sheets['ВСП ЦИТС'],                                            // Прочие потери
           'correct': wb.Sheets['Запуски-Остановки ДДНГ-МЭР'],                   // Корректировки ГРП
-          20: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], prims[18]),   // Сокращение ПП
-          17: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], prims[17]), // Вывод из БД
+          20: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], prims[18]),// Сокращение ПП
+          17: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], prims[17]),// Вывод из БД
           16: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], events[16]), // Оптимизация
         }
 
@@ -290,7 +311,7 @@ const Files: React.FC = () => {
         vichet(17)
 
         fact[17] = newGroupByDate(t[17])
-        fact[20] = newGroupByDate(t[20])
+        fact[20] = adding(newGroupByDate(t[20]), getPPD(keys[28]))
         fact[2] = newGroupByDate(t[2])
         fact[5] = newGroupByDate(t[5])
         fact[3] = newGroupByDate(t[3])

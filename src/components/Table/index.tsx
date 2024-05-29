@@ -39,9 +39,9 @@ const defaultColDef = {
   flex: 1,
   minWidth: 60,
   resizable: true,
-  suppressMovable: true,
   fontSize: 8,
   editable: true,
+  suppressColumnMoveAnimation: true,
   headerComponentParams: {
     transform: 'uppercase',
     view: 'brand',  
