@@ -256,6 +256,7 @@ const Files: React.FC = () => {
           20: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], prims[18]),// Сокращение ПП
           17: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], prims[17]),// Вывод из БД
           16: getKeyByValue(wb.Sheets['Запуски скважин АО ГПН-ННГ'], events[16]), // Оптимизация
+          '44-46': wb.Sheets['Сводка по изм. нал-ия нефти З+В'] // КЦ, МЭ
         }
 
         const gtmKeys = [...keys[2], ...keys[5], ...keys[3]].map(i => i.slice(1))
@@ -362,9 +363,10 @@ const Files: React.FC = () => {
         fact[28] = getPPD(keys[28])
         fact[44] = {}
         fact[46] = {}
+        
         for(let i = 1;  i <= days; i++) {
-          fact[44][String(i).length === 1 ? '0' + String(i) : String(i)] = [{'Эффект': wb.Sheets['Сводка по изм. нал-ия нефти З+В']['C'+ (i+7)].v}]
-          fact[46][String(i).length === 1 ? '0' + String(i) : String(i)] = [{'Эффект': wb.Sheets['Сводка по изм. нал-ия нефти З+В']['D'+ (i+7)].v}]
+          fact[44][String(i).length === 1 ? '0' + String(i) : String(i)] = [{'Эффект': keys['44-46']['C'+ (i+7)]?.v}]
+          fact[46][String(i).length === 1 ? '0' + String(i) : String(i)] = [{'Эффект': keys['44-46']['D'+ (i+7)]?.v}]
         }
         fact[47] = getPP(keys[47])
 
