@@ -135,7 +135,7 @@ function getCorrect(object) {
   }
 
   for (let i = 10; i < strNum-10; i++)
-    if(object['AS'+i] && object['AZ'+i].v !== '' && object['AZ'+i].v > 0) findJ(i, object['AZ'+i].v)
+    if(object['AS'+i] && object['AZ'+i].v !== '' && object['AZ'+i].v !== 0) findJ(i, object['AZ'+i].v)
 
   j.map(item => {
     const colId = () => {
@@ -153,10 +153,10 @@ function getCorrect(object) {
     } 
 
     temp.push({
-      dayCorrect: object['AS'+item.index].v.slice(1,2), 
+      dayCorrect: moment(object['AS'+item.index].v, 'DD.MM.YYYY').format('D'), 
       qCorrect: item.q, 
       qStart: object['AH'+item.index].v, 
-      dayStart: object['AE'+item.index].v.slice(1,2), 
+      dayStart: moment(object['AE'+item.index].v, 'DD.MM.YYYY').format('D'), 
       placeNum: object['Z'+item.index].v,
       placeName: object['Y'+item.index].v,
       colId: Number(colId())
@@ -190,11 +190,38 @@ function adding(obj1, obj2) {
   return obj
 }
 
+function addingCorrect(original, obj2) {
+  obj2.map(item => {
+    const dayStart = String(item.dayStart).length === 1 ? '0' + String(item.dayStart) : String(item.dayStart)
+    const dayCorrect = String(item.dayCorrect).length === 1 ? '0' + String(item.dayCorrect) : String(item.dayCorrect)
+
+    if(original && original[item.colId] && original[item.colId][dayCorrect]) {
+      original[item.colId][dayCorrect].push({
+        date: dayCorrect,
+        'Местор.': 'cor' +item.placeName,
+        'N,N скважин': item.placeNum,
+        'Эффект': item.qCorrect
+      })
+    } else {
+      original[item.colId][dayCorrect] = [{
+        date: dayCorrect,
+        'Местор.': 'cor' + item.placeName,
+        'N,N скважин': item.placeNum,
+        'Эффект': item.qCorrect
+      }]
+    }
+
+    original[item.colId] && original[item.colId][dayStart] && original[item.colId][dayStart].map((el, i) => {
+      if(el['N,N скважин'] === item.placeNum) original[item.colId][dayStart][i]['Эффект'] = item.qStart
+    })
+
+  })
+}
+
 
 const Files: React.FC = () => {
   const setFactItems = useDataStore((state : DataStoreType) => state.setFactItems)
   const setPlanItems = useDataStore((state : DataStoreType) => state.setPlanItems)
-  const cellCorrect = useDataStore((state : DataStoreType) => state.cellCorrect)
   const [starts, setStarts] = useState('')
   const [rgd, setRgd] = useState('')
   const fileFact = useRef(null)
@@ -341,10 +368,8 @@ const Files: React.FC = () => {
         }
         fact[47] = getPP(keys[47])
 
+        addingCorrect(fact, getCorrect(keys['correct']))
         setFactItems(fact)
-        setTimeout(() => {
-          cellCorrect(getCorrect(keys['correct']))
-        }, 100)
 
         setStarts('xls')
       }
