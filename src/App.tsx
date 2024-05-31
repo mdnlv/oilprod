@@ -10,11 +10,12 @@ import Report from './components/Report'
 import MultiSelect from './components/MultiSelect'
 import SaveModal from './components/Db/SaveModal'
 import OpenModal from './components/Db/OpenModal'
+import Apd from './components/Apd'
 
-const renderSwitch = (tab) => {
+const renderSwitch = (tab, apd) => {
   switch(tab) {
   case 'table':
-    return <Table/>
+    return apd ? <Apd/> : <Table/>
   case 'chart':
     return <Charts/>
   case 'report':
@@ -30,6 +31,7 @@ const renderSwitch = (tab) => {
 function App() {
   const tab = useStore((state : StoreType) => state.tab)
   const filter = useStore((state : StoreType) => state.filter)
+  const apd = useStore((state : StoreType) => state.apd)
 
   return (
     <Theme preset={presetGpnDefault} style={{height: '100%'}}>
@@ -44,7 +46,7 @@ function App() {
             <Header />
           </Layout>
           <Layout flex={13} style={{ width: '100%' }}>
-            {renderSwitch(tab)}
+            {renderSwitch(tab, apd)}
           </Layout>
         </Layout>
       </Layout>
