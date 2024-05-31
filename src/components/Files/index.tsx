@@ -97,7 +97,6 @@ function getPP(object) {
 } 
 
 // Перевод в ППД
-
 function getPPD(object) {
   const strNum = Number(object['!ref'].split(':')[1].match(/[0-9/.]+/)[0])
   const temp = {}
@@ -118,7 +117,6 @@ function getPPD(object) {
   }
   return temp
 } 
-
 
 // Корректировка
 function getCorrect(object) {
@@ -214,7 +212,6 @@ function addingCorrect(original, obj2) {
     original[item.colId] && original[item.colId][dayStart] && original[item.colId][dayStart].map((el, i) => {
       if(el['N,N скважин'] === item.placeNum) original[item.colId][dayStart][i]['Эффект'] = item.qStart
     })
-
   })
 }
 
